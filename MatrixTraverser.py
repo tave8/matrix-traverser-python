@@ -8,6 +8,7 @@ class MatrixTraverser:
 
     def __init__(self, 
                  matrix: list[list], 
+                 startCoordinate: Coordinate,
                  callbackManager: MatrixTraverserCallbackManager,  # type: ignore
                  stateManager: MatrixTraverserStateManager):
         
@@ -23,15 +24,15 @@ class MatrixTraverser:
         # to refer to 
         self.stateManager._setMatrixTraverser(self)
         self.callbackManager._setMatrixTraverser(self)
+        self.stateManager._setStartCoordinate(startCoordinate)
 
 
-    def traverseMatrix(self, startCoordinate: Coordinate) -> None:
+    def traverseMatrix(self) -> None:
         """
         Main user-facing method to run the matrix traversal algorithm. 
         """
-        
-        self.stateManager._setStartCoordinate(startCoordinate) 
 
+        startCoordinate = self.stateManager.getStartCoordinate()
         prevCoordinate = Coordinate(-1, -1, isBeforeStart=True)
 
         self._traverse(
@@ -150,15 +151,19 @@ class MatrixTraverser:
         Checks if the cell at the given coordinate has been
         visited or not.
         """
-        return self.visited[coordinate.row][coordinate.col] == 1
+        return self.visited[coordinate.row][coordinate.col] > 0
 
 
     def _markAsVisited(self, coordinate: Coordinate) -> None:
         """
         Mark the cell at the given coordinates as visited,
         """
+        val = self.visited[coordinate.row][coordinate.col]
+        if val != 0:
+            raise Exception(f"cell value had to be 0 when visiting "
+                            +f"cell for the first time, got {val} instead")
         self.visited[coordinate.row][coordinate.col] = 1
-
+        
 
     def _isInsideMatrix(self, coordinate: Coordinate) -> bool:
         """
@@ -333,19 +338,14 @@ class MatrixTraverserStateManager:
         # it must not be none
         return self.matrixTraverser
     
-    def getStartCoordinate(self, startCoordinate: Coordinate) -> Coordinate:
+    def getStartCoordinate(self) -> Coordinate:
         return self._startCoordinate
 
     def _setStartCoordinate(self, startCoordinate: Coordinate) -> None:
         startCoordinate.isStart = True
         self._startCoordinate = startCoordinate
-
-
     
-
-
-    
-    def getState(self):
+    def getState(self) -> dict:
         """
         Returns the user-provided state.
         """
