@@ -89,48 +89,38 @@ class MatrixTraverser:
         # for move in moves:
         
         # up
-        if self.callbackManager.canMove(currCoordinate.rowUp(), prevCoordinate, currCoordinate):
-            self._traverse(currCoordinate.rowUp(), currCoordinate)
+        if self.callbackManager.canMove(currCoordinate.up(), prevCoordinate, currCoordinate):
+            self._traverse(currCoordinate.up(), currCoordinate)
         
         # diagonal up right
         if self.callbackManager.canMove(currCoordinate.diagonalUpRight(), prevCoordinate, currCoordinate):
             self._traverse(currCoordinate.diagonalUpRight(), currCoordinate)
+        
+        # right
+        if self.callbackManager.canMove(currCoordinate.right(), prevCoordinate, currCoordinate):
+            self._traverse(currCoordinate.right(), currCoordinate)
 
-        # # elif move == "diag-up-right":
-        # if callbacks["canMove"](rowIdx-1, colIdx+1, rowIdx, colIdx, matrix, state):
-        #     # diag up right
-        #     traverse(rowIdx-1, colIdx+1, rowIdx, colIdx, indexInfo, matrix, visited, callbacks, state)
+        # diagonal down right
+        if self.callbackManager.canMove(currCoordinate.diagonalDownRight(), prevCoordinate, currCoordinate):
+            self._traverse(currCoordinate.diagonalDownRight(), currCoordinate)
     
-        # # elif move == "right":
-        # if callbacks["canMove"](rowIdx, colIdx+1, rowIdx, colIdx, matrix, state):
-        #     # right
-        #     traverse(rowIdx, colIdx+1, rowIdx, colIdx, indexInfo, matrix, visited, callbacks, state)
-    
-        # # elif move == "diag-down-right":
-        # if callbacks["canMove"](rowIdx+1, colIdx+1, rowIdx, colIdx, matrix, state):
-        #     # diag down right
-        #     traverse(rowIdx+1, colIdx+1, rowIdx, colIdx, indexInfo, matrix, visited, callbacks, state)
-    
-        # # elif move == "down":
-        # if callbacks["canMove"](rowIdx+1, colIdx, rowIdx, colIdx, matrix, state):
-        #     # down
-        #     traverse(rowIdx+1, colIdx, rowIdx, colIdx, indexInfo, matrix, visited, callbacks, state)
-    
-        # # elif move == "diag-down-left":
-        # if callbacks["canMove"](rowIdx+1, colIdx-1, rowIdx, colIdx, matrix, state):
-        #     # diag down left
-        #     traverse(rowIdx+1, colIdx-1, rowIdx, colIdx, indexInfo, matrix, visited, callbacks, state)
-    
-        # # elif move == "left":
-        # if callbacks["canMove"](rowIdx, colIdx-1, rowIdx, colIdx, matrix, state):
-        #     # left
-        #     traverse(rowIdx, colIdx-1, rowIdx, colIdx, indexInfo, matrix, visited, callbacks, state)
-    
-        # # elif move == "diag-up-left":
-        # if callbacks["canMove"](rowIdx-1, colIdx-1, rowIdx, colIdx, matrix, state):
-        #     # diag up left
-        #     traverse(rowIdx-1, colIdx-1, rowIdx, colIdx, indexInfo, matrix, visited, callbacks, state)
+        # down
+        if self.callbackManager.canMove(currCoordinate.down(), prevCoordinate, currCoordinate):
+            self._traverse(currCoordinate.down(), currCoordinate)
+
+        # diagonal down left
+        if self.callbackManager.canMove(currCoordinate.diagonalDownLeft(), prevCoordinate, currCoordinate):
+            self._traverse(currCoordinate.diagonalDownLeft(), currCoordinate)
+
+        # left
+        if self.callbackManager.canMove(currCoordinate.left(), prevCoordinate, currCoordinate):
+            self._traverse(currCoordinate.left(), currCoordinate)
+
+        # diagonal up left 
+        if self.callbackManager.canMove(currCoordinate.diagonalUpLeft(), prevCoordinate, currCoordinate):
+            self._traverse(currCoordinate.diagonalUpLeft(), currCoordinate)
                 
+
 
     def getAtCoordinate(self, coord: Coordinate):
         """
@@ -355,10 +345,10 @@ class Coordinate:
         self.isStart = isStart
         self.isBeforeStart = isBeforeStart
     
-    def rowUp(self) -> Coordinate:
+    def up(self) -> Coordinate:
         return Coordinate(self.row-1, self.col)
 
-    def rowDown(self) -> Coordinate:
+    def down(self) -> Coordinate:
         return Coordinate(self.row+1, self.col)
     
     def diagonalUpRight(self) -> Coordinate:
@@ -367,10 +357,10 @@ class Coordinate:
     def diagonalUpLeft(self) -> Coordinate:
         return Coordinate(self.row-1, self.col-1)
 
-    def colRight(self) -> Coordinate:
+    def right(self) -> Coordinate:
         return Coordinate(self.row, self.col+1)
 
-    def colLeft(self) -> Coordinate:
+    def left(self) -> Coordinate:
         return Coordinate(self.row, self.col-1)
     
     def diagonalDownRight(self) -> Coordinate:

@@ -1,11 +1,19 @@
 from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate
 
+# matrix = [
+#     ["S",   "8",  "9",  "9",   "90"],
+#     ["1",   "2",   "7",  "8",   "10"],
+#     ["3",   "43",  "6",  "11",  "13"],
+#     ["3",   "4",   "5",  "12",   "14"],
+#     ["5",   "6",  "12",  "16",   "E"]
+# ]
+
 matrix = [
-    ["S",   "8",  "9",  "9",   "90"],
-    ["1",   "2",   "7",  "8",   "10"],
-    ["3",   "43",  "6",  "11",  "13"],
-    ["3",   "4",   "5",  "12",   "14"],
-    ["5",   "6",  "12",  "16",   "E"]
+    ["1",   "6",  "11",  "16",   "21"],
+    ["2",   "7",   "12",  "17",   "22"],
+    ["3",   "8",  "13",  "18",  "23"],
+    ["4",   "9",   "14",  "19",   "24"],
+    ["5",   "10",  "15",  "20",   "25"]
 ]
 
 state = {
@@ -28,7 +36,7 @@ callbackMap = {
 
 stateManager = MatrixTraverserStateManager(state)
 callbackManager = MatrixTraverserCallbackManager(callbackMap)
-startCoordinate = Coordinate(2, 0)
+startCoordinate = Coordinate(3, 0)
 
 matrixTraverser = MatrixTraverser(
     matrix, 
