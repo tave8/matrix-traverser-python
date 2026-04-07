@@ -1,4 +1,5 @@
-from main import traverseMatrix, isInsideMatrix
+from MatrixTraversalEngine import traverseMatrix, isInsideMatrix
+
 
 # next is the desired move
 # current is the cell where we're at
@@ -35,8 +36,8 @@ def pilotCellCallback(rowIdx, colIdx, prevRowIdx, prevColIdx, matrix, state):
     # that does not guarantee that the cell will move
     # in that direction, only that it can move in that direction first
     # print(matrix[rowIdx][colIdx])
-    if matrix[rowIdx][colIdx] == "1":
-        return ["down"]
+    # if matrix[rowIdx][colIdx] == "1":
+    #     return ["down"]
     # return ["right", "left", "down", "up", "diag-down-right", "diag-down-left"]
 
     # this is how the cell moves by default
