@@ -354,6 +354,13 @@ class Coordinate:
         self.isStart = isStart
         self.isBeforeStart = isBeforeStart
     
+    def getRow(self) -> int:
+        return self.row
+
+    def getCol(self) -> int:
+        return self.col
+
+    # DIRECTIONS/MOVES 
     def up(self) -> Coordinate:
         return Coordinate(self.row-1, self.col)
 
