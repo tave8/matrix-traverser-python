@@ -60,8 +60,17 @@ class MatrixTraverser:
             # *******************************************+++
             return
         
-        # cell was not visited; we're visiting it right now
-        self.callbackManager.onFirstVisit(prevCoordinate, currCoordinate)
+        # because the "before to start" coordinate is only 
+        # used for internal reasons to comply with the 
+        # "current coordinate/previous coordinate" method parameters
+        # we don't care about calling this method when the
+        # previous coordinate is before start, which means,
+        # at the very first  
+        # note: the time current coordinate is start 
+        # is assumed to be equal to that of previous coordinate before start
+        if not currCoordinate.isStart:
+            # cell was not visited; we're visiting it right now
+            self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate)
 
         # *******************************************+++
         # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
@@ -135,10 +144,9 @@ class MatrixTraverser:
         """
         Get the cell value in the matrix, at the given coordinate.
         """
-        # check if the coordinate is the previous coordinate
-        # of start. in that case, it's not an error
+        # cannot access the "before to start" coordinate
         if coord.isBeforeStart:
-            return "<BEFORE START>"
+            raise Exception("cannot access 'before to start' coordinate")
 
         # check if the coordinate exists in the matrix
         if not self.isInsideMatrix(coord):
@@ -271,13 +279,13 @@ class MatrixTraverserCallbackManager:
         return True
 
 
-    def onFirstVisit(self, prevCoordinate: Coordinate, currCoordinate: Coordinate) -> None:
+    def beforeFirstVisit(self, prevCoordinate: Coordinate, currCoordinate: Coordinate) -> None:
         """
-        On first visit of a cell, run this callback.
+        Before first visit of a cell, run this callback.
         """
         # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("onFirstVisit", self.callbackMap):
-            self.callbackMap["onFirstVisit"](self.matrixTraverser, prevCoordinate, currCoordinate)
+        if MatrixTraverserCallbackManager._dictHasFunction("beforeFirstVisit", self.callbackMap):
+            self.callbackMap["beforeFirstVisit"](self.matrixTraverser, prevCoordinate, currCoordinate)
         # if the user did not specify a callback,
         # we don't have to do anything particular here
 
@@ -291,6 +299,12 @@ class MatrixTraverserCallbackManager:
         Note: That does not guarantee that the cell will move
         in that direction.
         """
+
+        # NOTE: prevCoordinate could be "before start"
+        #       and currCoordinate could be "start"
+        # if you need to perform custom logic on what happens
+        # at the very start, when current coordinate is start 
+        # and previous coordinate is before start, you could do it here  
 
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("getNextMoves", self.callbackMap):

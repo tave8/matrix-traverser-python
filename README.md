@@ -1,8 +1,7 @@
-# Callbacks 
-
-## onFirstVisit
-
+# Callbacks
 
 ## canMove
+
+## beforeFirstVisit
 
 ## getNextMoves

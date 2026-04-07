@@ -12,7 +12,7 @@ matrix = [
 state = {}
 
 
-def onFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+def beforeFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
     print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
     
 
@@ -46,7 +46,7 @@ def canMoveCallback(mt: MatrixTraverser, desiredCoordinate: Coordinate, prevCoor
 callbackMap = {
     "canMove": canMoveCallback,
     "getNextMoves": getNextMovesCallback,
-    "onFirstVisit": onFirstVisitCallback,
+    "beforeFirstVisit": beforeFirstVisitCallback,
 }
 
 
