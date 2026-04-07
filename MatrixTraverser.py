@@ -15,13 +15,17 @@ class MatrixTraverser:
         self.matrix = matrix
         self.visited = MatrixTraverser._generateVisitedMatrix(matrix)
         self.startCoordinate: Coordinate = startCoordinate
+        # make sure that the start coordinate is actually a start coordinate
         self.startCoordinate.isStart = True
         # best to not swap the order of state manager and callback manager
         # maybe the assumption is that some method in callback manager might
         # depend on the state manager 
         self.stateManager: MatrixTraverserStateManager = stateManager
         self.callbackManager: MatrixTraverserCallbackManager = callbackManager
-        self.callbackManager.setMatrixTraverser(self)
+        # set the matrix traverser for the callback manager,
+        # so the callback manager knows on which matrix traverser
+        # to refer to 
+        self.callbackManager._setMatrixTraverser(self)
 
 
     def traverseMatrix(self) -> None:
@@ -52,8 +56,7 @@ class MatrixTraverser:
             return
         
         # cell was not visited; we're visiting it right now
-        # print(matrix[rowIdx][colIdx])
-        # self.callbacks["firstVisit"](rowIdx, colIdx, matrix) 
+        self.callbackManager.onFirstVisit(currCoordinate)
 
         # now we mark cell as visited
         self._markAsVisited(currCoordinate)
@@ -161,7 +164,7 @@ class MatrixTraverserCallbackManager:
         self.callbackMap = callbackMap
         self.matrixTraverser: MatrixTraverser
 
-    def setMatrixTraverser(self, matrixTraverser: MatrixTraverser) -> None:
+    def _setMatrixTraverser(self, matrixTraverser: MatrixTraverser) -> None:
         self.matrixTraverser = matrixTraverser
 
     def getMatrixTraverser(self) -> MatrixTraverser:
@@ -172,8 +175,8 @@ class MatrixTraverserCallbackManager:
         Callback that manages whether a cell 
         can move in the next move.
         """
-        # if not self.matrixTraverser._isInsideMatrix(nextCoordinate):
-        #     return False
+        if not self.matrixTraverser._isInsideMatrix(nextCoordinate):
+            return False
 
         # if state["reachedEnd"]:
         #     return False
@@ -193,6 +196,12 @@ class MatrixTraverserCallbackManager:
 
         # return int(matrix[currRowIdx][currColIdx])+1 == int(matrix[nextRowIdx][nextColIdx])
         return True
+
+    def onFirstVisit(self, currCoordinate: Coordinate) -> None:
+        """
+        On first visit of a cell, run this callback.
+        """
+        print(currCoordinate)
     
 
 

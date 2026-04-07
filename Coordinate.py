@@ -22,3 +22,6 @@ class Coordinate:
     #     # note: we do not clone information about whether
     #     # the cell is or was start or before start
     #     return Coordinate(self.row, self.col, False, False)
+
+    def __str__(self) -> str:
+        return f"Coordinate: [{self.row}, {self.col}]"

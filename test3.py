@@ -1,6 +1,4 @@
 from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager
-# from MatrixTraverserStateManager import MatrixTraverserStateManager
-# from MatrixTraverserCallbackManager import MatrixTraverserCallbackManager
 from Coordinate import Coordinate
 
 matrix = [
