@@ -60,14 +60,13 @@ class MatrixTraverser:
             # *******************************************+++
             return
         
-        # because the "before to start" coordinate is only 
-        # used for internal reasons to comply with the 
-        # "current coordinate/previous coordinate" method parameters
-        # we don't care about calling this method when the
-        # previous coordinate is before start, which means,
-        # at the very first  
-        # note: the time current coordinate is start 
-        # is assumed to be equal to that of previous coordinate before start
+
+        # we might not care about the very start, here's why.
+        # note 1: the time current coordinate is start 
+        #         is assumed to be equal to that of previous coordinate before start
+        # note 2: the first visit will have something like this:
+        #       currCoordinate: the user-provided start coordinate
+        #       prevCoordinate: a dummy coordinate used to mark the start
         if not currCoordinate.isStart:
             # cell was not visited; we're visiting it right now
             self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate)
@@ -88,13 +87,24 @@ class MatrixTraverser:
         # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
         # *******************************************+++
 
+        nextMoves: list[Move]
 
         # GET THE MOVES OF THIS CELL
-        nextMoves = self.callbackManager.getNextMoves(prevCoordinate, currCoordinate)
-    
-        # MOVE THROUGH THE MOVES
-        # in the order in which they were specified
+        # we might not care about the very start, here's why.
+        # at the very start, we have the current coordinate which is
+        # the start coordinate, however the previous coordinate 
+        # is a dummy coordinate, used to mark the start of the algorithm
+        # that's why we are interested in getting the next moves of this cell
+        # only when the algorithm is "fully functional" and the current 
+        # and previous coordinates will always be valid, which happens
+        # at every recursive call, except for the very first one
+        # in short: when we are at the very start, we get all the next moves
+        if not currCoordinate.isStart:
+            nextMoves = self.callbackManager.getNextMoves(prevCoordinate, currCoordinate)
+        else: 
+            nextMoves = MatrixTraverserMoves.getDefaultMoves()
 
+        # MOVE THROUGH THE MOVES
         # move in the order that was specified
         for nextMove in nextMoves:
 
@@ -181,6 +191,7 @@ class MatrixTraverser:
         # the coordinate "is before start" is never in the matrix
         if coordinate.isBeforeStart:
             return False
+        
         insideRows = coordinate.row >= 0 and coordinate.row < len(self.matrix)
         insideCols = coordinate.col >= 0 and coordinate.col < len(self.matrix[0])
         return insideRows and insideCols
@@ -252,6 +263,7 @@ class MatrixTraverserCallbackManager:
                     depend on conditions on the previous or current coordinate, for example
             
         """
+
         # if the desired coordinate is not even in the matrix,
         # chances are, it won't be of much use and for sure
         # the cell will not be able to move there
@@ -260,7 +272,6 @@ class MatrixTraverserCallbackManager:
             # ..custom behavior when the current cell is asking if it can move 
             # to a coordinate that is not in the matrix..
             return False
-
 
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("canMove", self.callbackMap):
@@ -436,7 +447,14 @@ class Coordinate:
         return Coordinate(self.row+1, self.col-1)
 
     def __str__(self) -> str:
-        return (f"[Coordinate: [{self.row}, {self.col}], isStart={self.isStart}, isBeforeStart={self.isBeforeStart}]")
+        flags = []
+        if self.isStart:
+            flags.append("isStart")
+        if self.isBeforeStart:
+            flags.append("isBeforeStart")
+        
+        flag_str = f", {', '.join(flags)}" if flags else ""
+        return f"[Coordinate: [{self.row}, {self.col}]{flag_str}]"
 
 
 class Move(Enum):

@@ -51,11 +51,27 @@ def canMoveCallback(mt: MatrixTraverser, desiredCoordinate: Coordinate, prevCoor
     return int(mt.getAtCoordinate(currCoordinate))+1 == int(mt.getAtCoordinate(desiredCoordinate))
 
 
+def getNextMovesCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+    # print(prevCoordinate, currCoordinate)
+    # if mt.getAtCoordinate(currCoordinate) > 5:
+    #     return [
+    #         # Move.UP,
+    #         Move.DIAGONAL_UP_RIGHT
+    #     ]
+    state = mt.stateManager.getState()
+    # if state.
+
+
+    # return [
+    #     Move.DIAGONAL_DOWN_RIGHT
+    # ]
+    # pass 
 
 
 callbackMap = {
     "canMove": canMoveCallback,
-    "beforeFirstVisit": beforeFirstVisitCallback
+    "beforeFirstVisit": beforeFirstVisitCallback,
+    "getNextMoves": getNextMovesCallback,
 }
 
 
