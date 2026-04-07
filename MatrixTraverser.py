@@ -133,7 +133,7 @@ class MatrixTraverser:
 
     def getAtCoordinate(self, coord: Coordinate):
         """
-        Get the cell value at the given coordinate.
+        Get the cell value in the matrix, at the given coordinate.
         """
         # check if the coordinate is the previous coordinate
         # of start. in that case, it's not an error
@@ -163,7 +163,7 @@ class MatrixTraverser:
             raise Exception(f"cell value had to be 0 when visiting "
                             +f"cell for the first time, got {val} instead")
         self.visited[coordinate.row][coordinate.col] = 1
-        
+
 
     def _isInsideMatrix(self, coordinate: Coordinate) -> bool:
         """

@@ -25,6 +25,7 @@ state = {
 
 def onFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
     print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
+    
 
 
 def getNextMovesCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
@@ -34,6 +35,7 @@ def getNextMovesCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCo
     #         Move.DIAGONAL_UP_RIGHT
     #     ]
     state = mt.stateManager.getState()
+    # if state.
 
 
     # return [
