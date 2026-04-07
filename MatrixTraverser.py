@@ -88,38 +88,46 @@ class MatrixTraverser:
 
         # move in the order that was specified
         for nextMove in nextMoves:
+            
             if nextMove == Move.UP:
                 # up
                 if self.callbackManager.canMove(currCoordinate.up(), prevCoordinate, currCoordinate):
                     self._traverse(currCoordinate.up(), currCoordinate)
-            
-            # # diagonal up right
-            # if self.callbackManager.canMove(currCoordinate.diagonalUpRight(), prevCoordinate, currCoordinate):
-            #     self._traverse(currCoordinate.diagonalUpRight(), currCoordinate)
-            
-            # # right
-            # if self.callbackManager.canMove(currCoordinate.right(), prevCoordinate, currCoordinate):
-            #     self._traverse(currCoordinate.right(), currCoordinate)
 
-            # # diagonal down right
-            # if self.callbackManager.canMove(currCoordinate.diagonalDownRight(), prevCoordinate, currCoordinate):
-            #     self._traverse(currCoordinate.diagonalDownRight(), currCoordinate)
-        
-            # # down
-            # if self.callbackManager.canMove(currCoordinate.down(), prevCoordinate, currCoordinate):
-            #     self._traverse(currCoordinate.down(), currCoordinate)
+            elif nextMove == Move.DIAGONAL_UP_RIGHT:
+                # diagonal up right
+                if self.callbackManager.canMove(currCoordinate.diagonalUpRight(), prevCoordinate, currCoordinate):
+                    self._traverse(currCoordinate.diagonalUpRight(), currCoordinate)
 
-            # # diagonal down left
-            # if self.callbackManager.canMove(currCoordinate.diagonalDownLeft(), prevCoordinate, currCoordinate):
-            #     self._traverse(currCoordinate.diagonalDownLeft(), currCoordinate)
+            elif nextMove == Move.RIGHT:
+                # right
+                if self.callbackManager.canMove(currCoordinate.right(), prevCoordinate, currCoordinate):
+                    self._traverse(currCoordinate.right(), currCoordinate)
 
-            # # left
-            # if self.callbackManager.canMove(currCoordinate.left(), prevCoordinate, currCoordinate):
-            #     self._traverse(currCoordinate.left(), currCoordinate)
+            elif nextMove == Move.DIAGONAL_DOWN_RIGHT:
+                # diagonal down right
+                if self.callbackManager.canMove(currCoordinate.diagonalDownRight(), prevCoordinate, currCoordinate):
+                    self._traverse(currCoordinate.diagonalDownRight(), currCoordinate)
 
-            # # diagonal up left 
-            # if self.callbackManager.canMove(currCoordinate.diagonalUpLeft(), prevCoordinate, currCoordinate):
-            #     self._traverse(currCoordinate.diagonalUpLeft(), currCoordinate)
+            elif nextMove == Move.DOWN:
+                # down
+                if self.callbackManager.canMove(currCoordinate.down(), prevCoordinate, currCoordinate):
+                    self._traverse(currCoordinate.down(), currCoordinate)
+
+            elif nextMove == Move.DIAGONAL_DOWN_LEFT:
+                # diagonal down left
+                if self.callbackManager.canMove(currCoordinate.diagonalDownLeft(), prevCoordinate, currCoordinate):
+                    self._traverse(currCoordinate.diagonalDownLeft(), currCoordinate)
+
+            elif nextMove == Move.LEFT:
+                # left
+                if self.callbackManager.canMove(currCoordinate.left(), prevCoordinate, currCoordinate):
+                    self._traverse(currCoordinate.left(), currCoordinate)
+
+            elif nextMove == Move.DIAGONAL_UP_LEFT:
+                # diagonal up left 
+                if self.callbackManager.canMove(currCoordinate.diagonalUpLeft(), prevCoordinate, currCoordinate):
+                    self._traverse(currCoordinate.diagonalUpLeft(), currCoordinate)
                 
 
 
@@ -278,7 +286,7 @@ class MatrixTraverserCallbackManager:
 
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("getNextMoves", self.callbackMap):
-            nextMoves: list[Move] | None = self.callbackMap["getNextMoves"](self.matrixTraverser, currCoordinate, prevCoordinate)
+            nextMoves: list[Move] | None = self.callbackMap["getNextMoves"](self.matrixTraverser, prevCoordinate, currCoordinate)
             # if the user did not return, it means 
             # it's happy with the default moves
             if nextMoves is None:

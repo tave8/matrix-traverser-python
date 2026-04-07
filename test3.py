@@ -1,4 +1,4 @@
-from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate
+from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
 
 # matrix = [
 #     ["S",   "8",  "9",  "9",   "90"],
@@ -26,17 +26,22 @@ state = {
 def onFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
     print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
 
+def getNextMovesCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+    return [
+        Move.DOWN
+    ]
+
 
 callbackMap = {
     # "canMove": canMoveCallback,
     "onFirstVisit": onFirstVisitCallback,
-    # "pilotCell": pilotCellCallback
+    "getNextMoves": getNextMovesCallback
 }
 
 
 stateManager = MatrixTraverserStateManager(state)
 callbackManager = MatrixTraverserCallbackManager(callbackMap)
-startCoordinate = Coordinate(3, 0)
+startCoordinate = Coordinate(1, 0)
 
 matrixTraverser = MatrixTraverser(
     matrix, 
