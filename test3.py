@@ -1,5 +1,4 @@
-from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager
-from Coordinate import Coordinate
+from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate
 
 matrix = [
     ["S",   "8",  "9",  "9",   "90"],

@@ -1,6 +1,3 @@
-from Coordinate import Coordinate
-# from MatrixTraverserCallbackManager import MatrixTraverserCallbackManager
-# from MatrixTraverserStateManager import MatrixTraverserStateManager
 from inspect import isfunction
 
 class MatrixTraverser:
@@ -90,11 +87,15 @@ class MatrixTraverser:
 
         # move in the order that was specified
         # for move in moves:
-        #     if move == "up":            
-        if self.callbackManager.canMove(prevCoordinate, currCoordinate, currCoordinate.rowUp()):
-            # up
+        
+        # up
+        if self.callbackManager.canMove(currCoordinate.rowUp(), prevCoordinate, currCoordinate):
             self._traverse(currCoordinate.rowUp(), currCoordinate)
-    
+        
+        # diagonal up right
+        if self.callbackManager.canMove(currCoordinate.diagonalUpRight(), prevCoordinate, currCoordinate):
+            self._traverse(currCoordinate.diagonalUpRight(), currCoordinate)
+
         # # elif move == "diag-up-right":
         # if callbacks["canMove"](rowIdx-1, colIdx+1, rowIdx, colIdx, matrix, state):
         #     # diag up right
@@ -204,7 +205,7 @@ class MatrixTraverserCallbackManager:
         return self.matrixTraverser
 
 
-    def canMove(self, prevCoordinate: Coordinate, currCoordinate: Coordinate, desiredCoordinate: Coordinate) -> bool:
+    def canMove(self, desiredCoordinate: Coordinate, prevCoordinate: Coordinate, currCoordinate: Coordinate) -> bool:
         """
         Before moving in a direction, the core traversal 
         algorithm will ask if it can move in a direction.
@@ -234,7 +235,7 @@ class MatrixTraverserCallbackManager:
 
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("canMove", self.callbackMap):
-            userSaysCanMove: bool | None = self.callbackMap["canMove"](currCoordinate, prevCoordinate, desiredCoordinate)
+            userSaysCanMove: bool | None = self.callbackMap["canMove"](desiredCoordinate, currCoordinate, prevCoordinate)
             # if the user did not return, it means 
             # it's happy with this cell moving in the desired direction 
             if userSaysCanMove is None:
@@ -327,3 +328,42 @@ class MatrixTraverserStateManager:
         Returns the user-provided state.
         """
         return self.state
+    
+
+
+class Coordinate:
+    """
+    A cell coordinate, so row and column.
+    """
+    def __init__(self, row: int, col: int, isStart: bool=False, isBeforeStart: bool=False):
+        self.row = row
+        self.col = col
+        self.isStart = isStart
+        self.isBeforeStart = isBeforeStart
+    
+    def rowUp(self) -> Coordinate:
+        return Coordinate(self.row-1, self.col)
+
+    def rowDown(self) -> Coordinate:
+        return Coordinate(self.row+1, self.col)
+    
+    def diagonalUpRight(self) -> Coordinate:
+        return Coordinate(self.row-1, self.col+1)
+
+    def diagonalUpLeft(self) -> Coordinate:
+        return Coordinate(self.row-1, self.col-1)
+
+    def colRight(self) -> Coordinate:
+        return Coordinate(self.row, self.col+1)
+
+    def colLeft(self) -> Coordinate:
+        return Coordinate(self.row, self.col-1)
+    
+    def diagonalDownRight(self) -> Coordinate:
+        return Coordinate(self.row+1, self.col+1)
+    
+    def diagonalDownLeft(self) -> Coordinate:
+        return Coordinate(self.row+1, self.col-1)
+
+    def __str__(self) -> str:
+        return f"Coordinate: [{self.row}, {self.col}]"
