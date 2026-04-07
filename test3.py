@@ -15,8 +15,8 @@ state = {
 }
 
 
-def onFirstVisitCallback(prevCoordinate: Coordinate, currCoordinate: Coordinate):
-    print(currCoordinate)
+def onFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+    print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
 
 
 callbackMap = {
@@ -28,7 +28,7 @@ callbackMap = {
 
 stateManager = MatrixTraverserStateManager(state)
 callbackManager = MatrixTraverserCallbackManager(callbackMap)
-startCoordinate = Coordinate(0, 0)
+startCoordinate = Coordinate(2, 0)
 
 matrixTraverser = MatrixTraverser(
     matrix, 

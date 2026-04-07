@@ -132,6 +132,20 @@ class MatrixTraverser:
         #     traverse(rowIdx-1, colIdx-1, rowIdx, colIdx, indexInfo, matrix, visited, callbacks, state)
                 
 
+    def getAtCoordinate(self, coord: Coordinate):
+        """
+        Get the cell value at the given coordinate.
+        """
+        # check if the coordinate is the previous coordinate
+        # of start. in that case, it's not an error
+        if coord.isBeforeStart:
+            return "<BEFORE START>"
+
+        # check if the coordinate exists in the matrix
+        if not self._isInsideMatrix(coord):
+            raise Exception("the coordinate does not exist in this matrix")
+        return self.matrix[coord.row][coord.col]
+
 
     def _isVisited(self, coordinate: Coordinate) -> bool:
         """
@@ -235,7 +249,7 @@ class MatrixTraverserCallbackManager:
 
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("canMove", self.callbackMap):
-            userSaysCanMove: bool | None = self.callbackMap["canMove"](desiredCoordinate, currCoordinate, prevCoordinate)
+            userSaysCanMove: bool | None = self.callbackMap["canMove"](self.matrixTraverser, desiredCoordinate, currCoordinate, prevCoordinate)
             # if the user did not return, it means 
             # it's happy with this cell moving in the desired direction 
             if userSaysCanMove is None:
@@ -256,7 +270,7 @@ class MatrixTraverserCallbackManager:
         """
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("onFirstVisit", self.callbackMap):
-            self.callbackMap["onFirstVisit"](prevCoordinate, currCoordinate)
+            self.callbackMap["onFirstVisit"](self.matrixTraverser, prevCoordinate, currCoordinate)
         # if the user did not specify a callback,
         # we don't have to do anything particular here
 
@@ -273,7 +287,7 @@ class MatrixTraverserCallbackManager:
 
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("getNextMoves", self.callbackMap):
-            nextMoves: list[str] | None = self.callbackMap["getNextMoves"](currCoordinate, prevCoordinate)
+            nextMoves: list[str] | None = self.callbackMap["getNextMoves"](self.matrixTraverser, currCoordinate, prevCoordinate)
             # if the user did not return, it means 
             # it's happy with the default moves
             if nextMoves is None:
