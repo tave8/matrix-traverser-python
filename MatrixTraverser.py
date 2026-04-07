@@ -83,10 +83,10 @@ class MatrixTraverser:
 
 
         # GET THE MOVES OF THIS CELL
-        self.callbackManager.getNextMoves(prevCoordinate, currCoordinate)
-
-        # moves = callbacks["pilotCell"](rowIdx, colIdx, prevRowIdx, prevColIdx, matrix, state)
-
+        nextMoves = self.callbackManager.getNextMoves(prevCoordinate, currCoordinate)
+    
+        # MOVE THROUGH THE MOVES
+        # in the order in which they were specified
 
         # move in the order that was specified
         # for move in moves:
@@ -253,16 +253,59 @@ class MatrixTraverserCallbackManager:
             self.callbackMap["onFirstVisit"](currCoordinate, prevCoordinate)
 
 
-    def getNextMoves(self, prevCoordinate: Coordinate, currCoordinate: Coordinate) -> list:
+    def getNextMoves(self, prevCoordinate: Coordinate, currCoordinate: Coordinate) -> list[str]:
         """
         Get next moves for a cell.
+        Order of the moves matters: The cell will try to move through the 
+        returned moves, in sequential order.
+        
+        Note: That does not guarantee that the cell will move
+        in that direction.
         """
-        return []
+
+        # run the user-defined callback, if exists
+        if MatrixTraverserCallbackManager._dictHasFunction("getNextMoves", self.callbackMap):
+            nextMoves: list[str] | None = self.callbackMap["getNextMoves"](currCoordinate, prevCoordinate)
+            # if the user did not return, it means 
+            # it's happy with the default moves
+            if nextMoves is None:
+                return MatrixTraverserMoves.getDefaultMoves()
+            # check if the returned value is correct
+            if not isinstance(nextMoves, list):
+                raise Exception("next moves must be of type list")
+            # if not isinstance(nextMoves, MatrixTraverserMoves):
+            #     raise Exception("next moves must be of type MatrixTraverserMoves")
+            return nextMoves
+
+        # if the user did not provide the getNextMoves callback
+        # fall back to the default moves
+        return MatrixTraverserMoves.getDefaultMoves()
 
 
     @staticmethod
     def _dictHasFunction(key: str, map: dict[str, any]) -> bool: # type: ignore
         return key in map and isfunction(map[key])
+
+
+
+class MatrixTraverserMoves:
+    def __init__(self) -> None:
+        pass
+    
+    @staticmethod
+    def getDefaultMoves() -> list[str]:
+        return [
+            "up",
+            "diag-up-right",
+            "right",
+            "diag-down-right",
+            "down",
+            "diag-down-left",
+            "left",
+            "diag-up-left"
+        ]
+
+    
 
 
 class MatrixTraverserStateManager:
