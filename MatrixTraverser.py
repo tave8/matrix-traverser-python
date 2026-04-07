@@ -8,15 +8,11 @@ class MatrixTraverser:
 
     def __init__(self, 
                  matrix: list[list], 
-                 startCoordinate: Coordinate, 
                  callbackManager: MatrixTraverserCallbackManager,  # type: ignore
                  stateManager: MatrixTraverserStateManager):
         
         self.matrix = matrix
         self.visited = MatrixTraverser._generateVisitedMatrix(matrix)
-        self.startCoordinate: Coordinate = startCoordinate
-        # make sure that the start coordinate is actually a start coordinate
-        self.startCoordinate.isStart = True
         # best to not swap the order of state manager and callback manager
         # maybe the assumption is that some method in callback manager might
         # depend on the state manager 
@@ -25,16 +21,18 @@ class MatrixTraverser:
         # set the matrix traverser for the callback manager,
         # so the callback manager knows on which matrix traverser
         # to refer to 
+        self.stateManager._setMatrixTraverser(self)
         self.callbackManager._setMatrixTraverser(self)
 
 
-    def traverseMatrix(self) -> None:
+    def traverseMatrix(self, startCoordinate: Coordinate) -> None:
         """
         Main user-facing method to run the matrix traversal algorithm. 
         """
         
+        self.stateManager._setStartCoordinate(startCoordinate) 
+
         prevCoordinate = Coordinate(-1, -1, isBeforeStart=True)
-        startCoordinate = self.startCoordinate
 
         self._traverse(
             startCoordinate,
@@ -315,9 +313,37 @@ class MatrixTraverserCallbackManager:
 class MatrixTraverserStateManager:
     """
     State manager for Matrix Traverser.
+
+    1 instance of MatrixTraverserStateManager <-> 1 instance of MatrixTraverser
     """
+
     def __init__(self, state: dict):
+        # user-defined state
         self.state = state
+        self.matrixTraverser: MatrixTraverser
+        # internal state of the matrix traverser
+        self._startCoordinate: Coordinate 
+
+    def _setMatrixTraverser(self, matrixTraverser: MatrixTraverser) -> None:
+        # you cannot set the matrix traversed if it was already set
+        self.matrixTraverser = matrixTraverser
+
+    def getMatrixTraverser(self) -> MatrixTraverser:
+        # check whether the matrix traverser is None, 
+        # it must not be none
+        return self.matrixTraverser
+    
+    def getStartCoordinate(self, startCoordinate: Coordinate) -> Coordinate:
+        return self._startCoordinate
+
+    def _setStartCoordinate(self, startCoordinate: Coordinate) -> None:
+        startCoordinate.isStart = True
+        self._startCoordinate = startCoordinate
+
+
+    
+
+
     
     def getState(self):
         """
@@ -325,6 +351,7 @@ class MatrixTraverserStateManager:
         """
         return self.state
     
+
 
 class MatrixTraverserMoves:
     def __init__(self) -> None:
