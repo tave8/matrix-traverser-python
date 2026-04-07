@@ -1,6 +1,7 @@
 from Coordinate import Coordinate
 # from MatrixTraverserCallbackManager import MatrixTraverserCallbackManager
 # from MatrixTraverserStateManager import MatrixTraverserStateManager
+from inspect import isfunction
 
 class MatrixTraverser:
     """
@@ -53,20 +54,44 @@ class MatrixTraverser:
 
         # if this cell has been visited
         if self._isVisited(currCoordinate):
+            # *******************************************+++
+            # ****** START: OPERATIONS WHEN CELL IS ALREADY VISITED
+            # ...
+
+            # ****** END: OPERATIONS WHEN CELL IS ALREADY VISITED
+            # *******************************************+++
             return
         
         # cell was not visited; we're visiting it right now
-        self.callbackManager.onFirstVisit(currCoordinate)
+        self.callbackManager.onFirstVisit(currCoordinate, prevCoordinate)
 
-        # now we mark cell as visited
+        # *******************************************+++
+        # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
+        # you can perform more custom operations here, 
+        # before marking the cell as visited and then moving
+        # to maybe other cells
+
+
+        # after we've performed custom operations on this cell, 
+        # we mark cell as visited right before we go in other directions
+        # important: after the cell is marked as visited, we should not
+        # perform operations that rely on whether the cell is visited or not
         self._markAsVisited(currCoordinate)
 
+        # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
+        # *******************************************+++
+
+
+        # GET THE MOVES OF THIS CELL
+        self.callbackManager.getNextMoves(prevCoordinate, currCoordinate)
+
         # moves = callbacks["pilotCell"](rowIdx, colIdx, prevRowIdx, prevColIdx, matrix, state)
+
 
         # move in the order that was specified
         # for move in moves:
         #     if move == "up":            
-        if self.callbackManager.canMove(currCoordinate.rowUp(), currCoordinate):
+        if self.callbackManager.canMove(prevCoordinate, currCoordinate, currCoordinate.rowUp()):
             # up
             self._traverse(currCoordinate.rowUp(), currCoordinate)
     
@@ -160,6 +185,14 @@ class MatrixTraverser:
 
 
 class MatrixTraverserCallbackManager:
+    """
+    An instance of this class is associated with 
+    a Matrix Traverser instance, and defines the behavior of 
+    a cell, at specific points in time.
+    For example, if a cell can move in a certain direction,
+    the directions that a cell that meets certain criteria should move to etc.
+    """
+
     def __init__(self, callbackMap: dict):
         self.callbackMap = callbackMap
         self.matrixTraverser: MatrixTraverser
@@ -170,12 +203,26 @@ class MatrixTraverserCallbackManager:
     def getMatrixTraverser(self) -> MatrixTraverser:
         return self.matrixTraverser
 
-    def canMove(self, currCoordinate: Coordinate, nextCoordinate: Coordinate) -> bool:
+    def canMove(self, prevCoordinate: Coordinate, currCoordinate: Coordinate, desiredCoordinate: Coordinate) -> bool:
         """
-        Callback that manages whether a cell 
-        can move in the next move.
+        Before moving in a direction, the core traversal 
+        algorithm will ask if it can move in a direction.
+        The user can therefore specify the criteria 
+        based on which a cell can or cannot move in a certain direction.
+
+        Therefore:
+            - prevCoordinate: the coordinate of the cell that just moved to this cell,
+                so the coordinate of the previous cell
+            
+            - currCoordinate: the coordinate of where the cell is at right now
+
+            - desiredCoordinate: the desired coordinate, where the cell would like to move next 
+                    and therefore has not moved yet. The point of this callback is precisely 
+                    to ask whether the cell can move to the desired coordinate, and that may 
+                    depend on conditions on the previous or current coordinate, for example
+            
         """
-        if not self.matrixTraverser._isInsideMatrix(nextCoordinate):
+        if not self.matrixTraverser._isInsideMatrix(desiredCoordinate):
             return False
 
         # if state["reachedEnd"]:
@@ -197,12 +244,25 @@ class MatrixTraverserCallbackManager:
         # return int(matrix[currRowIdx][currColIdx])+1 == int(matrix[nextRowIdx][nextColIdx])
         return True
 
-    def onFirstVisit(self, currCoordinate: Coordinate) -> None:
+    def onFirstVisit(self, currCoordinate: Coordinate, prevCoordinate: Coordinate) -> None:
         """
         On first visit of a cell, run this callback.
         """
-        print(currCoordinate)
-    
+        # run the user-defined callback, if exists
+        if MatrixTraverserCallbackManager._dictHasFunction("onFirstVisit", self.callbackMap):
+            self.callbackMap["onFirstVisit"](currCoordinate, prevCoordinate)
+
+
+    def getNextMoves(self, prevCoordinate: Coordinate, currCoordinate: Coordinate) -> list:
+        """
+        Get next moves for a cell.
+        """
+        return []
+
+
+    @staticmethod
+    def _dictHasFunction(key: str, map: dict[str, any]) -> bool: # type: ignore
+        return key in map and isfunction(map[key])
 
 
 class MatrixTraverserStateManager:
