@@ -11,6 +11,7 @@ class MatrixTraverser:
                  startCoordinate: Coordinate, 
                  callbackManager: MatrixTraverserCallbackManager,  # type: ignore
                  stateManager: MatrixTraverserStateManager):
+        
         self.matrix = matrix
         self.visited = MatrixTraverser._generateVisitedMatrix(matrix)
         self.startCoordinate: Coordinate = startCoordinate
@@ -88,7 +89,7 @@ class MatrixTraverser:
 
         # move in the order that was specified
         for nextMove in nextMoves:
-            
+
             if nextMove == Move.UP:
                 # up
                 if self.callbackManager.canMove(currCoordinate.up(), prevCoordinate, currCoordinate):
@@ -291,11 +292,11 @@ class MatrixTraverserCallbackManager:
             # it's happy with the default moves
             if nextMoves is None:
                 return MatrixTraverserMoves.getDefaultMoves()
+            
             # check if the returned value is correct
             if not isinstance(nextMoves, list):
                 raise Exception("next moves must be of type list")
-            # if not isinstance(nextMoves, MatrixTraverserMoves):
-            #     raise Exception("next moves must be of type MatrixTraverserMoves")
+            
             return nextMoves
 
         # if the user did not provide the getNextMoves callback
@@ -307,36 +308,6 @@ class MatrixTraverserCallbackManager:
     def _dictHasFunction(key: str, map: dict[str, any]) -> bool: # type: ignore
         return key in map and isfunction(map[key])
 
-
-
-class Move(Enum):
-    UP = "up"
-    DIAGONAL_UP_RIGHT = "diagonal-up-right"
-    RIGHT = "right"
-    DIAGONAL_DOWN_RIGHT = "diagonal-down-right"
-    DOWN = "down"
-    DIAGONAL_DOWN_LEFT = "diagonal-down-left"
-    LEFT = "left"
-    DIAGONAL_UP_LEFT = "diagonal-up-left"
-
-
-
-class MatrixTraverserMoves:
-    def __init__(self) -> None:
-        pass
-    
-    @staticmethod
-    def getDefaultMoves() -> list[Move]:
-        return [
-            Move.UP,
-            Move.DIAGONAL_UP_RIGHT,
-            Move.RIGHT,
-            Move.DIAGONAL_DOWN_RIGHT,
-            Move.DOWN,
-            Move.DIAGONAL_DOWN_LEFT, 
-            Move.LEFT,
-            Move.DIAGONAL_UP_LEFT
-        ]
 
     
 
@@ -354,6 +325,23 @@ class MatrixTraverserStateManager:
         """
         return self.state
     
+
+class MatrixTraverserMoves:
+    def __init__(self) -> None:
+        pass
+    
+    @staticmethod
+    def getDefaultMoves() -> list[Move]:
+        return [
+            Move.UP,
+            Move.DIAGONAL_UP_RIGHT,
+            Move.RIGHT,
+            Move.DIAGONAL_DOWN_RIGHT,
+            Move.DOWN,
+            Move.DIAGONAL_DOWN_LEFT, 
+            Move.LEFT,
+            Move.DIAGONAL_UP_LEFT
+        ]
 
 
 class Coordinate:
@@ -392,3 +380,14 @@ class Coordinate:
 
     def __str__(self) -> str:
         return f"Coordinate: [{self.row}, {self.col}]"
+
+
+class Move(Enum):
+    UP = "up"
+    DIAGONAL_UP_RIGHT = "diagonal-up-right"
+    RIGHT = "right"
+    DIAGONAL_DOWN_RIGHT = "diagonal-down-right"
+    DOWN = "down"
+    DIAGONAL_DOWN_LEFT = "diagonal-down-left"
+    LEFT = "left"
+    DIAGONAL_UP_LEFT = "diagonal-up-left"

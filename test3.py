@@ -9,11 +9,11 @@ from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, Mat
 # ]
 
 matrix = [
-    ["1",   "6",  "11",  "16",   "21"],
-    ["2",   "7",   "12",  "17",   "22"],
-    ["3",   "8",  "13",  "18",  "23"],
-    ["4",   "9",   "14",  "19",   "24"],
-    ["5",   "10",  "15",  "20",   "25"]
+    [1,   6,   11,  16,  21],
+    [2,   7,   12,  17,  22],
+    [3,   8,   13,  18,  23],
+    [4,   9,   14,  19,  24],
+    [5,   10,  15,  20,  25]
 ]
 
 state = {
@@ -26,14 +26,27 @@ state = {
 def onFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
     print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
 
+
 def getNextMovesCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
-    return [
-        Move.DOWN
-    ]
+    # return [
+    #     Move.DOWN,
+    #     Move.UP
+    # ]
+    pass
+
+
+def canMoveCallback(mt: MatrixTraverser, desiredCoordinate: Coordinate, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+    # return [
+    #     Move.DOWN,
+    #     Move.UP
+    # ]
+    if mt.getAtCoordinate(desiredCoordinate) > 5:
+        return False
+    return True
 
 
 callbackMap = {
-    # "canMove": canMoveCallback,
+    "canMove": canMoveCallback,
     "onFirstVisit": onFirstVisitCallback,
     "getNextMoves": getNextMovesCallback
 }
@@ -41,7 +54,7 @@ callbackMap = {
 
 stateManager = MatrixTraverserStateManager(state)
 callbackManager = MatrixTraverserCallbackManager(callbackMap)
-startCoordinate = Coordinate(1, 0)
+startCoordinate = Coordinate(0, 0)
 
 matrixTraverser = MatrixTraverser(
     matrix, 
