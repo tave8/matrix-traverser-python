@@ -33,7 +33,7 @@ class MatrixTraverser:
         """
 
         startCoordinate = self.stateManager.getStartCoordinate()
-        prevCoordinate = Coordinate(-1, -1, isBeforeStart=True)
+        prevCoordinate = self.stateManager.getBeforeStartCoordinate()
 
         self._traverse(
             startCoordinate,
@@ -47,7 +47,7 @@ class MatrixTraverser:
         """
 
         # if this cell does not exist (out of matrix)
-        if not self._isInsideMatrix(currCoordinate):
+        if not self.isInsideMatrix(currCoordinate):
             return
 
         # if this cell has been visited
@@ -141,7 +141,7 @@ class MatrixTraverser:
             return "<BEFORE START>"
 
         # check if the coordinate exists in the matrix
-        if not self._isInsideMatrix(coord):
+        if not self.isInsideMatrix(coord):
             raise Exception("the coordinate does not exist in this matrix")
         return self.matrix[coord.row][coord.col]
 
@@ -165,11 +165,14 @@ class MatrixTraverser:
         self.visited[coordinate.row][coordinate.col] = 1
 
 
-    def _isInsideMatrix(self, coordinate: Coordinate) -> bool:
+    def isInsideMatrix(self, coordinate: Coordinate) -> bool:
         """
         Checks if the given row and column index
         are inside the given matrix. 
         """
+        # the coordinate "is before start" is never in the matrix
+        if coordinate.isBeforeStart:
+            return False
         insideRows = coordinate.row >= 0 and coordinate.row < len(self.matrix)
         insideCols = coordinate.col >= 0 and coordinate.col < len(self.matrix[0])
         return insideRows and insideCols
@@ -245,14 +248,15 @@ class MatrixTraverserCallbackManager:
         # chances are, it won't be of much use and for sure
         # the cell will not be able to move there
         # however this behavior can be customized
-        if not self.matrixTraverser._isInsideMatrix(desiredCoordinate):
+        if not self.matrixTraverser.isInsideMatrix(desiredCoordinate):
             # ..custom behavior when the current cell is asking if it can move 
             # to a coordinate that is not in the matrix..
             return False
 
+
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("canMove", self.callbackMap):
-            userSaysCanMove: bool | None = self.callbackMap["canMove"](self.matrixTraverser, desiredCoordinate, currCoordinate, prevCoordinate)
+            userSaysCanMove: bool | None = self.callbackMap["canMove"](self.matrixTraverser, desiredCoordinate, prevCoordinate, currCoordinate)
             # if the user did not return, it means 
             # it's happy with this cell moving in the desired direction 
             if userSaysCanMove is None:
@@ -328,6 +332,8 @@ class MatrixTraverserStateManager:
         self.matrixTraverser: MatrixTraverser
         # internal state of the matrix traverser
         self._startCoordinate: Coordinate 
+        self._beforeStartCoordinate: Coordinate = Coordinate(-1, -1, isBeforeStart=True)
+
 
     def _setMatrixTraverser(self, matrixTraverser: MatrixTraverser) -> None:
         # you cannot set the matrix traversed if it was already set
@@ -344,6 +350,9 @@ class MatrixTraverserStateManager:
     def _setStartCoordinate(self, startCoordinate: Coordinate) -> None:
         startCoordinate.isStart = True
         self._startCoordinate = startCoordinate
+    
+    def getBeforeStartCoordinate(self) -> Coordinate:
+        return self._beforeStartCoordinate
     
     def getState(self) -> dict:
         """
@@ -413,7 +422,7 @@ class Coordinate:
         return Coordinate(self.row+1, self.col-1)
 
     def __str__(self) -> str:
-        return f"Coordinate: [{self.row}, {self.col}]"
+        return (f"[Coordinate: [{self.row}, {self.col}], isStart={self.isStart}, isBeforeStart={self.isBeforeStart}]")
 
 
 class Move(Enum):
