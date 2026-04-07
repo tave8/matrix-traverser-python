@@ -63,7 +63,7 @@ class MatrixTraverser:
             return
         
         # cell was not visited; we're visiting it right now
-        self.callbackManager.onFirstVisit(currCoordinate, prevCoordinate)
+        self.callbackManager.onFirstVisit(prevCoordinate, currCoordinate)
 
         # *******************************************+++
         # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
@@ -203,6 +203,7 @@ class MatrixTraverserCallbackManager:
     def getMatrixTraverser(self) -> MatrixTraverser:
         return self.matrixTraverser
 
+
     def canMove(self, prevCoordinate: Coordinate, currCoordinate: Coordinate, desiredCoordinate: Coordinate) -> bool:
         """
         Before moving in a direction, the core traversal 
@@ -222,35 +223,41 @@ class MatrixTraverserCallbackManager:
                     depend on conditions on the previous or current coordinate, for example
             
         """
+        # if the desired coordinate is not even in the matrix,
+        # chances are, it won't be of much use and for sure
+        # the cell will not be able to move there
+        # however this behavior can be customized
         if not self.matrixTraverser._isInsideMatrix(desiredCoordinate):
+            # ..custom behavior when the current cell is asking if it can move 
+            # to a coordinate that is not in the matrix..
             return False
 
-        # if state["reachedEnd"]:
-        #     return False
+        # run the user-defined callback, if exists
+        if MatrixTraverserCallbackManager._dictHasFunction("canMove", self.callbackMap):
+            userSaysCanMove: bool | None = self.callbackMap["canMove"](currCoordinate, prevCoordinate, desiredCoordinate)
+            # if the user did not return, it means 
+            # it's happy with this cell moving in the desired direction 
+            if userSaysCanMove is None:
+                return True
+            # check if the returned value is correct
+            if not isinstance(userSaysCanMove, bool):
+                raise Exception("userSaysCanMove must be of type bool")
+            return userSaysCanMove
 
-        # if matrix[nextRowIdx][nextColIdx] == "E":
-        #     state["reachedEnd"] = True
-        #     return True
-
-        # # from the start, you can only move to 
-        # # a cell with value 1
-        # if matrix[currRowIdx][currColIdx] == "S":
-        #     return matrix[nextRowIdx][nextColIdx] == "1"
-
-        # # the next move cannot be the start 
-        # if matrix[nextRowIdx][nextColIdx] == "S":
-        #     return False
-
-        # return int(matrix[currRowIdx][currColIdx])+1 == int(matrix[nextRowIdx][nextColIdx])
+        # if the user did not specify the callback, 
+        # we assume every direction is good to move to
         return True
 
-    def onFirstVisit(self, currCoordinate: Coordinate, prevCoordinate: Coordinate) -> None:
+
+    def onFirstVisit(self, prevCoordinate: Coordinate, currCoordinate: Coordinate) -> None:
         """
         On first visit of a cell, run this callback.
         """
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("onFirstVisit", self.callbackMap):
-            self.callbackMap["onFirstVisit"](currCoordinate, prevCoordinate)
+            self.callbackMap["onFirstVisit"](prevCoordinate, currCoordinate)
+        # if the user did not specify a callback,
+        # we don't have to do anything particular here
 
 
     def getNextMoves(self, prevCoordinate: Coordinate, currCoordinate: Coordinate) -> list[str]:

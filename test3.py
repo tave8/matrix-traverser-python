@@ -16,9 +16,13 @@ state = {
 }
 
 
+def onFirstVisitCallback(prevCoordinate: Coordinate, currCoordinate: Coordinate):
+    print(currCoordinate)
+
+
 callbackMap = {
     # "canMove": canMoveCallback,
-    # "firstVisit": firstVisitCallback,
+    "onFirstVisit": onFirstVisitCallback,
     # "pilotCell": pilotCellCallback
 }
 
