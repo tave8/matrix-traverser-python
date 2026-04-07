@@ -1,4 +1,4 @@
-from MatrixTraversalEngine import traverseMatrix, isInsideMatrix
+from main import traverseMatrix, isInsideMatrix
 
 
 # next is the desired move
