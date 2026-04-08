@@ -33,12 +33,12 @@ class MatrixTraverser:
         """
 
         startCoordinate = self.stateManager.getStartCoordinate()
-        prevCoordinate = self.stateManager.getBeforeStartCoordinate()
+        beforeStartCoordinate = self.stateManager.getBeforeStartCoordinate()
 
         self._traverse(
-            startCoordinate,
-            prevCoordinate,
-            Move._BEFORE_START
+            currCoordinate=startCoordinate,
+            prevCoordinate=beforeStartCoordinate,
+            prevMove=Move._BEFORE_START
         )
     
 
@@ -79,10 +79,8 @@ class MatrixTraverser:
         # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
         # *******************************************+++
 
-        nextMoves: list[Move]
-
         # GET THE MOVES OF THIS CELL
-        nextMoves = self.callbackManager.getNextMoves(prevCoordinate, currCoordinate, prevMove)
+        nextMoves: list[Move] = self.callbackManager.getNextMoves(prevCoordinate, currCoordinate, prevMove)
 
         # MOVE THROUGH THE MOVES
         # move in the order that was specified
@@ -149,7 +147,7 @@ class MatrixTraverser:
         Checks if the cell at the given coordinate has been
         visited or not.
         """
-        return self.visited[coordinate.row][coordinate.col] > 0
+        return self.visited[coordinate.row][coordinate.col] == 1
 
 
     def _markAsVisited(self, coordinate: Coordinate) -> None:
