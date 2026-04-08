@@ -61,6 +61,7 @@ class MatrixTraverser:
             # *******************************************+++
             return
         
+
         self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate, prevMove)
 
         # *******************************************+++
@@ -75,6 +76,8 @@ class MatrixTraverser:
         # important: after the cell is marked as visited, we should not
         # perform operations that rely on whether the cell is visited or not
         self._markAsVisited(currCoordinate)
+
+        self.stateManager.updateStatsAfterFirstVisit(prevCoordinate, currCoordinate, prevMove)
 
         # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
         # *******************************************+++
@@ -341,13 +344,47 @@ class MatrixTraverserStateManager:
     1 instance of MatrixTraverserStateManager <-> 1 instance of MatrixTraverser
     """
 
-    def __init__(self, state: dict):
+    def __init__(self, userState: dict):
         # user-defined state
-        self.state = state
+        self.userState = userState
+        # the algorithm's state so far
+        self.state: dict = {
+            # the cells that were visited
+            "visitedCells": []
+        }
+        self.stats = {
+            "byMove": MatrixTraverserStateManager.generateInitialStatsByMove(MatrixTraverserMoves.getAllMoves())
+        }
         self.matrixTraverser: MatrixTraverser
         # internal state of the matrix traverser
         self._startCoordinate: Coordinate 
         self._beforeStartCoordinate: Coordinate = Coordinate(-1, -1, isBeforeStart=True)
+
+
+    def updateStatsAfterFirstVisit(self, 
+                                   prevCoordinate: Coordinate, 
+                                   currCoordinate: Coordinate, 
+                                   prevMove: Move) -> None:
+        """
+        Call this method exactly after the first visit 
+        of a cell, to update the stats of the traversal.
+        """
+        self.stats["byMove"][prevMove]["count"] += 1
+        self.stats["byMove"][prevMove]["visitedCells"].append({
+            "prev": prevCoordinate,
+            "curr": currCoordinate
+        })
+
+
+    @staticmethod
+    def generateInitialStatsByMove(moves: list[Move]) -> dict[Move, dict]:
+        ret = {}
+        for move in moves:
+            ret[move] = {
+                "count": 0,
+                "visitedCells": []
+            }
+        return ret 
 
 
     def _setMatrixTraverser(self, matrixTraverser: MatrixTraverser) -> None:
@@ -369,11 +406,11 @@ class MatrixTraverserStateManager:
     def getBeforeStartCoordinate(self) -> Coordinate:
         return self._beforeStartCoordinate
     
-    def getState(self) -> dict:
+    def getUserState(self) -> dict:
         """
         Returns the user-provided state.
         """
-        return self.state
+        return self.userState
     
 
 
@@ -393,6 +430,11 @@ class MatrixTraverserMoves:
             Move.LEFT,
             Move.DIAGONAL_UP_LEFT
         ]
+
+    @staticmethod
+    def getAllMoves() -> list[Move]:
+        return [move for move in Move]
+
 
 
 class Coordinate:
@@ -437,6 +479,16 @@ class Coordinate:
         return Coordinate(self.row+1, self.col-1)
 
     def __str__(self) -> str:
+        flags = []
+        if self.isStart:
+            flags.append("isStart")
+        if self.isBeforeStart:
+            flags.append("isBeforeStart")
+        
+        flag_str = f", {', '.join(flags)}" if flags else ""
+        return f"[Coordinate: [{self.row}, {self.col}]{flag_str}]"
+
+    def __repr__(self) -> str:
         flags = []
         if self.isStart:
             flags.append("isStart")

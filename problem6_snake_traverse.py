@@ -31,9 +31,8 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
         print(f"START: {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
     else:
         print(f"FROM {mt.getAtCoordinate(prevCoordinate)} TO {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
-    state = mt.stateManager.getState()    
-    # collect the current cell
-    state["values"].append(mt.getAtCoordinate(currCoordinate))
+
+    # print(mt.stateManager.stats)
 
 
 def getNextMovesCallback(mt: MatrixTraverser, 
@@ -81,3 +80,9 @@ matrixTraverser = MatrixTraverser(
 
 # for now you cannot call the method more than once
 matrixTraverser.traverseMatrix()
+
+
+# for move, moveStats in matrixTraverser.stateManager.stats["byMove"].items():
+#     print()
+#     print(f"{move}: {moveStats}")
+#     print()
