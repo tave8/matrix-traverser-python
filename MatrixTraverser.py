@@ -53,31 +53,31 @@ class MatrixTraverser:
 
         # if this cell has been visited
         if self._isVisited(currCoordinate):
-            # *******************************************+++
-            # ****** START: OPERATIONS WHEN CELL IS ALREADY VISITED
-            # ...
-
-            # ****** END: OPERATIONS WHEN CELL IS ALREADY VISITED
-            # *******************************************+++
-            return
+            skip = self.callbackManager.onMultipleVisitMustSkip(prevCoordinate, currCoordinate, prevMove)
+            # ... operations when cell is already visited...
+            if skip:
+                return 
         
+        # because skipping a visited cell is left to the user,
+        # we don't know if, when we get here, that cell will have 
+        # been visited for the first time or not. so we must do a check
+        if not self._isVisited(currCoordinate):
+            self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate, prevMove)
 
-        self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate, prevMove)
-
-        # *******************************************+++
-        # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
-        # you can perform more custom operations here, 
-        # before marking the cell as visited and then moving
-        # to maybe other cells
+            # *******************************************+++
+            # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
+            # you can perform more custom operations here, 
+            # before marking the cell as visited and then moving
+            # to maybe other cells
 
 
-        # after we've performed custom operations on this cell, 
-        # we mark cell as visited right before we go in other directions
-        # important: after the cell is marked as visited, we should not
-        # perform operations that rely on whether the cell is visited or not
-        self._markAsVisited(currCoordinate)
+            # after we've performed custom operations on this cell, 
+            # we mark cell as visited right before we go in other directions
+            # important: after the cell is marked as visited, we should not
+            # perform operations that rely on whether the cell is visited or not
+            self._markAsVisited(currCoordinate)
 
-        self.stateManager.updateStatsAfterFirstVisit(prevCoordinate, currCoordinate, prevMove)
+            self.stateManager.updateStatsAfterFirstVisit(prevCoordinate, currCoordinate, prevMove)
 
         # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
         # *******************************************+++
@@ -129,6 +129,7 @@ class MatrixTraverser:
                 if self.callbackManager.canMove(currCoordinate.diagonalUpLeft(), prevCoordinate, currCoordinate):
                     self._traverse(currCoordinate.diagonalUpLeft(), currCoordinate, Move.DIAGONAL_UP_LEFT)
                 
+
 
 
     def getAtCoordinate(self, coord: Coordinate):
@@ -329,6 +330,34 @@ class MatrixTraverserCallbackManager:
         return MatrixTraverserMoves.getDefaultMoves()
 
 
+    def onMultipleVisitMustSkip(self, 
+                     prevCoordinate: Coordinate, 
+                     currCoordinate: Coordinate, 
+                     prevMove: Move) -> bool:
+        """
+        Defines the logic of whether a cell that is visited multiple times
+        must be skipped. Wrong configuration of this callback
+        can result in non termination of the algorithm, which is 
+        why the default semantics points to skip instead of continuing.
+        
+        If we don't skip (so if we continue) it probably means 
+        we're more interested in exploring the matrix rather than
+        using some cell value. This behavior is desirable 
+        in the following cases, for example: 
+        
+        - we don't know where a certain target cell is, and therefore
+        we don't really care about whether a cell was visited or not
+        
+        - we must ignore that this cell was visited because we might
+        need to go back to certain places of the matrix, and therefore 
+        we have to inevitably pass through some visited cells, and we 
+        don't care that they were visited
+        """
+        
+        return True
+    
+
+
     @staticmethod
     def _dictHasFunction(key: str, map: dict[str, any]) -> bool: # type: ignore
         return key in map and isfunction(map[key])
@@ -501,7 +530,7 @@ class Coordinate:
 
 class Move(Enum):
     # the initial move
-    _BEFORE_START = "_before_start"
+    _BEFORE_START = "_before-start"
     UP = "up"
     DIAGONAL_UP_RIGHT = "diagonal-up-right"
     RIGHT = "right"
@@ -510,3 +539,12 @@ class Move(Enum):
     DIAGONAL_DOWN_LEFT = "diagonal-down-left"
     LEFT = "left"
     DIAGONAL_UP_LEFT = "diagonal-up-left"
+
+
+class VisitStrategy(Enum):
+    # the algorithm skips visited cells (default value)
+    ON_MULTIPLE_VISIT_SKIP = "on-multiple-visit-skip"
+    # the algorithm ignores visited cells 
+    # (this can use infinite recursion, so a strategy must be
+    # used to exit the algorithm upon meeting certain conditions)
+    ON_MULTIPLE_VISIT_CONTINUE = "on-multiple-visit-continue"
