@@ -460,4 +460,3 @@ class Move(Enum):
     DIAGONAL_DOWN_LEFT = "diagonal-down-left"
     LEFT = "left"
     DIAGONAL_UP_LEFT = "diagonal-up-left"
-    _END = "_end"
