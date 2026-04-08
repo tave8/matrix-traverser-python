@@ -60,16 +60,7 @@ class MatrixTraverser:
             # *******************************************+++
             return
         
-
-        # we might not care about the very start, here's why.
-        # note 1: the time current coordinate is start 
-        #         is assumed to be equal to that of previous coordinate before start
-        # note 2: the first visit will have something like this:
-        #       currCoordinate: the user-provided start coordinate
-        #       prevCoordinate: a dummy coordinate used to mark the start
-        if not currCoordinate.isStart:
-            # cell was not visited; we're visiting it right now
-            self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate)
+        self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate)
 
         # *******************************************+++
         # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
@@ -90,19 +81,7 @@ class MatrixTraverser:
         nextMoves: list[Move]
 
         # GET THE MOVES OF THIS CELL
-        # we might not care about the very start, here's why.
-        # at the very start, we have the current coordinate which is
-        # the start coordinate, however the previous coordinate 
-        # is a dummy coordinate, used to mark the start of the algorithm
-        # that's why we are interested in getting the next moves of this cell
-        # only when the algorithm is "fully functional" and the current 
-        # and previous coordinates will always be valid, which happens
-        # at every recursive call, except for the very first one
-        # in short: when we are at the very start, we get all the next moves
-        if not currCoordinate.isStart:
-            nextMoves = self.callbackManager.getNextMoves(prevCoordinate, currCoordinate)
-        else: 
-            nextMoves = MatrixTraverserMoves.getDefaultMoves()
+        nextMoves = self.callbackManager.getNextMoves(prevCoordinate, currCoordinate)
 
         # MOVE THROUGH THE MOVES
         # move in the order that was specified

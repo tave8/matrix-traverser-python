@@ -22,11 +22,21 @@ state = {
  
 
 def beforeFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
-    print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
-    pass
+    if currCoordinate.isStart:
+        print(f"{mt.getAtCoordinate(currCoordinate)}")
+    else:
+        print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
 
 
 def canMoveCallback(mt: MatrixTraverser, desiredCoordinate: Coordinate, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+
+    # from the start, you can only move to 
+    # a cell with value 1
+    if currCoordinate.isStart:
+        return mt.getAtCoordinate(desiredCoordinate) == "1"
+    
+    if mt.getAtCoordinate(currCoordinate) == "S":
+        return mt.getAtCoordinate(desiredCoordinate) == "1"
 
     state = mt.stateManager.getState()
 
@@ -38,11 +48,6 @@ def canMoveCallback(mt: MatrixTraverser, desiredCoordinate: Coordinate, prevCoor
     if mt.getAtCoordinate(desiredCoordinate) == "E":
         state["reachedEnd"] = True
         return True
-
-    # from the start, you can only move to 
-    # a cell with value 1
-    if mt.getAtCoordinate(currCoordinate) == "S":
-        return mt.getAtCoordinate(desiredCoordinate) == "1"
 
     # the next move cannot be the start 
     if mt.getAtCoordinate(desiredCoordinate) == "S":
