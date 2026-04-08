@@ -1,20 +1,20 @@
 """
-PROBLEM: Traverse the matrix in T shape, 
-so first row and the column in the middle.
+PROBLEM: Traverse the matrix in zigzag.
 """
 
 from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
 
 
 matrix = [
-    [1,   6,   11,  16,  21],
-    [2,   7,   12,  17,  22],
-    [3,   8,   13,  18,  23],
-    [4,   9,   14,  19,  24],
-    [5,   10,  15,  20,  25]
+  [1, 3, 4, 10],
+  [2, 5, 9, 11],
+  [6, 8, 12, 15],
+  [7, 13, 14, 16]
 ]
 
-state = {}
+state = {
+    "values": []
+}
 
 
 def beforeFirstVisitCallback(mt: MatrixTraverser, 
@@ -25,42 +25,38 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
         print(f"START: {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
     else:
         print(f"FROM {mt.getAtCoordinate(prevCoordinate)} TO {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
-    
+    state = mt.stateManager.getState()    
+    # collect the current cell
+    state["values"].append(mt.getAtCoordinate(currCoordinate))
 
 
 def getNextMovesCallback(mt: MatrixTraverser, 
                          prevCoordinate: Coordinate, 
                          currCoordinate: Coordinate,
                          prevMove: Move):
-    # if this is the cell right 
-    # at the intersection in the T shape
-    # this cell must move first right, and then down
-    if currCoordinate.getRow() == 0 and currCoordinate.getCol() == 2:
-        return [
-            Move.RIGHT,
-            Move.DOWN
-        ]
-    
-    # if this is the cell in a column in the middle,
-    # it can only move down
-    if currCoordinate.getCol() == 2:
-        return [
-            Move.DOWN
-        ]
 
-    # if this is the first row, you can only move right
-    if currCoordinate.getRow() == 0:
-        return [
-            Move.RIGHT
-        ]
-    
-    # for any other cell, you cannot move anywhere else
-    return []
-    pass
+   # from the previous move, this the core logic of how the zigzag traverse works.
+   # the key of this map is the previous move; the values are the ordered values where 
+   # the cell can move to     
+   moves = {
+        Move._BEFORE_START: [Move.DOWN, Move.RIGHT, Move._END],
+        Move.DOWN: [Move.DIAGONAL_UP_RIGHT, Move.DIAGONAL_DOWN_LEFT, Move.DOWN],
+        Move.DIAGONAL_UP_RIGHT: [Move.DIAGONAL_UP_RIGHT, Move.RIGHT, Move.DOWN],
+        Move.RIGHT: [Move.DIAGONAL_UP_RIGHT, Move.DIAGONAL_DOWN_LEFT, Move.RIGHT],
+        Move.DIAGONAL_DOWN_LEFT: [Move.DIAGONAL_DOWN_LEFT, Move.DOWN, Move.RIGHT]
+    }
+   
+   return moves[prevMove]
+   
+   
 
 
-def canMoveCallback(mt: MatrixTraverser, desiredCoordinate: Coordinate, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+def canMoveCallback(mt: MatrixTraverser, 
+                    desiredCoordinate: Coordinate, 
+                    prevCoordinate: Coordinate, 
+                    currCoordinate: Coordinate):
     pass    
+
 
 
 callbackMap = {
