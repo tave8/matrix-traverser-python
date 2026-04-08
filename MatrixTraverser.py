@@ -47,15 +47,19 @@ class MatrixTraverser:
         The core algorithm: Traverses the matrix.
         """
 
+        # if you can end the algorithm now
+        if self.callbackManager.canEnd(prevCoordinate, currCoordinate, prevMove):
+            return 
+
         # if this cell does not exist (out of matrix)
         if not self.isInsideMatrix(currCoordinate):
             return
 
         # if this cell has been visited
         if self._isVisited(currCoordinate):
-            skip = self.callbackManager.onMultipleVisitSkip(prevCoordinate, currCoordinate, prevMove)
+
+            if self.callbackManager.onMultipleVisitSkip(prevCoordinate, currCoordinate, prevMove):
             # ... operations when cell is already visited...
-            if skip:
                 return 
         
         # because skipping a visited cell is left to the user,
@@ -353,8 +357,28 @@ class MatrixTraverserCallbackManager:
         This allows the algorithm to effectively "explore but not visit".
 
         In conjuction with onMultipleVisitSkip, it can be used to express
-        logic like "visit a cell only if.." and "if it's been visited, continue anyway"
+        logic like "visit a cell only if.." and "if it's been visited, continue anyway".
+
+        NOTE: If we never visit any cell, the algorithm will never terminate.
         """
+
+        # run the user-defined callback, if exists
+        if MatrixTraverserCallbackManager._dictHasFunction("canVisit", self.callbackMap):
+            userSaysCanVisit: bool | None = self.callbackMap["canVisit"](self.matrixTraverser, 
+                                                                            prevCoordinate, 
+                                                                            currCoordinate,
+                                                                            prevMove)
+            # if the user did not return, it means 
+            # it's happy with this cell being visited, 
+            # which is the default behavior
+            if userSaysCanVisit is None:
+                return True
+            
+            # check if the returned value is correct
+            if not isinstance(userSaysCanVisit, bool):
+                raise Exception("userSaysCanVisit must be of type bool")
+            
+            return userSaysCanVisit
 
         # by default, we always visit a cell
         return True 
@@ -412,6 +436,40 @@ class MatrixTraverserCallbackManager:
         # if the "explorer" behaviour is not desired or needed. 
         return True
     
+
+    def canEnd(self, 
+                prevCoordinate: Coordinate, 
+                currCoordinate: Coordinate,
+                prevMove: Move) -> bool:
+        """
+        Can I end the algorithm right now?
+        
+        By default the algorithm will terminate only 
+        when all cells will be visited. We can prevent that 
+        and decide the end of the algorithm.
+        """
+
+        # run the user-defined callback, if exists
+        if MatrixTraverserCallbackManager._dictHasFunction("canEnd", self.callbackMap):
+            userSaysCanEnd: bool | None = self.callbackMap["canEnd"](self.matrixTraverser, 
+                                                                            prevCoordinate, 
+                                                                            currCoordinate,
+                                                                            prevMove)
+            # if the user did not return, it means 
+            # it's happy with not ending the algorithm
+            if userSaysCanEnd is None:
+                return False
+            
+            # check if the returned value is correct
+            if not isinstance(userSaysCanEnd, bool):
+                raise Exception("userSaysCanEnd must be of type bool")
+            
+            return userSaysCanEnd
+
+        # by default, we don't end the algorithm
+        return False
+    
+
 
 
     @staticmethod

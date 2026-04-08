@@ -1,5 +1,5 @@
 """
-PROBLEM: Traverse the matrix in one circle.
+PROBLEM: Traverse the matrix in a cross.
 
 
 """
@@ -8,15 +8,15 @@ from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, Mat
 
 
 matrix = [
-    [1,    2,    1,   7,   15],
-    [3,    8,    90,  2,  16],
-    [7,    9,    13,  17,  3],
-    [10,   6,    18,  4,  23],
-    [11,   19,   5,   24,  25]
+    [10,   2,    6,   7,   15],
+    [3,    8,    7,  2,    16],
+    [1,    2,    3,  4,    5],
+    [10,   6,    8,  4,    23],
+    [11,   19,   9,   24,  25]
 ]
 
 state = {
-    "values": []
+    "crossValues": []
 }
 
 
@@ -28,7 +28,7 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
         print(f"START: {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
     else:
         print(f"FROM {mt.getAtCoordinate(prevCoordinate)} TO {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
-
+    pass
     # print(mt.stateManager.stats)
 
 
@@ -37,9 +37,11 @@ def getNextMovesCallback(mt: MatrixTraverser,
                          currCoordinate: Coordinate,
                          prevMove: Move):
 
-    # if current cell is at the border of quadrant 1 and 2,
-    # start the algorithm
-
+    # get the row in the middle
+    if currCoordinate.getRow() == len(mt.matrix) // 2:
+        return [
+            Move.RIGHT
+        ]
 
    # previous move: next moves 
 #    moves = {
@@ -64,22 +66,47 @@ def canMoveCallback(mt: MatrixTraverser,
 
 
 
-# def onMultipleVisitSkipCallback(mt: MatrixTraverser, 
-#                          prevCoordinate: Coordinate, 
-#                          currCoordinate: Coordinate,
-#                          prevMove: Move):
-#     # skip the visited cells that are part of the circle
-#     # so you can move freely through them
+def canVisitCallback(mt: MatrixTraverser, 
+                    prevCoordinate: Coordinate, 
+                    currCoordinate: Coordinate,
+                    prevMove: Move):
+    
+    
+    # step 1: find the start of the row in the middle
+    # if the horizontal line of the cross is complete, 
+    # if currCoordinate.getRow() == len(mt.matrix) // 2:
+    #     return False
+    
+    # if currCoordinate.getCol() == len(mt.matrix[0]) // 2:
+    #     return False 
+    pass
 
-#     return True
 
+def onMultipleVisitSkipCallback(mt: MatrixTraverser, 
+                         prevCoordinate: Coordinate, 
+                         currCoordinate: Coordinate,
+                         prevMove: Move):
+    # skip the visited cells that are part of the circle
+    # so you can move freely through them
+    # if(mt.getAtCoordinate(currCoordinate)) > 0:
+    #     return False  
+    pass
+
+
+def canEndCallback(mt: MatrixTraverser, 
+                         prevCoordinate: Coordinate, 
+                         currCoordinate: Coordinate,
+                         prevMove: Move):
+    return False 
 
 
 callbackMap = {
     "canMove": canMoveCallback,
     "getNextMoves": getNextMovesCallback,
     "beforeFirstVisit": beforeFirstVisitCallback,
-    # "onMultipleVisitSkip": onMultipleVisitSkipCallback
+    "canVisit": canVisitCallback,
+    "onMultipleVisitSkip": onMultipleVisitSkipCallback,
+    "canEnd": canEndCallback
 }
 
 
@@ -101,3 +128,5 @@ matrixTraverser.traverseMatrix()
 #     print()
 #     print(f"{move}: {moveStats}")
 #     print()
+
+print(state)
