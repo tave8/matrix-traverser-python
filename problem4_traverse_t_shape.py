@@ -17,39 +17,46 @@ matrix = [
 state = {}
 
 
-def beforeFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+def beforeFirstVisitCallback(mt: MatrixTraverser, 
+                             prevCoordinate: Coordinate, 
+                             currCoordinate: Coordinate,
+                             prevMove: Move):
     if currCoordinate.isStart:
-        print(f"{mt.getAtCoordinate(currCoordinate)}")
+        print(f"START: {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
     else:
-        print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
+        print(f"FROM {mt.getAtCoordinate(prevCoordinate)} TO {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
     
 
 
-def getNextMovesCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+def getNextMovesCallback(mt: MatrixTraverser, 
+                         prevCoordinate: Coordinate, 
+                         currCoordinate: Coordinate,
+                         prevMove: Move):
     # if this is the cell right 
     # at the intersection in the T shape
     # this cell must move first right, and then down
-    if currCoordinate.getRow() == 0 and currCoordinate.getCol() == 2:
-        return [
-            Move.RIGHT,
-            Move.DOWN
-        ]
+    # if currCoordinate.getRow() == 0 and currCoordinate.getCol() == 2:
+    #     return [
+    #         Move.RIGHT,
+    #         Move.DOWN
+    #     ]
     
-    # if this is the cell in a column in the middle,
-    # it can only move down
-    if currCoordinate.getCol() == 2:
-        return [
-            Move.DOWN
-        ]
+    # # if this is the cell in a column in the middle,
+    # # it can only move down
+    # if currCoordinate.getCol() == 2:
+    #     return [
+    #         Move.DOWN
+    #     ]
 
-    # if this is the first row, you can only move right
-    if currCoordinate.getRow() == 0:
-        return [
-            Move.RIGHT
-        ]
+    # # if this is the first row, you can only move right
+    # if currCoordinate.getRow() == 0:
+    #     return [
+    #         Move.RIGHT
+    #     ]
     
-    # for any other cell, you cannot move anywhere else
-    return []
+    # # for any other cell, you cannot move anywhere else
+    # return []
+    pass
 
 
 def canMoveCallback(mt: MatrixTraverser, desiredCoordinate: Coordinate, prevCoordinate: Coordinate, currCoordinate: Coordinate):
@@ -68,7 +75,7 @@ callbackManager = MatrixTraverserCallbackManager(callbackMap)
 
 matrixTraverser = MatrixTraverser(
     matrix, 
-    Coordinate(0, 0),
+    Coordinate(4, 0),
     callbackManager,
     stateManager
 )
