@@ -13,24 +13,18 @@ state = {}
 
 
 def beforeFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
-    print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
+    if currCoordinate.isStart:
+        print(f"{mt.getAtCoordinate(currCoordinate)}")
+    else:
+        print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
     
 
 
 def getNextMovesCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
-    # if mt.getAtCoordinate(currCoordinate) > 5:
-    #     return [
-    #         # Move.UP,
-    #         Move.DIAGONAL_UP_RIGHT
-    #     ]
-    state = mt.stateManager.getState()
-    # if state.
+    return [
+        Move.DIAGONAL_UP_LEFT
+    ]
 
-
-    # return [
-    #     Move.DIAGONAL_DOWN_RIGHT
-    # ]
-    # pass 
 
 
 def canMoveCallback(mt: MatrixTraverser, desiredCoordinate: Coordinate, prevCoordinate: Coordinate, currCoordinate: Coordinate):
@@ -55,7 +49,7 @@ callbackManager = MatrixTraverserCallbackManager(callbackMap)
 
 matrixTraverser = MatrixTraverser(
     matrix, 
-    Coordinate(0, 0),
+    Coordinate(4, 4),
     callbackManager,
     stateManager
 )
