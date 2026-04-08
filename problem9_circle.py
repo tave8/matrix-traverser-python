@@ -40,25 +40,38 @@ def getNextMovesCallback(mt: MatrixTraverser,
     # if current cell is at the border of quadrant 1 and 2,
     # start the algorithm
 
+
    # previous move: next moves 
-   moves = {
-        Move._BEFORE_START: [Move.RIGHT],
-        Move.DOWN: [Move.DIAGONAL_UP_RIGHT],
-        Move.DIAGONAL_UP_RIGHT: [Move.DIAGONAL_UP_RIGHT, Move.RIGHT],
-        Move.RIGHT: [Move.DIAGONAL_DOWN_LEFT],
-        Move.DIAGONAL_DOWN_LEFT: [Move.DIAGONAL_DOWN_LEFT, Move.DOWN]
-    }
+#    moves = {
+#         Move._BEFORE_START: [Move.RIGHT],
+#         Move.DOWN: [Move.DIAGONAL_UP_RIGHT],
+#         Move.DIAGONAL_UP_RIGHT: [Move.DIAGONAL_UP_RIGHT, Move.RIGHT],
+#         Move.RIGHT: [Move.DIAGONAL_DOWN_LEFT],
+#         Move.DIAGONAL_DOWN_LEFT: [Move.DIAGONAL_DOWN_LEFT, Move.DOWN]
+#     }
    
-   return moves[prevMove]
-   
+#    return moves[prevMove]
+    pass
    
 
 
 def canMoveCallback(mt: MatrixTraverser, 
                     desiredCoordinate: Coordinate, 
                     prevCoordinate: Coordinate, 
-                    currCoordinate: Coordinate):
+                    currCoordinate: Coordinate,
+                    prevMove: Move):
     pass    
+
+
+
+# def onMultipleVisitSkipCallback(mt: MatrixTraverser, 
+#                          prevCoordinate: Coordinate, 
+#                          currCoordinate: Coordinate,
+#                          prevMove: Move):
+#     # skip the visited cells that are part of the circle
+#     # so you can move freely through them
+
+#     return True
 
 
 
@@ -66,6 +79,7 @@ callbackMap = {
     "canMove": canMoveCallback,
     "getNextMoves": getNextMovesCallback,
     "beforeFirstVisit": beforeFirstVisitCallback,
+    # "onMultipleVisitSkip": onMultipleVisitSkipCallback
 }
 
 

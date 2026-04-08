@@ -53,7 +53,7 @@ class MatrixTraverser:
 
         # if this cell has been visited
         if self._isVisited(currCoordinate):
-            skip = self.callbackManager.onMultipleVisitMustSkip(prevCoordinate, currCoordinate, prevMove)
+            skip = self.callbackManager.onMultipleVisitSkip(prevCoordinate, currCoordinate, prevMove)
             # ... operations when cell is already visited...
             if skip:
                 return 
@@ -62,22 +62,25 @@ class MatrixTraverser:
         # we don't know if, when we get here, that cell will have 
         # been visited for the first time or not. so we must do a check
         if not self._isVisited(currCoordinate):
-            self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate, prevMove)
 
-            # *******************************************+++
-            # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
-            # you can perform more custom operations here, 
-            # before marking the cell as visited and then moving
-            # to maybe other cells
+            if self.callbackManager.canVisit(prevCoordinate, currCoordinate, prevMove):
+
+                self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate, prevMove)
+
+                # *******************************************+++
+                # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
+                # you can perform more custom operations here, 
+                # before marking the cell as visited and then moving
+                # to maybe other cells
 
 
-            # after we've performed custom operations on this cell, 
-            # we mark cell as visited right before we go in other directions
-            # important: after the cell is marked as visited, we should not
-            # perform operations that rely on whether the cell is visited or not
-            self._markAsVisited(currCoordinate)
+                # after we've performed custom operations on this cell, 
+                # we mark cell as visited right before we go in other directions
+                # important: after the cell is marked as visited, we should not
+                # perform operations that rely on whether the cell is visited or not
+                self._markAsVisited(currCoordinate)
 
-            self.stateManager.updateStatsAfterFirstVisit(prevCoordinate, currCoordinate, prevMove)
+                self.stateManager.updateStatsAfterFirstVisit(prevCoordinate, currCoordinate, prevMove)
 
         # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
         # *******************************************+++
@@ -91,42 +94,42 @@ class MatrixTraverser:
 
             if nextMove == Move.UP:
                 # up
-                if self.callbackManager.canMove(currCoordinate.up(), prevCoordinate, currCoordinate):
+                if self.callbackManager.canMove(currCoordinate.up(), prevCoordinate, currCoordinate, prevMove):
                     self._traverse(currCoordinate.up(), currCoordinate, Move.UP)
 
             elif nextMove == Move.DIAGONAL_UP_RIGHT:
                 # diagonal up right
-                if self.callbackManager.canMove(currCoordinate.diagonalUpRight(), prevCoordinate, currCoordinate):
+                if self.callbackManager.canMove(currCoordinate.diagonalUpRight(), prevCoordinate, currCoordinate, prevMove):
                     self._traverse(currCoordinate.diagonalUpRight(), currCoordinate, Move.DIAGONAL_UP_RIGHT)
 
             elif nextMove == Move.RIGHT:
                 # right
-                if self.callbackManager.canMove(currCoordinate.right(), prevCoordinate, currCoordinate):
+                if self.callbackManager.canMove(currCoordinate.right(), prevCoordinate, currCoordinate, prevMove):
                     self._traverse(currCoordinate.right(), currCoordinate, Move.RIGHT)
 
             elif nextMove == Move.DIAGONAL_DOWN_RIGHT:
                 # diagonal down right
-                if self.callbackManager.canMove(currCoordinate.diagonalDownRight(), prevCoordinate, currCoordinate):
+                if self.callbackManager.canMove(currCoordinate.diagonalDownRight(), prevCoordinate, currCoordinate, prevMove):
                     self._traverse(currCoordinate.diagonalDownRight(), currCoordinate, Move.DIAGONAL_DOWN_RIGHT)
 
             elif nextMove == Move.DOWN:
                 # down
-                if self.callbackManager.canMove(currCoordinate.down(), prevCoordinate, currCoordinate):
+                if self.callbackManager.canMove(currCoordinate.down(), prevCoordinate, currCoordinate, prevMove):
                     self._traverse(currCoordinate.down(), currCoordinate, Move.DOWN)
 
             elif nextMove == Move.DIAGONAL_DOWN_LEFT:
                 # diagonal down left
-                if self.callbackManager.canMove(currCoordinate.diagonalDownLeft(), prevCoordinate, currCoordinate):
+                if self.callbackManager.canMove(currCoordinate.diagonalDownLeft(), prevCoordinate, currCoordinate, prevMove):
                     self._traverse(currCoordinate.diagonalDownLeft(), currCoordinate, Move.DIAGONAL_DOWN_LEFT)
 
             elif nextMove == Move.LEFT:
                 # left
-                if self.callbackManager.canMove(currCoordinate.left(), prevCoordinate, currCoordinate):
+                if self.callbackManager.canMove(currCoordinate.left(), prevCoordinate, currCoordinate, prevMove):
                     self._traverse(currCoordinate.left(), currCoordinate, Move.LEFT)
 
             elif nextMove == Move.DIAGONAL_UP_LEFT:
                 # diagonal up left 
-                if self.callbackManager.canMove(currCoordinate.diagonalUpLeft(), prevCoordinate, currCoordinate):
+                if self.callbackManager.canMove(currCoordinate.diagonalUpLeft(), prevCoordinate, currCoordinate, prevMove):
                     self._traverse(currCoordinate.diagonalUpLeft(), currCoordinate, Move.DIAGONAL_UP_LEFT)
                 
 
@@ -226,7 +229,11 @@ class MatrixTraverserCallbackManager:
         return self.matrixTraverser
 
 
-    def canMove(self, desiredCoordinate: Coordinate, prevCoordinate: Coordinate, currCoordinate: Coordinate) -> bool:
+    def canMove(self, 
+                desiredCoordinate: Coordinate, 
+                prevCoordinate: Coordinate, 
+                currCoordinate: Coordinate,
+                prevMove: Move) -> bool:
         """
         Before moving in a direction, the core traversal 
         algorithm will ask if it can move in a direction.
@@ -257,7 +264,11 @@ class MatrixTraverserCallbackManager:
 
         # run the user-defined callback, if exists
         if MatrixTraverserCallbackManager._dictHasFunction("canMove", self.callbackMap):
-            userSaysCanMove: bool | None = self.callbackMap["canMove"](self.matrixTraverser, desiredCoordinate, prevCoordinate, currCoordinate)
+            userSaysCanMove: bool | None = self.callbackMap["canMove"](self.matrixTraverser, 
+                                                                       desiredCoordinate, 
+                                                                       prevCoordinate, 
+                                                                       currCoordinate,
+                                                                       prevMove)
             # if the user did not return, it means 
             # it's happy with this cell moving in the desired direction 
             if userSaysCanMove is None:
@@ -330,7 +341,26 @@ class MatrixTraverserCallbackManager:
         return MatrixTraverserMoves.getDefaultMoves()
 
 
-    def onMultipleVisitMustSkip(self, 
+
+    def canVisit(self, 
+                prevCoordinate: Coordinate, 
+                currCoordinate: Coordinate,
+                prevMove: Move) -> bool:
+        """
+        Do I mark as visited this cell? 
+        This is useful when we want our algorithm to keep exploring
+        until the specific cells that meet certain criteria are found.
+        This allows the algorithm to effectively "explore but not visit".
+
+        In conjuction with onMultipleVisitSkip, it can be used to express
+        logic like "visit a cell only if.." and "if it's been visited, continue anyway"
+        """
+
+        # by default, we always visit a cell
+        return True 
+    
+
+    def onMultipleVisitSkip(self, 
                      prevCoordinate: Coordinate, 
                      currCoordinate: Coordinate, 
                      prevMove: Move) -> bool:
@@ -338,7 +368,7 @@ class MatrixTraverserCallbackManager:
         Defines the logic of whether a cell that is visited multiple times
         must be skipped. Wrong configuration of this callback
         can result in non termination of the algorithm, which is 
-        why the default semantics points to skip instead of continuing.
+        why the primary semantics points to skip instead of continuing.
         
         If we don't skip (so if we continue) it probably means 
         we're more interested in exploring the matrix rather than
@@ -353,7 +383,33 @@ class MatrixTraverserCallbackManager:
         we have to inevitably pass through some visited cells, and we 
         don't care that they were visited
         """
+
+        # run the user-defined callback, if exists
+        if MatrixTraverserCallbackManager._dictHasFunction("onMultipleVisitSkip", self.callbackMap):
+            skip: bool | None = self.callbackMap["onMultipleVisitSkip"](self.matrixTraverser, 
+                                                                            prevCoordinate, 
+                                                                            currCoordinate,
+                                                                            prevMove)
+            # if the user did not return, it means 
+            # it's happy with this cell moving being skipped, 
+            # if it's been visited 
+            if skip is None:
+                return True
+            
+            # check if the returned value is correct
+            if not isinstance(skip, bool):
+                raise Exception("skip must be of type bool")
+            
+            return skip
         
+        # default behavior is, we always skip visited cells
+        # in other words, in this case the algorithm cannot 
+        # "jump" or ignore visited cells, which means that 
+        # the algorithm might get stuck in a sort of "fence"
+        # where it will not visit visited cells, and therefore
+        # it will not explore other cells "on the other side" 
+        # of the visited cells. this behavior is normal, if 
+        # if the "explorer" behaviour is not desired or needed. 
         return True
     
 
@@ -541,10 +597,10 @@ class Move(Enum):
     DIAGONAL_UP_LEFT = "diagonal-up-left"
 
 
-class VisitStrategy(Enum):
-    # the algorithm skips visited cells (default value)
-    ON_MULTIPLE_VISIT_SKIP = "on-multiple-visit-skip"
-    # the algorithm ignores visited cells 
-    # (this can use infinite recursion, so a strategy must be
-    # used to exit the algorithm upon meeting certain conditions)
-    ON_MULTIPLE_VISIT_CONTINUE = "on-multiple-visit-continue"
+# class VisitStrategy(Enum):
+#     # the algorithm skips visited cells (default value)
+#     ON_MULTIPLE_VISIT_SKIP = "on-multiple-visit-skip"
+#     # the algorithm ignores visited cells 
+#     # (this can use infinite recursion, so a strategy must be
+#     # used to exit the algorithm upon meeting certain conditions)
+#     ON_MULTIPLE_VISIT_CONTINUE = "on-multiple-visit-continue"
