@@ -1,15 +1,23 @@
 """
-PROBLEM: Traverse the matrix in zigzag.
+PROBLEM: Traverse the matrix in spiral traverse.
+
+---------------
+^ --------- v  |
+| ------>   |  |
+| --------  v  v
+ <-------------
+
 """
 
 from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
 
 
 matrix = [
-  [1, 3, 4, 10],
-  [2, 5, 9, 11],
-  [6, 8, 12, 15],
-  [7, 13, 14, 16]
+    [1,    2,    3,   4,   5],
+    [16,   17,   18,  19,  6],
+    [15,   24,   25,  20,  7],
+    [14,   23,   22,  21,  8],
+    [13,   12,   11,  10,  9]
 ]
 
 state = {
@@ -25,8 +33,8 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
         print(f"START: {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
     else:
         print(f"FROM {mt.getAtCoordinate(prevCoordinate)} TO {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
-    # collect the current cell
-    state["values"].append(mt.getAtCoordinate(currCoordinate))
+
+    # print(mt.stateManager.stats)
 
 
 def getNextMovesCallback(mt: MatrixTraverser, 
@@ -34,15 +42,13 @@ def getNextMovesCallback(mt: MatrixTraverser,
                          currCoordinate: Coordinate,
                          prevMove: Move):
 
-   # from the previous move, this the core logic of how the zigzag traverse works.
-   # the key of this map is the previous move; the values are the ordered values where 
-   # the cell can move to     
+   # previous move: next moves 
    moves = {
-        Move._BEFORE_START: [Move.DOWN, Move.RIGHT],
-        Move.DOWN: [Move.DIAGONAL_UP_RIGHT, Move.DIAGONAL_DOWN_LEFT, Move.DOWN],
-        Move.DIAGONAL_UP_RIGHT: [Move.DIAGONAL_UP_RIGHT, Move.RIGHT, Move.DOWN],
-        Move.RIGHT: [Move.DIAGONAL_UP_RIGHT, Move.DIAGONAL_DOWN_LEFT, Move.RIGHT],
-        Move.DIAGONAL_DOWN_LEFT: [Move.DIAGONAL_DOWN_LEFT, Move.DOWN, Move.RIGHT]
+        Move._BEFORE_START: [Move.RIGHT],
+        Move.DOWN: [Move.DOWN, Move.LEFT],
+        Move.RIGHT: [Move.RIGHT, Move.DOWN],
+        Move.LEFT: [Move.LEFT, Move.UP],
+        Move.UP: [Move.UP, Move.RIGHT]
     }
    
    return moves[prevMove]
@@ -77,3 +83,9 @@ matrixTraverser = MatrixTraverser(
 
 # for now you cannot call the method more than once
 matrixTraverser.traverseMatrix()
+
+
+# for move, moveStats in matrixTraverser.stateManager.stats["byMove"].items():
+#     print()
+#     print(f"{move}: {moveStats}")
+#     print()
