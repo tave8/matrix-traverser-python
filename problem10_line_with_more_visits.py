@@ -18,9 +18,9 @@ from MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateMana
 matrix = [
     [11,   10,    9,   8,   7],
     [12,    8,    7,  2,    6],
-    [1,    2,    3,  4,    5],
+    [1,    2,    3,  4,     5],
     [10,   19,    8,  4,    23],
-    [18,   90,   9,   24,  25]
+    [18,   90,   9,   24,   25]
 ]
 
 state = {
@@ -51,10 +51,22 @@ def getNextMovesCallback(mt: MatrixTraverser,
             Move.RIGHT
         ]
     
+    if prevMove == Move.DIAGONAL_UP_RIGHT and currCoord.isLastCol(mt.matrix) and currCoord.isFirstRow():
+        return [
+            Move.DOWN
+        ]
+    
+
+    if prevMove == Move.DOWN and currCoord.isLastCol(mt.matrix):
+        return [
+            Move.DOWN
+        ]
+    
     if prevMove == Move.DIAGONAL_UP_RIGHT:
         return [
             Move.DIAGONAL_UP_RIGHT
         ]
+    
     
     if currCoord.hasSameCoordinate(StateManager.getStartCoordinate(mt)):
         return [
@@ -117,14 +129,16 @@ def onMultipleVisitMustStopCallback(mt: MatrixTraverser,
                                     prevCoordinate: Coordinate, 
                                     currCoordinate: Coordinate,
                                     prevMove: Move):
-    
-    # print(currCoordinate)
+
 
     # print("about to explore multiple times", currCoordinate)
     if currCoordinate.isFirstCol():
         return False
     
     if currCoordinate.isMiddleRow(mt.matrix):
+        return False
+    
+    if currCoordinate.isLastCol(mt.matrix):
         return False
 
 
