@@ -24,14 +24,14 @@ class MatrixTraverser:
         Main user-facing method to run the matrix traversal algorithm. 
         """
 
-        self._traverse(
+        self.__traverse(
             currCoord=startCoord,
             prevCoord=beforeStartCoord,
             prevMove=Move._BEFORE_START
         )
     
 
-    def _traverse(self, 
+    def __traverse(self, 
                   currCoord: Coordinate, 
                   prevCoord: Coordinate, 
                   prevMove: Move) -> None:
@@ -92,42 +92,42 @@ class MatrixTraverser:
             if nextMove == Move.UP:
                 # up
                 if CallbackManager.canMove(self, currCoord.up(), prevCoord, currCoord, prevMove):
-                    self._traverse(currCoord.up(), currCoord, Move.UP)
+                    self.__traverse(currCoord.up(), currCoord, Move.UP)
 
             elif nextMove == Move.DIAGONAL_UP_RIGHT:
                 # diagonal up right
                 if CallbackManager.canMove(self, currCoord.diagonalUpRight(), prevCoord, currCoord, prevMove):
-                    self._traverse(currCoord.diagonalUpRight(), currCoord, Move.DIAGONAL_UP_RIGHT)
+                    self.__traverse(currCoord.diagonalUpRight(), currCoord, Move.DIAGONAL_UP_RIGHT)
 
             elif nextMove == Move.RIGHT:
                 # right
                 if CallbackManager.canMove(self, currCoord.right(), prevCoord, currCoord, prevMove):
-                    self._traverse(currCoord.right(), currCoord, Move.RIGHT)
+                    self.__traverse(currCoord.right(), currCoord, Move.RIGHT)
 
             elif nextMove == Move.DIAGONAL_DOWN_RIGHT:
                 # diagonal down right
                 if CallbackManager.canMove(self, currCoord.diagonalDownRight(), prevCoord, currCoord, prevMove):
-                    self._traverse(currCoord.diagonalDownRight(), currCoord, Move.DIAGONAL_DOWN_RIGHT)
+                    self.__traverse(currCoord.diagonalDownRight(), currCoord, Move.DIAGONAL_DOWN_RIGHT)
 
             elif nextMove == Move.DOWN:
                 # down
                 if CallbackManager.canMove(self, currCoord.down(), prevCoord, currCoord, prevMove):
-                    self._traverse(currCoord.down(), currCoord, Move.DOWN)
+                    self.__traverse(currCoord.down(), currCoord, Move.DOWN)
 
             elif nextMove == Move.DIAGONAL_DOWN_LEFT:
                 # diagonal down left
                 if CallbackManager.canMove(self, currCoord.diagonalDownLeft(), prevCoord, currCoord, prevMove):
-                    self._traverse(currCoord.diagonalDownLeft(), currCoord, Move.DIAGONAL_DOWN_LEFT)
+                    self.__traverse(currCoord.diagonalDownLeft(), currCoord, Move.DIAGONAL_DOWN_LEFT)
 
             elif nextMove == Move.LEFT:
                 # left
                 if CallbackManager.canMove(self, currCoord.left(), prevCoord, currCoord, prevMove):
-                    self._traverse(currCoord.left(), currCoord, Move.LEFT)
+                    self.__traverse(currCoord.left(), currCoord, Move.LEFT)
 
             elif nextMove == Move.DIAGONAL_UP_LEFT:
                 # diagonal up left 
                 if CallbackManager.canMove(self, currCoord.diagonalUpLeft(), prevCoord, currCoord, prevMove):
-                    self._traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT)
+                    self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT)
                 
 
     # def findOne(self, findOneCallback, startFromCoordinate: Coordinate) -> Coordinate:
