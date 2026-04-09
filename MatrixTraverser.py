@@ -797,16 +797,64 @@ class Coordinate:
 
     def isColNextToMiddle(self, matrix: list[list]) -> bool:
         """
-        Is this col any of the two cols before the middle col?
+        Is this coord at any of the two cols before the middle col?
         """
         return self.getCol() in Matrix.getColsNextToMiddle(matrix)
 
 
     def isRowNextToMiddle(self, matrix: list[list]) -> bool:
         """
-        Is this row any of the two rows before the middle row?
+        Is this coord at any of the two rows before the middle row?
         """
         return self.getRow() in Matrix.getRowsNextToMiddle(matrix)
+
+
+    def isTopLeft(self, matrix: list[list]) -> bool:
+        """
+        Is the coord at the top-left?
+        """
+        return self.isFirstCol() and self.isFirstRow()
+
+
+    def isTopRight(self, matrix: list[list]) -> bool:
+        """
+        Is the coord at the top-right?
+        """
+        return self.isLastCol(matrix) and self.isFirstRow()
+
+
+    def isBottomLeft(self, matrix: list[list]) -> bool:
+        """
+        Is the coord at the bottom-left?
+        """
+        return self.isFirstCol() and self.isLastRow(matrix)
+
+
+    def isBottomRight(self, matrix: list[list]) -> bool:
+        """
+        Is the coord at the bottom-right?
+        """
+        return self.isLastCol(matrix) and self.isLastRow(matrix)
+
+    # def isMainDiagonal(self, matrix: list[list]) -> bool:
+    #     """
+    #     Is this coord at the main diagonal? (from top-left to bottom-right)
+    #     \
+    #       \
+    #         \
+    #           \
+    #     """
+
+
+
+    # def isAntiDiagonal(self, matrix: list[list]) -> bool:
+    #     """
+    #     Is this coord at the anti diagonal? (from top-left to bottom-right)
+    #           /
+    #         /
+    #       /
+    #     /
+    #     """
 
 
     @staticmethod

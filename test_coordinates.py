@@ -14,3 +14,8 @@ matrix = [
 # print(Matrix.getMiddleCol(matrix))
 # print(Matrix.getMiddleRow(matrix))
 # print(Matrix.getLastRow(matrix))
+
+print(Coordinate(0, 0).isTopLeft(matrix))
+print(Coordinate(4, 0).isBottomLeft(matrix))
+print(Coordinate(0, 4).isTopRight(matrix))
+print(Coordinate(4, 4).isBottomRight(matrix))
