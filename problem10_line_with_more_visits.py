@@ -4,7 +4,7 @@ PROBLEM: Traverse the matrix in a line.
 
 """
 
-from MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
+from MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
 
 
 matrix = [
@@ -37,6 +37,16 @@ def getNextMovesCallback(mt: MatrixTraverser,
                          prevCoord: Coordinate, 
                          currCoord: Coordinate,
                          prevMove: Move):
+
+    if currCoord.isStart:
+        return [
+            Move.RIGHT
+        ]
+    
+    if currCoord.hasSameCoordinate(StateManager.getStartCoordinate(mt)):
+        return [
+            Move.DOWN
+        ]
 
     # the most specific instruction first
     if currCoord.isMiddleRow(mt.matrix) and currCoord.isLastCol(mt.matrix):
@@ -88,8 +98,11 @@ def onMultipleVisitMustStopCallback(mt: MatrixTraverser,
                                     prevCoordinate: Coordinate, 
                                     currCoordinate: Coordinate,
                                     prevMove: Move):
-    # print("explored multiple times", currCoordinate)
-    pass
+    
+    # print("about to explore multiple times", currCoordinate)
+    if currCoordinate.isFirstCol():
+        return False
+    
 
 
 callbackMap = {

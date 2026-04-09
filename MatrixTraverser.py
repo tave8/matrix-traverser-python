@@ -24,6 +24,8 @@ class MatrixTraverser:
         Main user-facing method to run the matrix traversal algorithm. 
         """
 
+        StateManager._setStartCoordinate(self, startCoord)
+
         self.__traverse(
             currCoord=startCoord,
             prevCoord=beforeStartCoord,
@@ -450,7 +452,18 @@ class StateManager:
             # the cells that were visited
             # "visitedCells": []
         }
+        # dummy coordinate, will be overwritten soon
+        self.startCoordinate: Coordinate = Coordinate(-1, -1, isStart=True)
     
+
+    @staticmethod
+    def _setStartCoordinate(mt: MatrixTraverser, coord: Coordinate):        
+        mt.stateManager.startCoordinate = coord
+
+
+    @staticmethod
+    def getStartCoordinate(mt: MatrixTraverser) -> Coordinate:
+        return mt.stateManager.startCoordinate
 
     @staticmethod
     def getUserState(mt: MatrixTraverser) -> dict:
@@ -718,6 +731,9 @@ class Coordinate:
         self.col = col
         self.isStart = isStart
         self.isBeforeStart = isBeforeStart
+    
+    def hasSameCoordinate(self, otherCoord: Coordinate) -> bool:
+        return self.getRow() == otherCoord.getRow() and self.getCol() == otherCoord.getCol()
     
     def isFirstRow(self) -> bool:
         return self.getRow() == Matrix.getFirstRow()
