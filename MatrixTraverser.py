@@ -549,7 +549,7 @@ class Matrix:
         return len(matrix)
 
     @staticmethod
-    def isSquared(matrix: list[list]) -> bool:
+    def isSquare(matrix: list[list]) -> bool:
         return Matrix.getHowManyCols(matrix) == Matrix.getHowManyRows(matrix)
 
     @staticmethod
@@ -617,8 +617,9 @@ class Matrix:
             raise Exception("cannot get middle row of matrix with even number of rows")
         return Matrix.getHowManyRows(matrix) // 2
 
+
     @staticmethod
-    def getRowsBeforeMiddle(matrix: list[list]) -> list[int]:
+    def getRowsNextToMiddle(matrix: list[list]) -> list[int]:
         """
         Returns the indexes of the two rows before the middle row.
         """
@@ -638,7 +639,7 @@ class Matrix:
         ]
 
     @staticmethod
-    def getColsBeforeMiddle(matrix: list[list]) -> list[int]:
+    def getColsNextToMiddle(matrix: list[list]) -> list[int]:
         """
         Returns the indexes of the two cols before the middle col.
         """
@@ -756,18 +757,18 @@ class Coordinate:
         return self.getCol() == Matrix.getMiddleCol(matrix)
 
 
-    def isColBeforeMiddle(self, matrix: list[list]) -> bool:
+    def isColNextToMiddle(self, matrix: list[list]) -> bool:
         """
         Is this col any of the two cols before the middle col?
         """
-        return self.getCol() in Matrix.getColsBeforeMiddle(matrix)
+        return self.getCol() in Matrix.getColsNextToMiddle(matrix)
 
 
-    def isRowBeforeMiddle(self, matrix: list[list]) -> bool:
+    def isRowNextToMiddle(self, matrix: list[list]) -> bool:
         """
         Is this row any of the two rows before the middle row?
         """
-        return self.getRow() in Matrix.getRowsBeforeMiddle(matrix)
+        return self.getRow() in Matrix.getRowsNextToMiddle(matrix)
 
 
     @staticmethod
