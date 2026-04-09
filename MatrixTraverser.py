@@ -50,6 +50,8 @@ class MatrixTraverser:
         if not Matrix.isInsideMatrix(self.matrix, currCoord):
             return
 
+        CallbackManager.beforeVisit(self, prevCoord, currCoord, prevMove)
+
         # if this cell has been visited
         if Matrix.isVisited(self.visited, currCoord):
 
@@ -259,6 +261,26 @@ class CallbackManager:
                                                                 prevMove)
         # if the user did not specify a callback,
         # we don't have to do anything particular here
+
+
+    @staticmethod
+    def beforeVisit(mt: MatrixTraverser, 
+                        prevCoordinate: Coordinate, 
+                        currCoordinate: Coordinate, 
+                        prevMove: Move) -> None:
+        """
+        Before ANY visit of a cell, run this callback.
+        """
+
+        # run the user-defined callback, if exists
+        if FunctionHelper.mapHasFunction("beforeVisit", mt.callbackManager.callbackMap):
+            mt.callbackManager.callbackMap["beforeVisit"](mt, 
+                                                            prevCoordinate, 
+                                                            currCoordinate,
+                                                            prevMove)
+        # if the user did not specify a callback,
+        # we don't have to do anything particular here
+
 
     @staticmethod
     def getNextMoves(mt: MatrixTraverser, 

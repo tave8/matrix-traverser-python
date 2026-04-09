@@ -1,6 +1,14 @@
 """
-PROBLEM: Traverse the matrix in a line.
+PROBLEM: Traverse the matrix in a custom line.
 
+
+    < -------- ^
+    |         / |
+    |       /   |
+    v --------> |
+    |    /      |
+    | /         |
+    v -----------
 
 """
 
@@ -11,8 +19,8 @@ matrix = [
     [11,   10,    9,   8,   7],
     [12,    8,    7,  2,    6],
     [1,    2,    3,  4,    5],
-    [10,   6,    8,  4,    23],
-    [11,   19,   9,   24,  25]
+    [10,   19,    8,  4,    23],
+    [18,   90,   9,   24,  25]
 ]
 
 state = {
@@ -20,7 +28,7 @@ state = {
 }
 
 
-def beforeFirstVisitCallback(mt: MatrixTraverser, 
+def beforeVisitCallback(mt: MatrixTraverser, 
                              prevCoordinate: Coordinate, 
                              currCoordinate: Coordinate,
                              prevMove: Move):
@@ -43,6 +51,11 @@ def getNextMovesCallback(mt: MatrixTraverser,
             Move.RIGHT
         ]
     
+    if prevMove == Move.DIAGONAL_UP_RIGHT:
+        return [
+            Move.DIAGONAL_UP_RIGHT
+        ]
+    
     if currCoord.hasSameCoordinate(StateManager.getStartCoordinate(mt)):
         return [
             Move.DOWN
@@ -58,7 +71,13 @@ def getNextMovesCallback(mt: MatrixTraverser,
         return [
             Move.DOWN
         ]
+
+    if currCoord.isLastRow(mt.matrix) and currCoord.isFirstCol():
+        return [
+            Move.DIAGONAL_UP_RIGHT
+        ] 
     
+ 
 
     if currCoord.isMiddleRow(mt.matrix):
         return [
@@ -99,16 +118,20 @@ def onMultipleVisitMustStopCallback(mt: MatrixTraverser,
                                     currCoordinate: Coordinate,
                                     prevMove: Move):
     
+    # print(currCoordinate)
+
     # print("about to explore multiple times", currCoordinate)
     if currCoordinate.isFirstCol():
         return False
     
+    if currCoordinate.isMiddleRow(mt.matrix):
+        return False
 
 
 callbackMap = {
     "canMove": canMoveCallback,
     "getNextMoves": getNextMovesCallback,
-    "beforeFirstVisit": beforeFirstVisitCallback,
+    "beforeVisit": beforeVisitCallback,
     "onMultipleVisitMustStop": onMultipleVisitMustStopCallback
 }
 
