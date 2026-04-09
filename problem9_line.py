@@ -4,7 +4,7 @@ PROBLEM: Traverse the matrix in a line.
 
 """
 
-from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
+from MatrixTraverser import MatrixTraverser, CallbackManager, StateManager, Coordinate, Move
 
 
 matrix = [
@@ -133,8 +133,8 @@ callbackMap = {
 }
 
 
-stateManager = MatrixTraverserStateManager(state)
-callbackManager = MatrixTraverserCallbackManager(callbackMap)
+stateManager = StateManager(state)
+callbackManager = CallbackManager(callbackMap)
 
 matrixTraverser = MatrixTraverser(
     matrix, 

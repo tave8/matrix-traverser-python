@@ -9,16 +9,16 @@ class MatrixTraverser:
     def __init__(self, 
                  matrix: list[list], 
                  startCoordinate: Coordinate,
-                 callbackManager: MatrixTraverserCallbackManager,  # type: ignore
-                 stateManager: MatrixTraverserStateManager):
+                 callbackManager: CallbackManager,  # type: ignore
+                 stateManager: StateManager):
         
         self.matrix = matrix
         self.visited = MatrixTraverser._generateVisitedMatrix(matrix)
         # best to not swap the order of state manager and callback manager
         # maybe the assumption is that some method in callback manager might
         # depend on the state manager 
-        self.stateManager: MatrixTraverserStateManager = stateManager
-        self.callbackManager: MatrixTraverserCallbackManager = callbackManager
+        self.stateManager: StateManager = stateManager
+        self.callbackManager: CallbackManager = callbackManager
         # set the matrix traverser for the callback manager,
         # so the callback manager knows on which matrix traverser
         # to refer to 
@@ -252,7 +252,7 @@ class MatrixTraverser:
 
 
 
-class MatrixTraverserCallbackManager:
+class CallbackManager:
     """
     An instance of this class is associated with 
     a Matrix Traverser instance, and defines the behavior of 
@@ -306,7 +306,7 @@ class MatrixTraverserCallbackManager:
             return False
 
         # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("canMove", self.callbackMap):
+        if CallbackManager._dictHasFunction("canMove", self.callbackMap):
             userSaysCanMove: bool | None = self.callbackMap["canMove"](self.matrixTraverser, 
                                                                        desiredCoordinate, 
                                                                        prevCoordinate, 
@@ -334,7 +334,7 @@ class MatrixTraverserCallbackManager:
         Before first visit of a cell, run this callback.
         """
         # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("beforeFirstVisit", self.callbackMap):
+        if CallbackManager._dictHasFunction("beforeFirstVisit", self.callbackMap):
             self.callbackMap["beforeFirstVisit"](self.matrixTraverser, 
                                                  prevCoordinate, 
                                                  currCoordinate,
@@ -363,7 +363,7 @@ class MatrixTraverserCallbackManager:
         # and previous coordinate is before start, you could do it here  
 
         # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("getNextMoves", self.callbackMap):
+        if CallbackManager._dictHasFunction("getNextMoves", self.callbackMap):
             nextMoves: list[Move] | None = self.callbackMap["getNextMoves"](self.matrixTraverser, 
                                                                             prevCoordinate, 
                                                                             currCoordinate, 
@@ -371,7 +371,7 @@ class MatrixTraverserCallbackManager:
             # if the user did not return, it means 
             # it's happy with the default moves
             if nextMoves is None:
-                return MatrixTraverserMoves.getDefaultMoves()
+                return Moves.getDefaultMoves()
             
             # check if the returned value is correct
             if not isinstance(nextMoves, list):
@@ -381,7 +381,7 @@ class MatrixTraverserCallbackManager:
 
         # if the user did not provide the getNextMoves callback
         # fall back to the default moves
-        return MatrixTraverserMoves.getDefaultMoves()
+        return Moves.getDefaultMoves()
 
 
 
@@ -448,7 +448,7 @@ class MatrixTraverserCallbackManager:
         """
 
         # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("onMultipleVisitMustStop", self.callbackMap):
+        if CallbackManager._dictHasFunction("onMultipleVisitMustStop", self.callbackMap):
             skip: bool | None = self.callbackMap["onMultipleVisitMustStop"](self.matrixTraverser, 
                                                                             prevCoordinate, 
                                                                             currCoordinate,
@@ -528,7 +528,7 @@ class MatrixTraverserCallbackManager:
     
 
 
-class MatrixTraverserStateManager:
+class StateManager:
     """
     State manager for Matrix Traverser.
 
@@ -544,7 +544,7 @@ class MatrixTraverserStateManager:
             "visitedCells": []
         }
         self.stats = {
-            "byMove": MatrixTraverserStateManager.generateInitialStatsByMove(MatrixTraverserMoves.getAllMoves())
+            "byMove": StateManager.generateInitialStatsByMove(Moves.getAllMoves())
         }
         self.matrixTraverser: MatrixTraverser
         # internal state of the matrix traverser
@@ -605,7 +605,7 @@ class MatrixTraverserStateManager:
     
 
 
-class MatrixTraverserMoves:
+class Moves:
     def __init__(self) -> None:
         pass
     
