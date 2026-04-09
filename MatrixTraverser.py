@@ -13,7 +13,7 @@ class MatrixTraverser:
                  stateManager: StateManager):
         
         self.matrix = matrix
-        self.visited = MatrixTraverser._generateVisitedMatrix(matrix)
+        self.visited = Matrix.generateVisitedMatrixFrom(matrix)
         # best to not swap the order of state manager and callback manager
         # maybe the assumption is that some method in callback manager might
         # depend on the state manager 
@@ -53,11 +53,11 @@ class MatrixTraverser:
         #     return 
 
         # if this cell does not exist (out of matrix)
-        if not self.isInsideMatrix(currCoordinate):
+        if not Matrix.isInsideMatrix(self.matrix, currCoordinate):
             return
 
         # if this cell has been visited
-        if self._isVisited(currCoordinate):
+        if Matrix.isVisited(self.visited, currCoordinate):
 
             if self.callbackManager.onMultipleVisitMustStop(prevCoordinate, currCoordinate, prevMove):
             # ... operations when cell is already visited...
@@ -66,7 +66,7 @@ class MatrixTraverser:
         # because skipping a visited cell is left to the user,
         # we don't know if, when we get here, that cell will have 
         # been visited for the first time or not. so we must do a check
-        if not self._isVisited(currCoordinate):
+        if not Matrix.isVisited(self.visited, currCoordinate):
 
             # if self.callbackManager.canVisit(prevCoordinate, currCoordinate, prevMove):
 
@@ -83,7 +83,7 @@ class MatrixTraverser:
             # we mark cell as visited right before we go in other directions
             # important: after the cell is marked as visited, we should not
             # perform operations that rely on whether the cell is visited or not
-            self._markAsVisited(currCoordinate)
+            Matrix.markAsVisited(self.visited, currCoordinate)
 
             self.stateManager.updateStatsAfterFirstVisit(prevCoordinate, currCoordinate, prevMove)
 
@@ -178,64 +178,94 @@ class MatrixTraverser:
 
 
 
-    def getAtCoordinate(self, coord: Coordinate):
+
+class Matrix:
+
+    @staticmethod
+    def isVisited(visitedMatrix: list[list[int]], 
+                  coord: Coordinate) -> bool:
+        """
+        Checks if the cell at the given coordinate has been
+        visited or not.
+        """
+        # check that given row and col exist in matrix
+        return visitedMatrix[coord.getRow()][coord.getCol()] == 1
+
+
+    @staticmethod
+    def markAsVisited(visitedMatrix: list[list[int]], 
+                      coord: Coordinate) -> None:
+        """
+        Mark the cell at the given coordinates as visited.
+        """
+        val = visitedMatrix[coord.getRow()][coord.getCol()]
+
+        if val != 0:
+            raise Exception(f"cell value had to be 0 when visiting "
+                            +f"cell for the first time, got {val} instead")
+        
+        visitedMatrix[coord.getRow()][coord.getCol()] = 1
+
+
+    @staticmethod
+    def isAMatrix(matrix: list[list]) -> bool:
+        """
+        Is this a matrix? The matrix must have
+        the exact same number of rows and columns.
+        """
+        # FIX 
+        return False
+
+
+    @staticmethod
+    def getAtCoordinate(matrix: list[list], 
+                        coord: Coordinate):
         """
         Get the cell value in the matrix, at the given coordinate.
         """
+
         # cannot access the "before to start" coordinate
         if coord.isBeforeStart:
             raise Exception("cannot access 'before to start' coordinate")
 
         # check if the coordinate exists in the matrix
-        if not self.isInsideMatrix(coord):
+        if not Matrix.isInsideMatrix(matrix, coord):
             raise Exception("the coordinate does not exist in this matrix")
-        return self.matrix[coord.row][coord.col]
+        
+        # check if the row and col exist
+
+        return matrix[coord.getRow()][coord.getCol()]
 
 
-    def _isVisited(self, coordinate: Coordinate) -> bool:
-        """
-        Checks if the cell at the given coordinate has been
-        visited or not.
-        """
-        return self.visited[coordinate.row][coordinate.col] == 1
-
-
-    def _markAsVisited(self, coordinate: Coordinate) -> None:
-        """
-        Mark the cell at the given coordinates as visited,
-        """
-        val = self.visited[coordinate.row][coordinate.col]
-        if val != 0:
-            raise Exception(f"cell value had to be 0 when visiting "
-                            +f"cell for the first time, got {val} instead")
-        self.visited[coordinate.row][coordinate.col] = 1
-
-
-    def isInsideMatrix(self, coordinate: Coordinate) -> bool:
+    @staticmethod
+    def isInsideMatrix(matrix: list[list], 
+                       coordinate: Coordinate) -> bool:
         """
         Checks if the given row and column index
         are inside the given matrix. 
         """
+
         # the coordinate "is before start" is never in the matrix
         if coordinate.isBeforeStart:
             return False
         
-        insideRows = coordinate.row >= 0 and coordinate.row < len(self.matrix)
-        insideCols = coordinate.col >= 0 and coordinate.col < len(self.matrix[0])
+        insideRows = coordinate.getRow() >= 0 and coordinate.getRow() < len(matrix)
+        insideCols = coordinate.getCol() >= 0 and coordinate.getCol() < len(matrix[0])
+
         return insideRows and insideCols
 
 
     @staticmethod
-    def _generateVisitedMatrix(matrix: list[list]) -> list[list]:
+    def generateVisitedMatrixFrom(matrix: list[list]) -> list[list]:
         """
         Generate a "visited matrix" 
         to mark the cells as visited or not.
         """
-        return MatrixTraverser._generate0Matrix(matrix)
+        return Matrix.generate0MatrixFrom(matrix)
 
 
     @staticmethod
-    def _generate0Matrix(matrix: list[list]) -> list[list]:
+    def generate0MatrixFrom(matrix: list[list]) -> list[list]:
         """
         Returns a matrix of 0's, with the same number of rows 
         and columns as the given matrix. 
@@ -300,7 +330,7 @@ class CallbackManager:
         # chances are, it won't be of much use and for sure
         # the cell will not be able to move there
         # however this behavior can be customized
-        if not self.matrixTraverser.isInsideMatrix(desiredCoordinate):
+        if not Matrix.isInsideMatrix(self.matrixTraverser.matrix, desiredCoordinate):
             # ..custom behavior when the current cell is asking if it can move 
             # to a coordinate that is not in the matrix..
             return False

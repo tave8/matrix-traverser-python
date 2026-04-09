@@ -4,7 +4,7 @@ PROBLEM: Traverse the matrix in a line.
 
 """
 
-from MatrixTraverser import MatrixTraverser, CallbackManager, StateManager, Coordinate, Move
+from MatrixTraverser import Matrix, MatrixTraverser, CallbackManager, StateManager, Coordinate, Move
 
 
 matrix = [
@@ -26,9 +26,9 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
                              currCoordinate: Coordinate,
                              prevMove: Move):
     if currCoordinate.isStart:
-        print(f"START: {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
+        print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
     else:
-        print(f"FROM {mt.getAtCoordinate(prevCoordinate)} TO {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
+        print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
     pass
     # print(mt.stateManager.stats)
 
