@@ -16,7 +16,8 @@ matrix = [
 ]
 
 state = {
-    "crossValues": []
+    "crossValues": [],
+    "found15": False 
 }
 
 
@@ -31,11 +32,17 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
     pass
     # print(mt.stateManager.stats)
 
+    if currCoordinate.getRow() == 0 and currCoordinate.getCol == len(mt.matrix)-1:
+        mt.stateManager.state["found15"] = True
+
+
+
 
 def getNextMovesCallback(mt: MatrixTraverser, 
                          prevCoordinate: Coordinate, 
                          currCoordinate: Coordinate,
                          prevMove: Move):
+
 
     # get the row in the middle
     # if currCoordinate.getRow() == len(mt.matrix) // 2:
@@ -44,16 +51,14 @@ def getNextMovesCallback(mt: MatrixTraverser,
     #     ]
 
    # previous move: next moves 
-#    moves = {
-#         Move._BEFORE_START: [Move.RIGHT],
-#         Move.DOWN: [Move.DIAGONAL_UP_RIGHT],
-#         Move.DIAGONAL_UP_RIGHT: [Move.DIAGONAL_UP_RIGHT, Move.RIGHT],
-#         Move.RIGHT: [Move.DIAGONAL_DOWN_LEFT],
-#         Move.DIAGONAL_DOWN_LEFT: [Move.DIAGONAL_DOWN_LEFT, Move.DOWN]
-#     }
+   moves = {
+        Move._BEFORE_START: [Move.RIGHT],
+        Move.RIGHT: [Move.RIGHT, Move.UP],
+        Move.UP: [Move.UP],
+    }
    
-#    return moves[prevMove]
-    pass
+   return moves[prevMove]
+
    
 
 
@@ -62,27 +67,13 @@ def canMoveCallback(mt: MatrixTraverser,
                     prevCoordinate: Coordinate, 
                     currCoordinate: Coordinate,
                     prevMove: Move):
-    pass    
-
-
-
-def canVisitCallback(mt: MatrixTraverser, 
-                    prevCoordinate: Coordinate, 
-                    currCoordinate: Coordinate,
-                    prevMove: Move):
-    
-    
-    # step 1: find the start of the row in the middle
-    # if the horizontal line of the cross is complete, 
-    # if currCoordinate.getRow() == len(mt.matrix) // 2:
-    #     return False
-    
-    # if currCoordinate.getCol() == len(mt.matrix[0]) // 2:
-    #     return False 
     pass
 
 
-def onMultipleVisitStopCallback(mt: MatrixTraverser, 
+
+
+
+def onMultipleVisitMustStopCallback(mt: MatrixTraverser, 
                          prevCoordinate: Coordinate, 
                          currCoordinate: Coordinate,
                          prevMove: Move):
@@ -92,21 +83,53 @@ def onMultipleVisitStopCallback(mt: MatrixTraverser,
     #     return False  
     pass
 
+# def canVisitCallback(mt: MatrixTraverser, 
+#                     prevCoordinate: Coordinate, 
+#                     currCoordinate: Coordinate,
+#                     prevMove: Move):
+    
+    
+#     # step 1: find the start of the row in the middle
+#     # if the horizontal line of the cross is complete, 
+#     # if currCoordinate.getRow() == len(mt.matrix) // 2:
+#     #     return False
+    
+#     # if currCoordinate.getCol() == len(mt.matrix[0]) // 2:
+#     #     return False 
+#     pass
 
-def canEndCallback(mt: MatrixTraverser, 
-                         prevCoordinate: Coordinate, 
-                         currCoordinate: Coordinate,
-                         prevMove: Move):
-    return False 
+# def canEndCallback(mt: MatrixTraverser, 
+#                          prevCoordinate: Coordinate, 
+#                          currCoordinate: Coordinate,
+#                          prevMove: Move):
+    
+#     # if mt.getAtCoordinate(currCoordinate) == 3:
+#     #     if "numbers" not in mt.stateManager.state:
+#     #         mt.stateManager.state["foundCells"] = [currCoordinate]
+#     #     else:
+#     #         mt.stateManager.state["foundCells"].append(currCoordinate)
+#     #     return True 
+
+#     if "found15" not in mt.stateManager.state:
+#         return False 
+
+#     if mt.stateManager.state["found15"]:
+#         return True     
+
+
+# def onEndCallback(mt: MatrixTraverser):
+#     # print(mt.stateManager.state["foundCells"])
+#     pass
 
 
 callbackMap = {
     "canMove": canMoveCallback,
     "getNextMoves": getNextMovesCallback,
     "beforeFirstVisit": beforeFirstVisitCallback,
-    "canVisit": canVisitCallback,
-    "onMultipleVisitStop": onMultipleVisitStopCallback,
-    "canEnd": canEndCallback
+    "onMultipleVisitMustStop": onMultipleVisitMustStopCallback,
+    # "canVisit": canVisitCallback,
+    # "canEnd": canEndCallback,
+    # "onEnd": onEndCallback,
 }
 
 
@@ -115,20 +138,24 @@ callbackManager = MatrixTraverserCallbackManager(callbackMap)
 
 matrixTraverser = MatrixTraverser(
     matrix, 
-    Coordinate(0, 0),
+    Coordinate(2, 0),
     callbackManager,
     stateManager
 )
 
 
-def findOneCallback(findOneMt: MatrixTraverser, 
-                    prevCoordinate, 
-                    currCoordinate, 
-                    prevMove) -> bool:
-    # find cell with value 3
-    if findOneMt.getAtCoordinate(currCoordinate) == 3:
-        return True 
-    return False 
+# def findOneCallback(findOneMt: MatrixTraverser, 
+#                     prevCoordinate, 
+#                     currCoordinate, 
+#                     prevMove) -> bool:
+#     # find cell with value 3
+#     # if findOneMt.getAtCoordinate(currCoordinate) == 3:
+#     #     print("found value", currCoordinate,findOneMt.getAtCoordinate(currCoordinate) )
+#     #     return True 
+#     if currCoordinate.getRow() == len(findOneMt.matrix) // 2:
+#         print(currCoordinate)
+#         return True 
+#     return False 
 
 # for now you cannot call the method more than once
 matrixTraverser.traverseMatrix()

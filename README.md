@@ -59,3 +59,76 @@ def canMoveCallback(mt: MatrixTraverser,
 ## beforeFirstVisit
 
 ## getNextMoves
+
+
+
+
+# Entity design
+
+```
+MatrixTraverser
+    matrix
+    visited
+    stateManager
+    callbackManager
+    traverseMatrix(): public
+    traverse(): private
+    findOne(): public
+    getAtCoordinate(): public
+    isVisited(): private
+    markAsVisited(): private
+    isInsideMatrix(): public
+    generateVisitedMatrix(): public, static
+    generate0Matrix(): public, static
+
+CallbackManager
+    callbackMap
+    matrixTraverser
+    canMove(): 
+    beforeFirstVisit():
+    getNextMoves():
+    canVisit():
+    onMultipleVisitMustStop():
+    canEnd():
+    onEnd():
+    dictHasFunction(): public, static
+
+StateManager
+    userState
+    state
+    stats
+    matrixTraverser
+    startCoordinate
+    beforeStartCoordinate
+
+Moves
+    getDefaultMoves(): public, static
+    getAllMoves(): public, static
+
+Coordinate
+    row
+    col
+    isStart
+    isBeforeStart
+    up()
+    down()
+    left()
+    right()
+    diagonalUpRight()
+    diagonalDownRight()
+    diagonalUpLeft()
+    diagonalDownLeft()
+    clone()
+
+Move 
+    _BEFORE_START
+    UP
+    DIAGONAL_UP_RIGHT
+    RIGHT
+    DIAGONAL_DOWN_RIGHT
+    DOWN
+    DIAGONAL_DOWN_LEFT
+    LEFT
+    DIAGONAL_UP_LEFT
+
+```

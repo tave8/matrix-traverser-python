@@ -48,9 +48,9 @@ class MatrixTraverser:
         """
 
         # if you can end the algorithm now
-        if self.callbackManager.canEnd(prevCoordinate, currCoordinate, prevMove):
-            self.callbackManager.onEnd()
-            return 
+        # if self.callbackManager.canEnd(prevCoordinate, currCoordinate, prevMove):
+        #     self.callbackManager.onEnd()
+        #     return 
 
         # if this cell does not exist (out of matrix)
         if not self.isInsideMatrix(currCoordinate):
@@ -59,7 +59,7 @@ class MatrixTraverser:
         # if this cell has been visited
         if self._isVisited(currCoordinate):
 
-            if self.callbackManager.onMultipleVisitStop(prevCoordinate, currCoordinate, prevMove):
+            if self.callbackManager.onMultipleVisitMustStop(prevCoordinate, currCoordinate, prevMove):
             # ... operations when cell is already visited...
                 return 
         
@@ -68,24 +68,24 @@ class MatrixTraverser:
         # been visited for the first time or not. so we must do a check
         if not self._isVisited(currCoordinate):
 
-            if self.callbackManager.canVisit(prevCoordinate, currCoordinate, prevMove):
+            # if self.callbackManager.canVisit(prevCoordinate, currCoordinate, prevMove):
 
-                self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate, prevMove)
+            self.callbackManager.beforeFirstVisit(prevCoordinate, currCoordinate, prevMove)
 
-                # *******************************************+++
-                # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
-                # you can perform more custom operations here, 
-                # before marking the cell as visited and then moving
-                # to maybe other cells
+            # *******************************************+++
+            # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
+            # you can perform more custom operations here, 
+            # before marking the cell as visited and then moving
+            # to maybe other cells
 
 
-                # after we've performed custom operations on this cell, 
-                # we mark cell as visited right before we go in other directions
-                # important: after the cell is marked as visited, we should not
-                # perform operations that rely on whether the cell is visited or not
-                self._markAsVisited(currCoordinate)
+            # after we've performed custom operations on this cell, 
+            # we mark cell as visited right before we go in other directions
+            # important: after the cell is marked as visited, we should not
+            # perform operations that rely on whether the cell is visited or not
+            self._markAsVisited(currCoordinate)
 
-                self.stateManager.updateStatsAfterFirstVisit(prevCoordinate, currCoordinate, prevMove)
+            self.stateManager.updateStatsAfterFirstVisit(prevCoordinate, currCoordinate, prevMove)
 
         # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
         # *******************************************+++
@@ -138,41 +138,42 @@ class MatrixTraverser:
                     self._traverse(currCoordinate.diagonalUpLeft(), currCoordinate, Move.DIAGONAL_UP_LEFT)
                 
 
-    def findOne(self, findOneCallback, startFromCoordinate: Coordinate) -> Coordinate:
-        """
-        Find the first cell that makes the given callback evaluate to true. 
-        """
+    # def findOne(self, findOneCallback, startFromCoordinate: Coordinate) -> Coordinate:
+    #     """
+    #     Find the first cell that makes the given callback evaluate to true. 
+    #     """
 
-        if not isfunction(findOneCallback):
-            raise Exception("findOneCallback must be a function")
+    #     if not isfunction(findOneCallback):
+    #         raise Exception("findOneCallback must be a function")
         
-        def canEndCallback(findOneMt: MatrixTraverser, 
-                            prevCoordinate: Coordinate, 
-                            currCoordinate: Coordinate,
-                            prevMove: Move) -> bool:
+    #     def canEndCallback(findOneMt: MatrixTraverser, 
+    #                         prevCoordinate: Coordinate, 
+    #                         currCoordinate: Coordinate,
+    #                         prevMove: Move) -> bool:
             
-            if findOneCallback(findOneMt, prevCoordinate, currCoordinate, prevMove):
-                return True 
-            return False 
+    #         if findOneCallback(findOneMt, prevCoordinate, currCoordinate, prevMove):
+    #             return True 
+    #         return False 
     
 
-        def onEndCallback(findOneMt: MatrixTraverser):
-            print("ended findOne")
+    #     def onEndCallback(findOneMt: MatrixTraverser):
+    #         # print("ended findOne")
+    #         pass
         
 
-        callbackMapOfFindOne = {
-            "canEnd": canEndCallback,
-            "onEnd": onEndCallback
-        }
+    #     callbackMapOfFindOne = {
+    #         "canEnd": canEndCallback,
+    #         "onEnd": onEndCallback
+    #     }
 
-        matrixTraverserOfFindOne = MatrixTraverser(self.matrix, 
-                                                    startFromCoordinate,
-                                                    MatrixTraverserCallbackManager(callbackMapOfFindOne),
-                                                    MatrixTraverserStateManager({}))
+    #     matrixTraverserOfFindOne = MatrixTraverser(self.matrix, 
+    #                                                 startFromCoordinate,
+    #                                                 MatrixTraverserCallbackManager(callbackMapOfFindOne),
+    #                                                 MatrixTraverserStateManager({}))
         
-        matrixTraverserOfFindOne.traverseMatrix()
+    #     matrixTraverserOfFindOne.traverseMatrix()
 
-        matrixTraverserOfFindOne.callbackManager.onEnd()
+    #     matrixTraverserOfFindOne.callbackManager.onEnd()
 
 
 
@@ -384,45 +385,45 @@ class MatrixTraverserCallbackManager:
 
 
 
-    def canVisit(self, 
-                prevCoordinate: Coordinate, 
-                currCoordinate: Coordinate,
-                prevMove: Move) -> bool:
-        """
-        Do I mark as visited this cell? 
-        This is useful when we want our algorithm to keep exploring
-        until the specific cells that meet certain criteria are found.
-        This allows the algorithm to effectively "explore but not visit".
+    # def canVisit(self, 
+    #             prevCoordinate: Coordinate, 
+    #             currCoordinate: Coordinate,
+    #             prevMove: Move) -> bool:
+    #     """
+    #     Do I mark as visited this cell? 
+    #     This is useful when we want our algorithm to keep exploring
+    #     until the specific cells that meet certain criteria are found.
+    #     This allows the algorithm to effectively "explore but not visit".
 
-        In conjuction with onMultipleVisitStop, it can be used to express
-        logic like "visit a cell only if.." and "if it's been visited, continue anyway".
+    #     In conjuction with onMultipleVisitMustStop, it can be used to express
+    #     logic like "visit a cell only if.." and "if it's been visited, continue anyway".
 
-        NOTE: If we never visit any cell, the algorithm will never terminate.
-        """
+    #     NOTE: If we never visit any cell, the algorithm will never terminate.
+    #     """
 
-        # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("canVisit", self.callbackMap):
-            userSaysCanVisit: bool | None = self.callbackMap["canVisit"](self.matrixTraverser, 
-                                                                            prevCoordinate, 
-                                                                            currCoordinate,
-                                                                            prevMove)
-            # if the user did not return, it means 
-            # it's happy with this cell being visited, 
-            # which is the default behavior
-            if userSaysCanVisit is None:
-                return True
+    #     # run the user-defined callback, if exists
+    #     if MatrixTraverserCallbackManager._dictHasFunction("canVisit", self.callbackMap):
+    #         userSaysCanVisit: bool | None = self.callbackMap["canVisit"](self.matrixTraverser, 
+    #                                                                         prevCoordinate, 
+    #                                                                         currCoordinate,
+    #                                                                         prevMove)
+    #         # if the user did not return, it means 
+    #         # it's happy with this cell being visited, 
+    #         # which is the default behavior
+    #         if userSaysCanVisit is None:
+    #             return True
             
-            # check if the returned value is correct
-            if not isinstance(userSaysCanVisit, bool):
-                raise Exception("userSaysCanVisit must be of type bool")
+    #         # check if the returned value is correct
+    #         if not isinstance(userSaysCanVisit, bool):
+    #             raise Exception("userSaysCanVisit must be of type bool")
             
-            return userSaysCanVisit
+    #         return userSaysCanVisit
 
-        # by default, we always visit a cell
-        return True 
+    #     # by default, we always visit a cell
+    #     return True 
     
 
-    def onMultipleVisitStop(self, 
+    def onMultipleVisitMustStop(self, 
                      prevCoordinate: Coordinate, 
                      currCoordinate: Coordinate, 
                      prevMove: Move) -> bool:
@@ -447,8 +448,8 @@ class MatrixTraverserCallbackManager:
         """
 
         # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("onMultipleVisitStop", self.callbackMap):
-            skip: bool | None = self.callbackMap["onMultipleVisitStop"](self.matrixTraverser, 
+        if MatrixTraverserCallbackManager._dictHasFunction("onMultipleVisitMustStop", self.callbackMap):
+            skip: bool | None = self.callbackMap["onMultipleVisitMustStop"](self.matrixTraverser, 
                                                                             prevCoordinate, 
                                                                             currCoordinate,
                                                                             prevMove)
@@ -475,47 +476,47 @@ class MatrixTraverserCallbackManager:
         return True
     
 
-    def canEnd(self, 
-                prevCoordinate: Coordinate, 
-                currCoordinate: Coordinate,
-                prevMove: Move) -> bool:
-        """
-        Can I end the algorithm right now?
+    # def canEnd(self, 
+    #             prevCoordinate: Coordinate, 
+    #             currCoordinate: Coordinate,
+    #             prevMove: Move) -> bool:
+    #     """
+    #     Can I end the algorithm right now?
         
-        By default the algorithm will terminate only 
-        when all cells will be visited. We can prevent that 
-        and decide the end of the algorithm.
-        """
+    #     By default the algorithm will terminate only 
+    #     when all cells will be visited. We can prevent that 
+    #     and decide the end of the algorithm.
+    #     """
 
-        # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("canEnd", self.callbackMap):
-            userSaysCanEnd: bool | None = self.callbackMap["canEnd"](self.matrixTraverser, 
-                                                                            prevCoordinate, 
-                                                                            currCoordinate,
-                                                                            prevMove)
-            # if the user did not return, it means 
-            # it's happy with not ending the algorithm
-            if userSaysCanEnd is None:
-                return False
+    #     # run the user-defined callback, if exists
+    #     if MatrixTraverserCallbackManager._dictHasFunction("canEnd", self.callbackMap):
+    #         userSaysCanEnd: bool | None = self.callbackMap["canEnd"](self.matrixTraverser, 
+    #                                                                         prevCoordinate, 
+    #                                                                         currCoordinate,
+    #                                                                         prevMove)
+    #         # if the user did not return, it means 
+    #         # it's happy with not ending the algorithm
+    #         if userSaysCanEnd is None:
+    #             return False
             
-            # check if the returned value is correct
-            if not isinstance(userSaysCanEnd, bool):
-                raise Exception("userSaysCanEnd must be of type bool")
+    #         # check if the returned value is correct
+    #         if not isinstance(userSaysCanEnd, bool):
+    #             raise Exception("userSaysCanEnd must be of type bool")
             
-            return userSaysCanEnd
+    #         return userSaysCanEnd
 
-        # by default, we don't end the algorithm
-        return False
+    #     # by default, we don't end the algorithm
+    #     return False
     
 
-    def onEnd(self) -> None:
-        """
-        What should happen right before the algorithm terminates?
-        """
+    # def onEnd(self) -> None:
+    #     """
+    #     What should happen right before the algorithm terminates?
+    #     """
 
-        # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("onEnd", self.callbackMap):
-            self.callbackMap["onEnd"](self.matrixTraverser)
+    #     # run the user-defined callback, if exists
+    #     if MatrixTraverserCallbackManager._dictHasFunction("onEnd", self.callbackMap):
+    #         self.callbackMap["onEnd"](self.matrixTraverser)
 
 
 

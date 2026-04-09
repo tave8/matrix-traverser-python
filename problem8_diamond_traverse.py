@@ -54,7 +54,8 @@ def getNextMovesCallback(mt: MatrixTraverser,
 def canMoveCallback(mt: MatrixTraverser, 
                     desiredCoordinate: Coordinate, 
                     prevCoordinate: Coordinate, 
-                    currCoordinate: Coordinate):
+                    currCoordinate: Coordinate,
+                    prevMove: Move):
     pass    
 
 
