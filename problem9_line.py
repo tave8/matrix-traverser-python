@@ -1,5 +1,5 @@
 """
-PROBLEM: Traverse the matrix in a cross.
+PROBLEM: Traverse the matrix in a line.
 
 
 """
@@ -38,10 +38,10 @@ def getNextMovesCallback(mt: MatrixTraverser,
                          prevMove: Move):
 
     # get the row in the middle
-    if currCoordinate.getRow() == len(mt.matrix) // 2:
-        return [
-            Move.RIGHT
-        ]
+    # if currCoordinate.getRow() == len(mt.matrix) // 2:
+    #     return [
+    #         Move.RIGHT
+    #     ]
 
    # previous move: next moves 
 #    moves = {
@@ -82,7 +82,7 @@ def canVisitCallback(mt: MatrixTraverser,
     pass
 
 
-def onMultipleVisitSkipCallback(mt: MatrixTraverser, 
+def onMultipleVisitStopCallback(mt: MatrixTraverser, 
                          prevCoordinate: Coordinate, 
                          currCoordinate: Coordinate,
                          prevMove: Move):
@@ -105,7 +105,7 @@ callbackMap = {
     "getNextMoves": getNextMovesCallback,
     "beforeFirstVisit": beforeFirstVisitCallback,
     "canVisit": canVisitCallback,
-    "onMultipleVisitSkip": onMultipleVisitSkipCallback,
+    "onMultipleVisitStop": onMultipleVisitStopCallback,
     "canEnd": canEndCallback
 }
 
@@ -120,13 +120,23 @@ matrixTraverser = MatrixTraverser(
     stateManager
 )
 
+
+def findOneCallback(findOneMt: MatrixTraverser, 
+                    prevCoordinate, 
+                    currCoordinate, 
+                    prevMove) -> bool:
+    # find cell with value 3
+    if findOneMt.getAtCoordinate(currCoordinate) == 3:
+        return True 
+    return False 
+
 # for now you cannot call the method more than once
 matrixTraverser.traverseMatrix()
-
+# matrixTraverser.findOne(findOneCallback, Coordinate(0, 0))
 
 # for move, moveStats in matrixTraverser.stateManager.stats["byMove"].items():
 #     print()
 #     print(f"{move}: {moveStats}")
 #     print()
 
-print(state)
+# print(state)

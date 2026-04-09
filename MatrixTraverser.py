@@ -24,7 +24,7 @@ class MatrixTraverser:
         # to refer to 
         self.stateManager._setMatrixTraverser(self)
         self.callbackManager._setMatrixTraverser(self)
-        self.stateManager._setStartCoordinate(startCoordinate)
+        self.stateManager._setStartCoordinate(startCoordinate.clone())
 
 
     def traverseMatrix(self) -> None:
@@ -49,6 +49,7 @@ class MatrixTraverser:
 
         # if you can end the algorithm now
         if self.callbackManager.canEnd(prevCoordinate, currCoordinate, prevMove):
+            self.callbackManager.onEnd()
             return 
 
         # if this cell does not exist (out of matrix)
@@ -58,7 +59,7 @@ class MatrixTraverser:
         # if this cell has been visited
         if self._isVisited(currCoordinate):
 
-            if self.callbackManager.onMultipleVisitSkip(prevCoordinate, currCoordinate, prevMove):
+            if self.callbackManager.onMultipleVisitStop(prevCoordinate, currCoordinate, prevMove):
             # ... operations when cell is already visited...
                 return 
         
@@ -136,6 +137,43 @@ class MatrixTraverser:
                 if self.callbackManager.canMove(currCoordinate.diagonalUpLeft(), prevCoordinate, currCoordinate, prevMove):
                     self._traverse(currCoordinate.diagonalUpLeft(), currCoordinate, Move.DIAGONAL_UP_LEFT)
                 
+
+    def findOne(self, findOneCallback, startFromCoordinate: Coordinate) -> Coordinate:
+        """
+        Find the first cell that makes the given callback evaluate to true. 
+        """
+
+        if not isfunction(findOneCallback):
+            raise Exception("findOneCallback must be a function")
+        
+        def canEndCallback(findOneMt: MatrixTraverser, 
+                            prevCoordinate: Coordinate, 
+                            currCoordinate: Coordinate,
+                            prevMove: Move) -> bool:
+            
+            if findOneCallback(findOneMt, prevCoordinate, currCoordinate, prevMove):
+                return True 
+            return False 
+    
+
+        def onEndCallback(findOneMt: MatrixTraverser):
+            print("ended findOne")
+        
+
+        callbackMapOfFindOne = {
+            "canEnd": canEndCallback,
+            "onEnd": onEndCallback
+        }
+
+        matrixTraverserOfFindOne = MatrixTraverser(self.matrix, 
+                                                    startFromCoordinate,
+                                                    MatrixTraverserCallbackManager(callbackMapOfFindOne),
+                                                    MatrixTraverserStateManager({}))
+        
+        matrixTraverserOfFindOne.traverseMatrix()
+
+        matrixTraverserOfFindOne.callbackManager.onEnd()
+
 
 
 
@@ -356,7 +394,7 @@ class MatrixTraverserCallbackManager:
         until the specific cells that meet certain criteria are found.
         This allows the algorithm to effectively "explore but not visit".
 
-        In conjuction with onMultipleVisitSkip, it can be used to express
+        In conjuction with onMultipleVisitStop, it can be used to express
         logic like "visit a cell only if.." and "if it's been visited, continue anyway".
 
         NOTE: If we never visit any cell, the algorithm will never terminate.
@@ -384,7 +422,7 @@ class MatrixTraverserCallbackManager:
         return True 
     
 
-    def onMultipleVisitSkip(self, 
+    def onMultipleVisitStop(self, 
                      prevCoordinate: Coordinate, 
                      currCoordinate: Coordinate, 
                      prevMove: Move) -> bool:
@@ -409,8 +447,8 @@ class MatrixTraverserCallbackManager:
         """
 
         # run the user-defined callback, if exists
-        if MatrixTraverserCallbackManager._dictHasFunction("onMultipleVisitSkip", self.callbackMap):
-            skip: bool | None = self.callbackMap["onMultipleVisitSkip"](self.matrixTraverser, 
+        if MatrixTraverserCallbackManager._dictHasFunction("onMultipleVisitStop", self.callbackMap):
+            skip: bool | None = self.callbackMap["onMultipleVisitStop"](self.matrixTraverser, 
                                                                             prevCoordinate, 
                                                                             currCoordinate,
                                                                             prevMove)
@@ -469,6 +507,15 @@ class MatrixTraverserCallbackManager:
         # by default, we don't end the algorithm
         return False
     
+
+    def onEnd(self) -> None:
+        """
+        What should happen right before the algorithm terminates?
+        """
+
+        # run the user-defined callback, if exists
+        if MatrixTraverserCallbackManager._dictHasFunction("onEnd", self.callbackMap):
+            self.callbackMap["onEnd"](self.matrixTraverser)
 
 
 
@@ -620,6 +667,9 @@ class Coordinate:
     
     def diagonalDownLeft(self) -> Coordinate:
         return Coordinate(self.row+1, self.col-1)
+
+    def clone(self) -> Coordinate:
+        return Coordinate(self.getRow(), self.getCol(), self.isStart, self.isBeforeStart)
 
     def __str__(self) -> str:
         flags = []
