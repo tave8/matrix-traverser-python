@@ -53,8 +53,8 @@ def getNextMovesCallback(mt: MatrixTraverser,
    # previous move: next moves 
    moves = {
         Move._BEFORE_START: [Move.RIGHT],
-        Move.RIGHT: [Move.RIGHT, Move.UP],
-        Move.UP: [Move.UP],
+        Move.RIGHT: [Move.RIGHT],
+        # Move.UP: [Move.UP],
     }
    
    return moves[prevMove]
@@ -73,15 +73,15 @@ def canMoveCallback(mt: MatrixTraverser,
 
 
 
-def onMultipleVisitMustStopCallback(mt: MatrixTraverser, 
-                         prevCoordinate: Coordinate, 
-                         currCoordinate: Coordinate,
-                         prevMove: Move):
-    # skip the visited cells that are part of the circle
-    # so you can move freely through them
-    # if(mt.getAtCoordinate(currCoordinate)) > 0:
-    #     return False  
-    pass
+# def onMultipleVisitMustStopCallback(mt: MatrixTraverser, 
+#                          prevCoordinate: Coordinate, 
+#                          currCoordinate: Coordinate,
+#                          prevMove: Move):
+#     # skip the visited cells that are part of the circle
+#     # so you can move freely through them
+#     # if(mt.getAtCoordinate(currCoordinate)) > 0:
+#     #     return False  
+#     pass
 
 # def canVisitCallback(mt: MatrixTraverser, 
 #                     prevCoordinate: Coordinate, 
@@ -126,7 +126,7 @@ callbackMap = {
     "canMove": canMoveCallback,
     "getNextMoves": getNextMovesCallback,
     "beforeFirstVisit": beforeFirstVisitCallback,
-    "onMultipleVisitMustStop": onMultipleVisitMustStopCallback,
+    # "onMultipleVisitMustStop": onMultipleVisitMustStopCallback,
     # "canVisit": canVisitCallback,
     # "canEnd": canEndCallback,
     # "onEnd": onEndCallback,

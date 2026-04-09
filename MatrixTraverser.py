@@ -8,16 +8,13 @@ class MatrixTraverser:
 
     def __init__(self, 
                  matrix: list[list], 
-                 userCallbackMap: dict,  # type: ignore
-                 userState: dict):
+                 userCallbackMap: dict = {}, 
+                 userState: dict = {}):
         
         self.matrix = matrix
         self.visited = Matrix.generateVisitedMatrixFrom(matrix)
-        # best to not swap the order of state manager and callback manager
-        # maybe the assumption is that some method in callback manager might
-        # depend on the state manager 
-        self.stateManager: StateManager = StateManager(userState)
-        self.callbackManager: CallbackManager = CallbackManager(userCallbackMap)
+        self.stateManager = StateManager(userState)
+        self.callbackManager = CallbackManager(userCallbackMap)
 
 
     def traverseMatrix(self, 
@@ -86,7 +83,7 @@ class MatrixTraverser:
         # *******************************************+++
 
         # GET THE MOVES OF THIS CELL
-        nextMoves: list[Move] = CallbackManager.getNextMoves(self, prevCoord, currCoord, prevMove)
+        nextMoves = CallbackManager.getNextMoves(self, prevCoord, currCoord, prevMove)
 
         # MOVE THROUGH THE MOVES
         # move in the order that was specified
@@ -172,111 +169,6 @@ class MatrixTraverser:
 
 
 
-
-
-class Matrix:
-
-    @staticmethod
-    def isVisited(visitedMatrix: list[list[int]], 
-                  coord: Coordinate) -> bool:
-        """
-        Checks if the cell at the given coordinate has been
-        visited or not.
-        """
-        # check that given row and col exist in matrix
-        return visitedMatrix[coord.getRow()][coord.getCol()] == 1
-
-
-    @staticmethod
-    def markAsVisited(visitedMatrix: list[list[int]], 
-                      coord: Coordinate) -> None:
-        """
-        Mark the cell at the given coordinates as visited.
-        """
-        val = visitedMatrix[coord.getRow()][coord.getCol()]
-
-        if val != 0:
-            raise Exception(f"cell value had to be 0 when visiting "
-                            +f"cell for the first time, got {val} instead")
-        
-        visitedMatrix[coord.getRow()][coord.getCol()] = 1
-
-
-    @staticmethod
-    def isAMatrix(matrix: list[list]) -> bool:
-        """
-        Is this a matrix? The matrix must have
-        the exact same number of rows and columns.
-        """
-        # FIX 
-        return False
-
-
-    @staticmethod
-    def getAtCoordinate(matrix: list[list], 
-                        coord: Coordinate):
-        """
-        Get the cell value in the matrix, at the given coordinate.
-        """
-
-        # cannot access the "before to start" coordinate
-        if coord.isBeforeStart:
-            raise Exception("cannot access 'before to start' coordinate")
-
-        # check if the coordinate exists in the matrix
-        if not Matrix.isInsideMatrix(matrix, coord):
-            raise Exception("the coordinate does not exist in this matrix")
-        
-        # check if the row and col exist
-
-        return matrix[coord.getRow()][coord.getCol()]
-
-
-    @staticmethod
-    def isInsideMatrix(matrix: list[list], 
-                       coordinate: Coordinate) -> bool:
-        """
-        Checks if the given row and column index
-        are inside the given matrix. 
-        """
-
-        # the coordinate "is before start" is never in the matrix
-        if coordinate.isBeforeStart:
-            return False
-        
-        insideRows = coordinate.getRow() >= 0 and coordinate.getRow() < len(matrix)
-        insideCols = coordinate.getCol() >= 0 and coordinate.getCol() < len(matrix[0])
-
-        return insideRows and insideCols
-
-
-    @staticmethod
-    def generateVisitedMatrixFrom(matrix: list[list]) -> list[list]:
-        """
-        Generate a "visited matrix" 
-        to mark the cells as visited or not.
-        """
-        return Matrix.generate0MatrixFrom(matrix)
-
-
-    @staticmethod
-    def generate0MatrixFrom(matrix: list[list]) -> list[list]:
-        """
-        Returns a matrix of 0's, with the same number of rows 
-        and columns as the given matrix. 
-        """
-        ret = []
-        for i in range(len(matrix)):
-            row = []
-            for j in range(len(matrix[0])):
-                row.append(0)
-            ret.append(row)
-        return ret
-
-
-
-
-
 class CallbackManager:
     """
     Defines the behavior of 
@@ -323,7 +215,7 @@ class CallbackManager:
             return False
 
         # run the user-defined callback, if exists
-        if CallbackManager._dictHasFunction("canMove", mt.callbackManager.callbackMap):
+        if FunctionHelper.mapHasFunction("canMove", mt.callbackManager.callbackMap):
             userSaysCanMove: bool | None = mt.callbackManager.callbackMap["canMove"](mt, 
                                                                                     desiredCoordinate, 
                                                                                     prevCoordinate, 
@@ -354,7 +246,7 @@ class CallbackManager:
         """
 
         # run the user-defined callback, if exists
-        if CallbackManager._dictHasFunction("beforeFirstVisit", mt.callbackManager.callbackMap):
+        if FunctionHelper.mapHasFunction("beforeFirstVisit", mt.callbackManager.callbackMap):
             mt.callbackManager.callbackMap["beforeFirstVisit"](mt, 
                                                                 prevCoordinate, 
                                                                 currCoordinate,
@@ -383,7 +275,7 @@ class CallbackManager:
         # and previous coordinate is before start, you could do it here  
 
         # run the user-defined callback, if exists
-        if CallbackManager._dictHasFunction("getNextMoves", mt.callbackManager.callbackMap):
+        if FunctionHelper.mapHasFunction("getNextMoves", mt.callbackManager.callbackMap):
             nextMoves: list[Move] | None = mt.callbackManager.callbackMap["getNextMoves"](mt, 
                                                                                         prevCoordinate, 
                                                                                         currCoordinate, 
@@ -540,13 +432,6 @@ class CallbackManager:
 
 
 
-    @staticmethod
-    def _dictHasFunction(key: str, map: dict[str, any]) -> bool: # type: ignore
-        return key in map and isfunction(map[key])
-
-
-    
-
 
 class StateManager:
     """
@@ -570,6 +455,110 @@ class StateManager:
         """
         return mt.stateManager.userState
     
+
+
+
+
+class Matrix:
+
+    @staticmethod
+    def isVisited(visitedMatrix: list[list[int]], 
+                  coord: Coordinate) -> bool:
+        """
+        Checks if the cell at the given coordinate has been
+        visited or not.
+        """
+        # check that given row and col exist in matrix
+        return visitedMatrix[coord.getRow()][coord.getCol()] == 1
+
+
+    @staticmethod
+    def markAsVisited(visitedMatrix: list[list[int]], 
+                      coord: Coordinate) -> None:
+        """
+        Mark the cell at the given coordinates as visited.
+        """
+        val = visitedMatrix[coord.getRow()][coord.getCol()]
+
+        if val != 0:
+            raise Exception(f"cell value had to be 0 when visiting "
+                            +f"cell for the first time, got {val} instead")
+        
+        visitedMatrix[coord.getRow()][coord.getCol()] = 1
+
+
+    @staticmethod
+    def isAMatrix(matrix: list[list]) -> bool:
+        """
+        Is this a matrix? The matrix must have
+        the exact same number of rows and columns.
+        """
+        # FIX 
+        return False
+
+
+    @staticmethod
+    def getAtCoordinate(matrix: list[list], 
+                        coord: Coordinate):
+        """
+        Get the cell value in the matrix, at the given coordinate.
+        """
+
+        # cannot access the "before to start" coordinate
+        if coord.isBeforeStart:
+            raise Exception("cannot access 'before to start' coordinate")
+
+        # check if the coordinate exists in the matrix
+        if not Matrix.isInsideMatrix(matrix, coord):
+            raise Exception("the coordinate does not exist in this matrix")
+        
+        # check if the row and col exist
+
+        return matrix[coord.getRow()][coord.getCol()]
+
+
+    @staticmethod
+    def isInsideMatrix(matrix: list[list], 
+                       coordinate: Coordinate) -> bool:
+        """
+        Checks if the given row and column index
+        are inside the given matrix. 
+        """
+
+        # the coordinate "is before start" is never in the matrix
+        if coordinate.isBeforeStart:
+            return False
+        
+        insideRows = coordinate.getRow() >= 0 and coordinate.getRow() < len(matrix)
+        insideCols = coordinate.getCol() >= 0 and coordinate.getCol() < len(matrix[0])
+
+        return insideRows and insideCols
+
+
+    @staticmethod
+    def generateVisitedMatrixFrom(matrix: list[list]) -> list[list[int]]:
+        """
+        Generate a "visited matrix" 
+        to mark the cells as visited or not.
+        """
+        return Matrix.generate0MatrixFrom(matrix)
+
+
+    @staticmethod
+    def generate0MatrixFrom(matrix: list[list]) -> list[list[int]]:
+        """
+        Returns a matrix of 0's, with the same number of rows 
+        and columns as the given matrix. 
+        """
+        ret = []
+        for i in range(len(matrix)):
+            row = []
+            for j in range(len(matrix[0])):
+                row.append(0)
+            ret.append(row)
+        return ret
+
+
 
 
 class Moves:
@@ -679,6 +668,23 @@ class Move(Enum):
     DIAGONAL_DOWN_LEFT = "diagonal-down-left"
     LEFT = "left"
     DIAGONAL_UP_LEFT = "diagonal-up-left"
+
+
+
+class FunctionHelper:
+    
+    @staticmethod
+    def mapHasFunction(key: str, _map: dict[str, any]) -> bool: # type: ignore
+        """
+        Does the given dictionary, at the given key,
+        have a function as value?
+        """
+        if not isinstance(_map, dict):
+            raise Exception("the given map is not a dictionary")
+         
+        return key in _map and isfunction(_map[key])
+
+
 
 
 # class VisitStrategy(Enum):
