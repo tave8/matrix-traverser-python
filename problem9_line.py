@@ -39,25 +39,32 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
 
 
 def getNextMovesCallback(mt: MatrixTraverser, 
-                         prevCoordinate: Coordinate, 
-                         currCoordinate: Coordinate,
+                         prevCoord: Coordinate, 
+                         currCoord: Coordinate,
                          prevMove: Move):
 
 
-    # get the row in the middle
-    # if currCoordinate.getRow() == len(mt.matrix) // 2:
-    #     return [
-    #         Move.RIGHT
-    #     ]
+    # if it's the row in the middle
+    if currCoord.isMiddleRow(mt.matrix):
+        return [
+            Move.RIGHT
+        ]
+    
+    if currCoord.isMiddleRow(mt.matrix) and currCoord.isLastCol(mt.matrix):
+        return [
+            Move.UP
+        ]
+    
+    return []
 
-   # previous move: next moves 
-   moves = {
-        Move._BEFORE_START: [Move.RIGHT],
-        Move.RIGHT: [Move.RIGHT],
-        # Move.UP: [Move.UP],
-    }
+#    # previous move: next moves 
+#    moves = {
+#         Move._BEFORE_START: [Move.RIGHT],
+#         Move.RIGHT: [Move.RIGHT],
+#         # Move.UP: [Move.UP],
+#     }
    
-   return moves[prevMove]
+#    return moves[prevMove]
 
    
 

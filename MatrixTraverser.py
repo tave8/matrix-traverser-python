@@ -128,7 +128,11 @@ class MatrixTraverser:
                 # diagonal up left 
                 if CallbackManager.canMove(self, currCoord.diagonalUpLeft(), prevCoord, currCoord, prevMove):
                     self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT)
-                
+
+    #  def __jumpTo() -> None:
+    #     """
+    #     Jumps to a cell with at the .
+    #     """           
 
     # def findOne(self, findOneCallback, startFromCoordinate: Coordinate) -> Coordinate:
     #     """
@@ -536,6 +540,126 @@ class Matrix:
 
 
     @staticmethod
+    def getHowManyCols(matrix: list[list]) -> int:
+        return len(matrix[0])
+
+
+    @staticmethod
+    def getHowManyRows(matrix: list[list]) -> int:
+        return len(matrix)
+
+    @staticmethod
+    def isSquared(matrix: list[list]) -> bool:
+        return Matrix.getHowManyCols(matrix) == Matrix.getHowManyRows(matrix)
+
+    @staticmethod
+    def hasOneCol(matrix: list[list]) -> bool:
+        return Matrix.getHowManyCols(matrix) == 1
+
+
+    @staticmethod
+    def hasOneRow(matrix: list[list]) -> bool:
+        return Matrix.getHowManyRows(matrix) == 1
+
+
+    @staticmethod
+    def hasEvenRows(matrix: list[list]) -> bool:
+        return Matrix.getHowManyRows(matrix) % 2 == 0
+
+
+    @staticmethod
+    def hasEvenCols(matrix: list[list]) -> bool:
+        return Matrix.getHowManyCols(matrix) % 2 == 0
+
+
+    @staticmethod
+    def hasOddRows(matrix: list[list]) -> bool:
+        return not Matrix.hasEvenRows(matrix)
+
+
+    @staticmethod
+    def hasOddCols(matrix: list[list]) -> bool:
+        return not Matrix.hasEvenCols(matrix)
+
+    @staticmethod
+    def getFirstCol() -> int:
+        return 0
+    
+    @staticmethod
+    def getFirstRow() -> int:
+        return 0
+
+    @staticmethod
+    def getLastRow(matrix: list[list]) -> int:
+        return Matrix.getHowManyRows(matrix)-1
+
+    @staticmethod
+    def getLastCol(matrix: list[list]) -> int:
+        return Matrix.getHowManyCols(matrix)-1
+
+    @staticmethod
+    def getMiddleCol(matrix: list[list]) -> int:
+        """
+        Returns the index of the middle column,
+        if the matrix has odd number of columns.
+        """
+        if Matrix.hasEvenCols(matrix):
+            raise Exception("cannot get middle col of matrix with even number of cols")
+        return Matrix.getHowManyCols(matrix) // 2
+
+    @staticmethod
+    def getMiddleRow(matrix: list[list]) -> int:
+        """
+        Returns the index of the middle row,
+        if the matrix has odd number of rows.
+        """
+        if Matrix.hasEvenRows(matrix):
+            raise Exception("cannot get middle row of matrix with even number of rows")
+        return Matrix.getHowManyRows(matrix) // 2
+
+    @staticmethod
+    def getRowsBeforeMiddle(matrix: list[list]) -> list[int]:
+        """
+        Returns the indexes of the two rows before the middle row.
+        """
+        if Matrix.hasOneRow(matrix):
+            raise Exception("matrix has only one row; cannot give you two rows")
+
+        if Matrix.hasOddRows(matrix):
+            middleRow = Matrix.getMiddleRow(matrix)
+            return [middleRow-1, middleRow+1]
+
+        # matrix has more than 1 row and it has even number of rows
+        return [
+            # the left row 
+            (Matrix.getHowManyRows(matrix) // 2) - 1,
+            # the right row
+            Matrix.getHowManyRows(matrix) // 2
+        ]
+
+    @staticmethod
+    def getColsBeforeMiddle(matrix: list[list]) -> list[int]:
+        """
+        Returns the indexes of the two cols before the middle col.
+        """
+        if Matrix.hasOneCol(matrix):
+            raise Exception("matrix has only one col; cannot give you two cols")
+
+        if Matrix.hasOddCols(matrix):
+            middleCol = Matrix.getMiddleCol(matrix)
+            return [middleCol-1, middleCol+1]
+
+        # matrix has more than 1 col and it has even number of cols
+        return [
+            # the left col
+            (Matrix.getHowManyCols(matrix) // 2) - 1,
+            # the right col
+            Matrix.getHowManyCols(matrix) // 2
+        ]
+
+
+
+    @staticmethod
     def generateVisitedMatrixFrom(matrix: list[list]) -> list[list[int]]:
         """
         Generate a "visited matrix" 
@@ -594,6 +718,58 @@ class Coordinate:
         self.isStart = isStart
         self.isBeforeStart = isBeforeStart
     
+    def isFirstRow(self) -> bool:
+        return self.getRow() == Matrix.getFirstRow()
+
+    def isLastRow(self, matrix: list[list]) -> bool:
+        return self.getRow() == Matrix.getLastRow(matrix)
+
+    def isFirstCol(self) -> bool:
+        return self.getCol() == Matrix.getFirstCol()
+
+    def isLastCol(self, matrix: list[list]) -> bool:
+        return self.getCol() == Matrix.getLastCol(matrix)
+
+    def isMiddleRow(self, matrix: list[list]) -> bool:
+        """
+        Is this row the middle row?
+        Note that the middle row only exists in a matrix
+        whose number of rows is odd.
+        In a matrix with even number of rows,
+        you'll have to use other methods like isRowBeforeMiddle
+        """
+        if Matrix.hasEvenRows(matrix):
+            raise Exception("if this row is the middle row cannot be answered "
+                            +"because the given matrix has an even number of rows")
+
+        return self.getRow() == Matrix.getMiddleRow(matrix)
+
+
+    def isMiddleCol(self, matrix: list[list]) -> bool:
+        """
+        Is this col the middle col?
+        """
+        if Matrix.hasEvenCols(matrix):
+            raise Exception("if this col is the middle col cannot be answered "
+                            +"because the given matrix has an even number of cols")
+
+        return self.getCol() == Matrix.getMiddleCol(matrix)
+
+
+    def isColBeforeMiddle(self, matrix: list[list]) -> bool:
+        """
+        Is this col any of the two cols before the middle col?
+        """
+        return self.getCol() in Matrix.getColsBeforeMiddle(matrix)
+
+
+    def isRowBeforeMiddle(self, matrix: list[list]) -> bool:
+        """
+        Is this row any of the two rows before the middle row?
+        """
+        return self.getRow() in Matrix.getRowsBeforeMiddle(matrix)
+
+
     @staticmethod
     def generateIsStartCoord(row: int, col: int) -> Coordinate:
         return Coordinate(row, col, isStart=True)
@@ -601,6 +777,7 @@ class Coordinate:
     @staticmethod
     def generateIsBeforeStartCoord() -> Coordinate:
         return Coordinate(-1, -1, isBeforeStart=True)
+
     
     def getRow(self) -> int:
         return self.row
