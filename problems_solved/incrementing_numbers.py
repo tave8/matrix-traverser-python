@@ -29,7 +29,7 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
         print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
 
 
-def canMoveCallback(mt: MatrixTraverser, 
+def canMoveToCallback(mt: MatrixTraverser, 
                     desiredCoord: Coordinate, 
                     prevCoord: Coordinate, 
                     currCoord: Coordinate,
@@ -74,7 +74,7 @@ def onMultipleVisitMustStopCallback(mt: MatrixTraverser,
 
 
 callbackMap = {
-    "canMove": canMoveCallback,
+    "canMoveTo": canMoveToCallback,
     "beforeFirstVisit": beforeFirstVisitCallback,
     "onMultipleVisitMustStop": onMultipleVisitMustStopCallback
 }
