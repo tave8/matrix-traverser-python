@@ -51,12 +51,27 @@ class MatrixTraverser:
         if not Matrix.isInsideMatrix(self.matrix, currCoord):
             return
 
+
         CallbackManager.beforeVisit(self, prevCoord, currCoord, prevMove)
+
+        currentCellInfo = {
+            "prevCoord": prevCoord,
+            "currCoord": currCoord,
+            "prevMove": prevMove
+        }
+
+        # we add this cell as visited as a default,
+        # we must remove it when necessary
+        self.stateManager.state["visitedCellsSoFar"].append(currentCellInfo)
 
         # if this cell has been visited
         if Matrix.isVisited(self.visited, currCoord):
 
             if CallbackManager.onMultipleVisitMustStop(self, prevCoord, currCoord, prevMove):
+                # if the user does not want to consider
+                # cells that have been already visited, we must
+                # pop the cell we just added 
+                self.stateManager.state["visitedCellsSoFar"].pop()
                 # ... operations when cell is already visited...
                 return 
         
@@ -67,7 +82,15 @@ class MatrixTraverser:
 
             # if self.callbackManager.canVisit(prevCoordinate, currCoord, prevMove):
 
+            # because we promise to only give the "visitedCellsSoFar"
+            # that means we must pop the one we just added, and then 
+            # add it back right after the callback
+            self.stateManager.state["visitedCellsSoFar"].pop()
+
             CallbackManager.beforeFirstVisit(self, prevCoord, currCoord, prevMove)
+
+            self.stateManager.state["visitedCellsSoFar"].append(currentCellInfo)
+
 
             # *******************************************+++
             # ****** START: OPERATIONS BEFORE CELL IS MARKED AS VISITED
@@ -478,9 +501,10 @@ class StateManager:
         # the algorithm's state so far
         self.state: dict = {
             # the algorithm was ended?
-            "wasEnded": False 
-            # the cells that were visited
-            # "visitedCells": []
+            "wasEnded": False,
+            # the cells that were visited so far, 
+            # which does not include the one we're about to visit
+            "visitedCellsSoFar": []
         }
         # dummy coordinate, will be overwritten soon
         self.startCoordinate: Coordinate = Coordinate(-1, -1, isStart=True)

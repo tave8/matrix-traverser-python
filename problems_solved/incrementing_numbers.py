@@ -14,9 +14,15 @@ matrix = [
     ["5",   "6",   "5",   "16",  "E"]
 ]
 
-state = {
-    "values": []
-}
+# matrix = [
+#     ["S",   "8",   "9",   "9",   "90"],
+#     ["1",   "2",   "7",   "8",   "10"],
+#     ["4",  "3",   "6",   "9",   "13"],
+#     ["5",  "4",   "10",  "6",   "14"],
+#     ["6",   "6",   "7",   "8",  "E"]
+# ]
+
+state = {}
  
 
 def beforeFirstVisitCallback(mt: MatrixTraverser, 
@@ -92,6 +98,9 @@ matrixTraverser.traverseMatrix(
         Matrix.getFirstCol()
     )
 )
+
+for visitedCell in matrixTraverser.stateManager.state["visitedCellsSoFar"]:
+    print(visitedCell)
 
 
 
