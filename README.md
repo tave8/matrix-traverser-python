@@ -132,3 +132,20 @@ Move
     DIAGONAL_UP_LEFT
 
 ```
+
+
+# Problem diagrams
+
+## Traverse diagonal 
+
+![alt text](image.png)
+
+
+## Zigzag traverse
+
+## Snake traverse
+
+
+
+
+[sds](/assets/example_problems.png)
