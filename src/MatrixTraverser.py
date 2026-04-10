@@ -814,9 +814,11 @@ class Coordinate:
         self.col = col
         self.isStart = isStart
         self.isBeforeStart = isBeforeStart
-    
+
+
     def hasSameCoordinate(self, otherCoord: Coordinate) -> bool:
         return self.getRow() == otherCoord.getRow() and self.getCol() == otherCoord.getCol()
+
 
     def isDistant(self, otherCoord: Coordinate, distance: int) -> bool:
         """
@@ -825,18 +827,27 @@ class Coordinate:
         to reach a cell from a starting cell.
         Therefore, adjacent cells are cells whose distance is 1.
         """
+        if self.isBeforeStart or otherCoord.isBeforeStart:
+            raise Exception("cannot compare the 'before start' coordinate "
+                            +"for distance", self, otherCoord)
+        
         return max(
             abs(self.getRow() - otherCoord.getRow()),
             abs(self.getCol() - otherCoord.getCol())
         ) == distance
-
     
+
     def isAdjacent(self, otherCoord: Coordinate) -> bool:
         """
         Verify if the cell is adjacent to the given cell.
         """
         return self.isDistant(otherCoord, 1)
     
+
+    @staticmethod
+    def areAdjacent(coord1: Coordinate, coord2: Coordinate) -> bool:
+        return coord1.isAdjacent(coord2)
+
 
     def isCol(self, col: int) -> bool:
         return self.getCol() == col
