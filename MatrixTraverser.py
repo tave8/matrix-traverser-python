@@ -17,9 +17,7 @@ class MatrixTraverser:
         self.callbackManager = CallbackManager(userCallbackMap)
 
 
-    def traverseMatrix(self, 
-                       startCoord: Coordinate,
-                       beforeStartCoord: Coordinate) -> None:
+    def traverseMatrix(self, startCoord: Coordinate) -> None:
         """
         Main user-facing method to run the matrix traversal algorithm. 
         """
@@ -28,7 +26,7 @@ class MatrixTraverser:
 
         self.__traverse(
             currCoord=startCoord,
-            prevCoord=beforeStartCoord,
+            prevCoord=Coordinate.generateIsBeforeStartCoord(),
             prevMove=Move._BEFORE_START
         )
     
@@ -244,10 +242,11 @@ class CallbackManager:
         # we assume every direction is good to move to
         return True
 
+
     @staticmethod
     def beforeFirstVisit(mt: MatrixTraverser, 
-                         prevCoordinate: Coordinate, 
-                         currCoordinate: Coordinate, 
+                         prevCoord: Coordinate, 
+                         currCoord: Coordinate, 
                          prevMove: Move) -> None:
         """
         Before first visit of a cell, run this callback.
@@ -255,10 +254,10 @@ class CallbackManager:
 
         # run the user-defined callback, if exists
         if FunctionHelper.mapHasFunction("beforeFirstVisit", mt.callbackManager.callbackMap):
-            mt.callbackManager.callbackMap["beforeFirstVisit"](mt, 
-                                                                prevCoordinate, 
-                                                                currCoordinate,
-                                                                prevMove)
+            beforeFirstVisitCallback = mt.callbackManager.callbackMap["beforeFirstVisit"]
+
+            beforeFirstVisitCallback(mt, prevCoord, currCoord, prevMove)
+        
         # if the user did not specify a callback,
         # we don't have to do anything particular here
 
@@ -479,7 +478,10 @@ class StateManager:
     
 
     @staticmethod
-    def _setStartCoordinate(mt: MatrixTraverser, coord: Coordinate):        
+    def _setStartCoordinate(mt: MatrixTraverser, coord: Coordinate): 
+        # make sure this coordinate is marked as
+        # isStart, so that the user doesn't have to
+        coord.isStart = True       
         mt.stateManager.startCoordinate = coord
 
 
