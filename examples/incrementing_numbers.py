@@ -62,8 +62,8 @@ def canMoveToCallback(mt: MatrixTraverser,
         # it does not matter what you return
         return
 
-    nextNum = int(Matrix.getAtCoordinate(mt.matrix, desiredCoord))
-    currNum = int(Matrix.getAtCoordinate(mt.matrix, currCoord))
+    nextNum = int(Matrix.getAtCoordinate(mt.matrix, desiredCoord)) # type: ignore
+    currNum = int(Matrix.getAtCoordinate(mt.matrix, currCoord)) # type: ignore
 
     # this cell can move to the desired/next coordinate 
     # only if this condition is met

@@ -57,7 +57,9 @@ class MatrixTraverser:
         currentCellInfo = {
             "prevCoord": prevCoord,
             "currCoord": currCoord,
-            "prevMove": prevMove
+            "prevMove": prevMove,
+            "prevValue": Matrix.getAtCoordinate(self.matrix, prevCoord, ignoreIfBeforeStart=True),
+            "currValue": Matrix.getAtCoordinate(self.matrix, currCoord)
         }
 
         # we add this cell as visited as a default,
@@ -509,6 +511,14 @@ class StateManager:
         # dummy coordinate, will be overwritten soon
         self.startCoordinate: Coordinate = Coordinate(-1, -1, isStart=True)
     
+    # @staticmethod
+    # def addToVisitedC(mt: MatrixTraverser, coord: Coordinate):
+    #     mt.stateManager.state["visitedCellsSoFar"].append(coord)
+
+    # @staticmethod
+    # def pop(mt: MatrixTraverser, coord: Coordinate):
+    #     mt.stateManager.state["visitedCellsSoFar"].append(coord)
+
 
     @staticmethod
     def _setStartCoordinate(mt: MatrixTraverser, coord: Coordinate): 
@@ -580,14 +590,23 @@ class Matrix:
 
     @staticmethod
     def getAtCoordinate(matrix: list[list], 
-                        coord: Coordinate):
+                        coord: Coordinate,
+                        ignoreIfBeforeStart: bool=False):
         """
         Get the cell value in the matrix, at the given coordinate.
         """
 
-        # cannot access the "before to start" coordinate
-        if coord.isBeforeStart:
-            raise Exception("cannot access 'before to start' coordinate")
+        # if the coordinate is before start 
+        # and we do not ignore that
+        if coord.isBeforeStart and not ignoreIfBeforeStart:
+            raise Exception("cannot access 'before to start' coordinate; "
+                            +"you've specified to not ignore it")
+
+        # if the coordinate is before start and we are okay
+        # ignoring it, return the coordinate itself, not knowing
+        # what value would make sense to return
+        if coord.isBeforeStart and ignoreIfBeforeStart:
+            return coord
 
         # check if the coordinate exists in the matrix
         if not Matrix.isInsideMatrix(matrix, coord):
