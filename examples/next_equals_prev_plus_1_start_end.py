@@ -1,6 +1,14 @@
 """
 Find the path where each cell must be exactly +1 from the previous,
 and you also have start and end.
+
+Properties:
+- the start must always be start
+- for each pair of move from a cell to a cell [prevCell, currCell],
+    the distance of the move is 1 cell
+- for each pair of move from a cell to a cell [prevCell, currCell],
+    the value of currCell = prevCell value + 1
+- the end might not exist
 """
 
 from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager

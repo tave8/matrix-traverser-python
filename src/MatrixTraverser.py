@@ -64,7 +64,7 @@ class MatrixTraverser:
 
         # we add this cell as visited as a default,
         # we must remove it when necessary
-        self.stateManager.state["visitedCellsSoFar"].append(currentCellInfo)
+        self.stateManager.state["movesFromTo"].append(currentCellInfo)
 
         # if this cell has been visited
         if Matrix.isVisited(self.visited, currCoord):
@@ -73,7 +73,7 @@ class MatrixTraverser:
                 # if the user does not want to consider
                 # cells that have been already visited, we must
                 # pop the cell we just added 
-                self.stateManager.state["visitedCellsSoFar"].pop()
+                self.stateManager.state["movesFromTo"].pop()
                 # ... operations when cell is already visited...
                 return 
         
@@ -84,14 +84,14 @@ class MatrixTraverser:
 
             # if self.callbackManager.canVisit(prevCoordinate, currCoord, prevMove):
 
-            # because we promise to only give the "visitedCellsSoFar"
+            # because we promise to only give the "movesFromTo"
             # that means we must pop the one we just added, and then 
             # add it back right after the callback
-            self.stateManager.state["visitedCellsSoFar"].pop()
+            self.stateManager.state["movesFromTo"].pop()
 
             CallbackManager.beforeFirstVisit(self, prevCoord, currCoord, prevMove)
 
-            self.stateManager.state["visitedCellsSoFar"].append(currentCellInfo)
+            self.stateManager.state["movesFromTo"].append(currentCellInfo)
 
 
             # *******************************************+++
@@ -506,18 +506,18 @@ class StateManager:
             "wasEnded": False,
             # the cells that were visited so far, 
             # which does not include the one we're about to visit
-            "visitedCellsSoFar": []
+            "movesFromTo": []
         }
         # dummy coordinate, will be overwritten soon
         self.startCoordinate: Coordinate = Coordinate(-1, -1, isStart=True)
     
     # @staticmethod
     # def addToVisitedC(mt: MatrixTraverser, coord: Coordinate):
-    #     mt.stateManager.state["visitedCellsSoFar"].append(coord)
+    #     mt.stateManager.state["movesFromTo"].append(coord)
 
     # @staticmethod
     # def pop(mt: MatrixTraverser, coord: Coordinate):
-    #     mt.stateManager.state["visitedCellsSoFar"].append(coord)
+    #     mt.stateManager.state["movesFromTo"].append(coord)
 
 
     @staticmethod
@@ -817,7 +817,27 @@ class Coordinate:
     
     def hasSameCoordinate(self, otherCoord: Coordinate) -> bool:
         return self.getRow() == otherCoord.getRow() and self.getCol() == otherCoord.getCol()
+
+    def isDistant(self, otherCoord: Coordinate, distance: int) -> bool:
+        """
+        Verify if a cell has a k distance from given cell. 
+        The definition of distance is, the direct number of moves
+        to reach a cell from a starting cell.
+        Therefore, adjacent cells are cells whose distance is 1.
+        """
+        return max(
+            abs(self.getRow() - otherCoord.getRow()),
+            abs(self.getCol() - otherCoord.getCol())
+        ) == distance
+
     
+    def isAdjacent(self, otherCoord: Coordinate) -> bool:
+        """
+        Verify if the cell is adjacent to the given cell.
+        """
+        return self.isDistant(otherCoord, 1)
+    
+
     def isCol(self, col: int) -> bool:
         return self.getCol() == col
 

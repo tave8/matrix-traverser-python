@@ -1,7 +1,7 @@
 from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
 
 
-def makeTraverser(matrix):
+def makeTraverser(matrix, moreCallbackMap={}):
 
     state = {}
 
@@ -19,10 +19,11 @@ def makeTraverser(matrix):
         currNum = int(Matrix.getAtCoordinate(mt.matrix, currCoord)) # type: ignore
         return nextNum == currNum + 1
 
-
     callbackMap = {
         "canMoveTo": canMoveToCallback
     }
+
+    callbackMap.update(moreCallbackMap)
 
     mt = MatrixTraverser(matrix, callbackMap, state)
     mt.traverseMatrix(Coordinate(Matrix.getFirstRow(), Matrix.getFirstCol()))
@@ -42,7 +43,7 @@ def test_firstCellIsStartAndLastIsEnd():
     ]
 
     mt = makeTraverser(matrix)
-    visitedCells = mt.stateManager.state["visitedCellsSoFar"]
+    visitedCells = mt.stateManager.state["movesFromTo"]
 
     assert len(visitedCells) > 1
     # path must start at S and end at E
@@ -61,7 +62,7 @@ def test_allCellsExceptStartOrEndAreIncremental():
     ]
 
     mt = makeTraverser(matrix)
-    visitedCells = mt.stateManager.state["visitedCellsSoFar"]
+    visitedCells = mt.stateManager.state["movesFromTo"]
 
     # every step between S and E must increment by exactly 1
     # skip first cell (S) and last cell (E)
@@ -82,7 +83,45 @@ def test_hasOnlyStart():
     ]
 
     mt = makeTraverser(matrix)
-    visitedCells = mt.stateManager.state["visitedCellsSoFar"]
+    visitedCells = mt.stateManager.state["movesFromTo"]
 
     # should only contain S, never reaching E
     assert len(visitedCells) == 1 and visitedCells[0]["currValue"] == "S"
+
+
+def test_MatrixWithManyNeighborIncrementalValues():
+
+    matrix = [
+        ["S",  "1",  "2",  "3",  "4"],
+        ["1",  "1",  "3",  "4",  "5"],
+        ["2",  "2",  "4",  "7",  "7"],
+        ["3",  "3",  "5",  "6",  "7"],
+        ["4",  "4",  "5",  "6",  "E"]
+    ]
+
+    def beforeFirstVisitCallback(mt: MatrixTraverser, 
+                             prevCoordinate: Coordinate, 
+                             currCoordinate: Coordinate,
+                             prevMove: Move):
+        if currCoordinate.isStart:
+            print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
+        else:
+            print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
+
+
+    mt = makeTraverser(matrix, {
+        "beforeFirstVisit": beforeFirstVisitCallback
+    })
+    visitedCells = mt.stateManager.state["movesFromTo"]
+
+    for visitedCell in visitedCells:
+        print(visitedCell["prevValue"], visitedCell["currValue"])
+
+    # every step between S and E must increment by exactly 1
+    # skip first cell (S) and last cell (E)
+    middleCells = visitedCells[1:-1]
+
+    for i in range(1, len(middleCells)):
+        currValue = int(middleCells[i]["currValue"])
+        prevValue = int(middleCells[i - 1]["currValue"])
+        assert currValue == prevValue + 1
