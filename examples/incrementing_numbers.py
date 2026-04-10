@@ -70,19 +70,12 @@ def canMoveToCallback(mt: MatrixTraverser,
     return nextNum == currNum + 1
 
 
-def onMultipleVisitMustStopCallback(mt: MatrixTraverser, 
-                                    prevCoord: Coordinate, 
-                                    currCoord: Coordinate, 
-                                    prevMove: Move):
-    return False 
-    
 
 
 
 callbackMap = {
     "canMoveTo": canMoveToCallback,
     "beforeFirstVisit": beforeFirstVisitCallback,
-    "onMultipleVisitMustStop": onMultipleVisitMustStopCallback
 }
 
 
