@@ -9,7 +9,7 @@ PROBLEM: Traverse the matrix in spiral traverse.
 
 """
 
-from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
+from MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
 
 
 matrix = [
@@ -30,11 +30,11 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
                              currCoordinate: Coordinate,
                              prevMove: Move):
     if currCoordinate.isStart:
-        print(f"START: {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
+        print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
     else:
-        print(f"FROM {mt.getAtCoordinate(prevCoordinate)} TO {mt.getAtCoordinate(currCoordinate)} ({prevMove.name})")
+        print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
+    pass
 
-    # print(mt.stateManager.stats)
 
 
 def getNextMovesCallback(mt: MatrixTraverser, 
@@ -59,8 +59,9 @@ def getNextMovesCallback(mt: MatrixTraverser,
 def canMoveCallback(mt: MatrixTraverser, 
                     desiredCoordinate: Coordinate, 
                     prevCoordinate: Coordinate, 
-                    currCoordinate: Coordinate):
-    pass    
+                    currCoordinate: Coordinate,
+                    prevMove: Move):
+    pass
 
 
 
@@ -71,21 +72,14 @@ callbackMap = {
 }
 
 
-stateManager = MatrixTraverserStateManager(state)
-callbackManager = MatrixTraverserCallbackManager(callbackMap)
 
 matrixTraverser = MatrixTraverser(
     matrix, 
-    Coordinate(0, 0),
-    callbackManager,
-    stateManager
+    callbackMap,
+    state
 )
 
-# for now you cannot call the method more than once
-matrixTraverser.traverseMatrix()
-
-
-# for move, moveStats in matrixTraverser.stateManager.stats["byMove"].items():
-#     print()
-#     print(f"{move}: {moveStats}")
-#     print()
+matrixTraverser.traverseMatrix(
+    Coordinate.generateIsStartCoord(0, 0), 
+    Coordinate.generateIsBeforeStartCoord()
+)
