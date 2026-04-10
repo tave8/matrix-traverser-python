@@ -809,7 +809,7 @@ class Coordinate:
         return self.getRow() in Matrix.getRowsNextToMiddle(matrix)
 
 
-    def isTopLeft(self, matrix: list[list]) -> bool:
+    def isTopLeft(self) -> bool:
         """
         Is the coord at the top-left?
         """

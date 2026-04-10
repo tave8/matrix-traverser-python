@@ -1,9 +1,9 @@
 """
 PROBLEM: Traverse the matrix in a custom line.
 
-
+(must update drawing)
     < -------- ^
-    |         / |
+    |         / | 
     |       /   |
     v --------> |
     |    /      |
@@ -20,7 +20,7 @@ matrix = [
     [12,    8,    7,  2,    6],
     [1,    2,    3,  4,     5],
     [10,   19,    8,  4,    23],
-    [18,   90,   9,   24,   25]
+    [18,   90,   9,   24,   25],
 ]
 
 state = {
@@ -45,13 +45,14 @@ def getNextMovesCallback(mt: MatrixTraverser,
                          prevCoord: Coordinate, 
                          currCoord: Coordinate,
                          prevMove: Move):
-
+    
+    # the most specific instruction first
     if currCoord.isStart:
         return [
             Move.RIGHT
         ]
     
-    if prevMove == Move.DIAGONAL_UP_RIGHT and currCoord.isLastCol(mt.matrix) and currCoord.isFirstRow():
+    if prevMove == Move.DIAGONAL_UP_RIGHT and currCoord.isTopRight(matrix):
         return [
             Move.DOWN
         ]
@@ -73,18 +74,17 @@ def getNextMovesCallback(mt: MatrixTraverser,
             Move.DOWN
         ]
 
-    # the most specific instruction first
     if currCoord.isMiddleRow(mt.matrix) and currCoord.isLastCol(mt.matrix):
         return [
             Move.UP
         ]
     
-    if currCoord.isFirstRow() and currCoord.isFirstCol():
+    if currCoord.isTopLeft():
         return [
             Move.DOWN
         ]
 
-    if currCoord.isLastRow(mt.matrix) and currCoord.isFirstCol():
+    if currCoord.isBottomLeft(matrix):
         return [
             Move.DIAGONAL_UP_RIGHT
         ] 
