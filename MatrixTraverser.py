@@ -39,10 +39,13 @@ class MatrixTraverser:
         The core algorithm: Traverses the matrix.
         """
 
+        if self.stateManager.state["wasEnded"]:
+            return 
+
         # if you can end the algorithm now
-        # if self.callbackManager.canEnd(prevCoordinate, currCoordinate, prevMove):
-        #     self.callbackManager.onEnd()
-        #     return 
+        if CallbackManager.canEnd(self, prevCoord, currCoord, prevMove):
+            # self.callbackManager.onEnd()
+            return 
 
         # if this cell does not exist (out of matrix)
         if not Matrix.isInsideMatrix(self.matrix, currCoord):
@@ -415,37 +418,41 @@ class CallbackManager:
         return True
     
 
-    # def canEnd(self, 
-    #             prevCoordinate: Coordinate, 
-    #             currCoordinate: Coordinate,
-    #             prevMove: Move) -> bool:
-    #     """
-    #     Can I end the algorithm right now?
+    @staticmethod
+    def canEnd(mt: MatrixTraverser, 
+                prevCoord: Coordinate, 
+                currCoord: Coordinate,
+                prevMove: Move) -> bool:
+        """
+        Can I end the algorithm right now?
         
-    #     By default the algorithm will terminate only 
-    #     when all cells will be visited. We can prevent that 
-    #     and decide the end of the algorithm.
-    #     """
+        By default the algorithm will terminate only 
+        when all cells will be visited. We can prevent that 
+        and decide the end of the algorithm.
+        """
 
-    #     # run the user-defined callback, if exists
-    #     if MatrixTraverserCallbackManager._dictHasFunction("canEnd", self.callbackMap):
-    #         userSaysCanEnd: bool | None = self.callbackMap["canEnd"](self.matrixTraverser, 
-    #                                                                         prevCoordinate, 
-    #                                                                         currCoordinate,
-    #                                                                         prevMove)
-    #         # if the user did not return, it means 
-    #         # it's happy with not ending the algorithm
-    #         if userSaysCanEnd is None:
-    #             return False
+        # run the user-defined callback, if exists
+        if FunctionHelper.mapHasFunction("canEnd", mt.callbackManager.callbackMap):
+            canEndCallback = mt.callbackManager.callbackMap["canEnd"]
             
-    #         # check if the returned value is correct
-    #         if not isinstance(userSaysCanEnd, bool):
-    #             raise Exception("userSaysCanEnd must be of type bool")
+            userSaysCanEnd: bool | None = canEndCallback(mt, prevCoord, currCoord, prevMove)
             
-    #         return userSaysCanEnd
+            # if the user did not return, it means 
+            # it's happy with not ending the algorithm
+            if userSaysCanEnd is None:
+                return False
+            
+            # check if the returned value is correct
+            if not isinstance(userSaysCanEnd, bool):
+                raise Exception("userSaysCanEnd must be of type bool")
 
-    #     # by default, we don't end the algorithm
-    #     return False
+            if userSaysCanEnd:
+                mt.stateManager.state["wasEnded"] = True
+            
+            return userSaysCanEnd
+
+        # by default, we don't end the algorithm
+        return False
     
 
     # def onEnd(self) -> None:
@@ -470,6 +477,8 @@ class StateManager:
         self.userState = userState
         # the algorithm's state so far
         self.state: dict = {
+            # the algorithm was ended?
+            "wasEnded": False 
             # the cells that were visited
             # "visitedCells": []
         }
@@ -495,6 +504,13 @@ class StateManager:
         Returns the user-provided state.
         """
         return mt.stateManager.userState
+
+    @staticmethod
+    def setWasEnded(mt: MatrixTraverser, wasEnded: bool) -> None:
+        """
+        Set that the algorithm will end immediately.
+        """
+        mt.stateManager.state["wasEnded"] = wasEnded
     
 
 

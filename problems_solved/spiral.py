@@ -26,7 +26,6 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
         print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
     else:
         print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-    pass
 
 
 
@@ -46,20 +45,9 @@ def getNextMovesCallback(mt: MatrixTraverser,
    
    return moves[prevMove]
    
-   
-
-
-def canMoveCallback(mt: MatrixTraverser, 
-                    desiredCoordinate: Coordinate, 
-                    prevCoordinate: Coordinate, 
-                    currCoordinate: Coordinate,
-                    prevMove: Move):
-    pass
-
 
 
 callbackMap = {
-    "canMove": canMoveCallback,
     "getNextMoves": getNextMovesCallback,
     "beforeFirstVisit": beforeFirstVisitCallback,
 }
@@ -73,6 +61,5 @@ matrixTraverser = MatrixTraverser(
 )
 
 matrixTraverser.traverseMatrix(
-    Coordinate.generateIsStartCoord(0, 0), 
-    # Coordinate.generateIsBeforeStartCoord()
+    Coordinate.generateIsStartCoord(0, 0)
 )

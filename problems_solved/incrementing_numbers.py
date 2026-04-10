@@ -1,97 +1,97 @@
 """
-PROBLEM: find the path where each cell must be exactly +1 from the previous 
+Find the path where each cell must be exactly +1 from the previous.
 """
 
-from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
+from MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
 
 
 
 matrix = [
-    ["S",   "8",  "9",  "9",   "90"],
-    ["1",   "2",   "7",  "8",   "10"],
-    ["10",  "3",  "6",  "11",  "13"],
-    ["12",   "4",   "5",  "12",   "14"],
-    ["5",    "6",  "12",  "16",   "E"]
+    ["S",   "8",   "9",   "9",   "90"],
+    ["1",   "2",   "7",   "8",   "10"],
+    ["10",  "3",   "6",   "9",   "13"],
+    ["12",  "4",   "10",  "6",   "14"],
+    ["5",   "6",   "5",   "16",  "E"]
 ]
 
 state = {
-    "reachedEnd": False,
-    "values": [],
-    "path": []
+    "values": []
 }
  
 
-def beforeFirstVisitCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+def beforeFirstVisitCallback(mt: MatrixTraverser, 
+                             prevCoordinate: Coordinate, 
+                             currCoordinate: Coordinate,
+                             prevMove: Move):
     if currCoordinate.isStart:
-        print(f"{mt.getAtCoordinate(currCoordinate)}")
+        print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
     else:
-        print(f"{mt.getAtCoordinate(prevCoordinate)} --> {mt.getAtCoordinate(currCoordinate)}")
+        print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
 
 
-def canMoveCallback(mt: MatrixTraverser, desiredCoordinate: Coordinate, prevCoordinate: Coordinate, currCoordinate: Coordinate):
+def canMoveCallback(mt: MatrixTraverser, 
+                    desiredCoord: Coordinate, 
+                    prevCoord: Coordinate, 
+                    currCoord: Coordinate,
+                    prevMove: Move):
 
     # from the start, you can only move to 
     # a cell with value 1
-    if currCoordinate.isStart:
-        return mt.getAtCoordinate(desiredCoordinate) == "1"
+    if currCoord.isStart:
+        return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "1"
+
+    # the cells around S might try to go to S, but they must not
+    if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "S":
+        return False
     
-    if mt.getAtCoordinate(currCoordinate) == "S":
-        return mt.getAtCoordinate(desiredCoordinate) == "1"
-
-    state = mt.stateManager.getState()
-
-    # if cell has arrived to end
-    if state["reachedEnd"]:
-        return False
-
-    # if the next move brings the cell to end
-    if mt.getAtCoordinate(desiredCoordinate) == "E":
-        state["reachedEnd"] = True
+    # if the next move is the end, you can move
+    if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "E":
         return True
+    
+    # if the curr coordinate is the end itself,
+    # end the algorithm
+    if Matrix.getAtCoordinate(mt.matrix, currCoord) == "E":
+        # end the algorithm at 
+        StateManager.setWasEnded(mt, True)
+        # it does not matter what you return
+        return
 
-    # the next move cannot be the start 
-    if mt.getAtCoordinate(desiredCoordinate) == "S":
-        return False
+    nextNum = int(Matrix.getAtCoordinate(mt.matrix, desiredCoord))
+    currNum = int(Matrix.getAtCoordinate(mt.matrix, currCoord))
 
-    return int(mt.getAtCoordinate(currCoordinate))+1 == int(mt.getAtCoordinate(desiredCoordinate))
-
-
-def getNextMovesCallback(mt: MatrixTraverser, prevCoordinate: Coordinate, currCoordinate: Coordinate):
-    # print(prevCoordinate, currCoordinate)
-    # if mt.getAtCoordinate(currCoordinate) > 5:
-    #     return [
-    #         # Move.UP,
-    #         Move.DIAGONAL_UP_RIGHT
-    #     ]
-    state = mt.stateManager.getState()
-    # if state.
+    # this cell can move to the desired/next coordinate 
+    # only if this condition is met
+    return nextNum == currNum + 1
 
 
-    # return [
-    #     Move.DIAGONAL_DOWN_RIGHT
-    # ]
-    # pass 
+def onMultipleVisitMustStopCallback(mt: MatrixTraverser, 
+                                    prevCoord: Coordinate, 
+                                    currCoord: Coordinate, 
+                                    prevMove: Move):
+    return False 
+    
+
 
 
 callbackMap = {
     "canMove": canMoveCallback,
     "beforeFirstVisit": beforeFirstVisitCallback,
-    "getNextMoves": getNextMovesCallback,
+    "onMultipleVisitMustStop": onMultipleVisitMustStopCallback
 }
 
 
-stateManager = MatrixTraverserStateManager(state)
-callbackManager = MatrixTraverserCallbackManager(callbackMap)
-
 matrixTraverser = MatrixTraverser(
     matrix, 
-    Coordinate(0, 0),
-    callbackManager,
-    stateManager
+    callbackMap,
+    state
 )
 
-# for now you cannot call the method more than once
-matrixTraverser.traverseMatrix()
+matrixTraverser.traverseMatrix(
+    Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+)
 
 
 
