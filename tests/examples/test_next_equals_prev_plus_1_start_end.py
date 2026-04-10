@@ -51,55 +51,7 @@ def test_first_cell_is_start_and_last_is_end():
     assert visitedCells[-1]["currValue"] == "E"
 
 
-def test_non_ambiguous_matrix():
-
-    matrix = [
-        ["S",  "8",  "9",  "9",  "90"],
-        ["1",  "2",  "7",  "8",  "10"],
-        ["10", "3",  "4",  "5",  "13"],
-        ["12", "8",  "10", "6",  "14"],
-        ["5",  "6",  "5",  "16", "E"]
-    ]
-
-    mt = makeTraverser(matrix)
-    visitedCells = mt.stateManager.state["movesFromTo"]
-
-    middleCells = visitedCells[1:-1]
-
-    for i in range(1, len(middleCells)):
-        cell = middleCells[i]
-        # the distance of the move must be 1 cell
-        # (they must be adjacent)
-        assert Coordinate.areAdjacent(cell["currCoord"], cell["prevCoord"])
-        # current value is previous value + 1
-        assert int(cell["currValue"]) == int(cell["prevValue"]) + 1
-
-
-# def test_matrix_():
-
-#     matrix = [
-#         ["S",  "8",  "9",  "9",  "90"],
-#         ["1",  "2",  "7",  "8",  "10"],
-#         ["10", "3",  "6",  "9",  "13"],
-#         ["12", "4",  "10", "6",  "14"],
-#         ["5",  "6",  "5",  "16", "E"]
-#     ]
-
-#     mt = makeTraverser(matrix)
-#     visitedCells = mt.stateManager.state["movesFromTo"]
-
-#     # every step between S and E must increment by exactly 1
-#     # skip first cell (S) and last cell (E)
-#     middleCells = visitedCells[1:-1]
-
-#     for i in range(1, len(middleCells)):
-#         currValue = int(middleCells[i]["currValue"])
-#         prevValue = int(middleCells[i - 1]["currValue"])
-#         assert currValue == prevValue + 1
-
-
-
-def test_hasOnlyStart():
+def test_has_only_start():
     matrix = [
         ["S",  "8",  "9"],
         ["99", "99", "99"],
@@ -113,7 +65,35 @@ def test_hasOnlyStart():
     assert len(visitedCells) == 1 and visitedCells[0]["currValue"] == "S"
 
 
-def test_MatrixWithManyNeighborIncrementalValues():
+def test_non_ambiguous_matrix():
+
+    matrix = [
+        ["S",  "8",  "9",  "9",  "90"],
+        ["1",  "2",  "7",  "8",  "10"],
+        ["10", "3",  "4",  "5",  "13"],
+        ["12", "8",  "10", "6",  "14"],
+        ["5",  "6",  "5",  "16", "E"]
+    ]
+
+    mt = makeTraverser(matrix)
+    visitedCells = mt.stateManager.state["movesFromTo"]
+
+    # path must start at S and end at E
+    assert visitedCells[0]["currValue"] == "S"
+    assert visitedCells[-1]["currValue"] == "E"
+
+    middleCells = visitedCells[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        # the distance of the move must be 1 cell
+        # (they must be adjacent)
+        assert Coordinate.areAdjacent(cell["currCoord"], cell["prevCoord"])
+        # current value is previous value + 1
+        assert int(cell["currValue"]) == int(cell["prevValue"]) + 1
+
+
+def test_many_neighbors_with_incremental_values():
 
     matrix = [
         ["S",  "1",  "2",  "3",  "4"],
@@ -123,29 +103,37 @@ def test_MatrixWithManyNeighborIncrementalValues():
         ["4",  "4",  "5",  "6",  "E"]
     ]
 
-    def beforeFirstVisitCallback(mt: MatrixTraverser, 
-                             prevCoordinate: Coordinate, 
-                             currCoordinate: Coordinate,
-                             prevMove: Move):
-        if currCoordinate.isStart:
-            print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-        else:
-            print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
+    # def beforeFirstVisitCallback(mt: MatrixTraverser, 
+    #                          prevCoordinate: Coordinate, 
+    #                          currCoordinate: Coordinate,
+    #                          prevMove: Move):
+    #     if currCoordinate.isStart:
+    #         print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
+    #     else:
+    #         print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
 
 
     mt = makeTraverser(matrix, {
-        "beforeFirstVisit": beforeFirstVisitCallback
+        # "beforeFirstVisit": beforeFirstVisitCallback
     })
+
     visitedCells = mt.stateManager.state["movesFromTo"]
 
-    for visitedCell in visitedCells:
-        print(visitedCell["prevValue"], visitedCell["currValue"])
+    # path must start at S and end at E
+    assert visitedCells[0]["currValue"] == "S"
+    assert visitedCells[-1]["currValue"] == "E"
+
+    # for visitedCell in visitedCells:
+    #     print(visitedCell["prevValue"], visitedCell["currValue"])
 
     # every step between S and E must increment by exactly 1
     # skip first cell (S) and last cell (E)
     middleCells = visitedCells[1:-1]
 
     for i in range(1, len(middleCells)):
-        currValue = int(middleCells[i]["currValue"])
-        prevValue = int(middleCells[i - 1]["currValue"])
-        assert currValue == prevValue + 1
+        cell = middleCells[i]
+        # the distance of the move must be 1 cell
+        # (they must be adjacent)
+        assert Coordinate.areAdjacent(cell["currCoord"], cell["prevCoord"])
+        # current value is previous value + 1
+        assert int(cell["currValue"]) == int(cell["prevValue"]) + 1
