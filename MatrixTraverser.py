@@ -757,17 +757,23 @@ class Coordinate:
     def hasSameCoordinate(self, otherCoord: Coordinate) -> bool:
         return self.getRow() == otherCoord.getRow() and self.getCol() == otherCoord.getCol()
     
+    def isCol(self, col: int) -> bool:
+        return self.getCol() == col
+
+    def isRow(self, row: int) -> bool:
+        return self.getRow() == row
+
     def isFirstRow(self) -> bool:
-        return self.getRow() == Matrix.getFirstRow()
+        return self.isRow(Matrix.getFirstRow())
 
     def isLastRow(self, matrix: list[list]) -> bool:
-        return self.getRow() == Matrix.getLastRow(matrix)
+        return self.isRow(Matrix.getLastRow(matrix))
 
     def isFirstCol(self) -> bool:
-        return self.getCol() == Matrix.getFirstCol()
+        return self.isCol(Matrix.getFirstCol())
 
     def isLastCol(self, matrix: list[list]) -> bool:
-        return self.getCol() == Matrix.getLastCol(matrix)
+        return self.isCol(Matrix.getLastCol(matrix)) 
 
     def isMiddleRow(self, matrix: list[list]) -> bool:
         """
@@ -781,7 +787,7 @@ class Coordinate:
             raise Exception("if this row is the middle row cannot be answered "
                             +"because the given matrix has an even number of rows")
 
-        return self.getRow() == Matrix.getMiddleRow(matrix)
+        return self.isRow(Matrix.getMiddleRow(matrix))
 
 
     def isMiddleCol(self, matrix: list[list]) -> bool:
@@ -792,7 +798,7 @@ class Coordinate:
             raise Exception("if this col is the middle col cannot be answered "
                             +"because the given matrix has an even number of cols")
 
-        return self.getCol() == Matrix.getMiddleCol(matrix)
+        return self.isCol(Matrix.getMiddleCol(matrix))
 
 
     def isColNextToMiddle(self, matrix: list[list]) -> bool:
