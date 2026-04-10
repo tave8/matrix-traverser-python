@@ -1,3 +1,36 @@
+# Problems solved
+
+From the most straightforward problems, to the more complex.
+
+## Diagonal
+
+![Diagonal](/assets/problem_diagrams/diagonal.png)
+
+## T shape
+
+![T shape](/assets/problem_diagrams/t_shape.png)
+
+## Snake
+
+![Snake](/assets/problem_diagrams/snake.png)
+
+## Spiral
+
+![Spiral](/assets/problem_diagrams/spiral.png)
+
+## Zigzag
+
+![Zigzag](/assets/problem_diagrams/zigzag.png)
+
+## Geometry 1 
+
+![Geometry 1](/assets/problem_diagrams/geometry_1.png)
+
+## Next = prev + 1
+
+![Next = prev + 1](/assets/problem_diagrams/next_equals_prev_plus_1.png)
+
+
 # Algorithm
 
 ## The start 
@@ -134,18 +167,5 @@ Move
 ```
 
 
-# Problem diagrams
-
-## Traverse diagonal 
-
-![alt text](image.png)
 
 
-## Zigzag traverse
-
-## Snake traverse
-
-
-
-
-[sds](/assets/example_problems.png)
