@@ -1,5 +1,5 @@
-from inspect import isfunction
 from enum import Enum
+from helpers import FunctionHelper
 
 class MatrixTraverser:
     """
@@ -938,29 +938,3 @@ class Move(Enum):
     DIAGONAL_DOWN_LEFT = "diagonal-down-left"
     LEFT = "left"
     DIAGONAL_UP_LEFT = "diagonal-up-left"
-
-
-
-class FunctionHelper:
-    
-    @staticmethod
-    def mapHasFunction(key: str, _map: dict[str, any]) -> bool: # type: ignore
-        """
-        Does the given dictionary, at the given key,
-        have a function as value?
-        """
-        if not isinstance(_map, dict):
-            raise Exception("the given map is not a dictionary")
-         
-        return key in _map and isfunction(_map[key])
-
-
-
-
-# class VisitStrategy(Enum):
-#     # the algorithm skips visited cells (default value)
-#     ON_MULTIPLE_VISIT_SKIP = "on-multiple-visit-skip"
-#     # the algorithm ignores visited cells 
-#     # (this can use infinite recursion, so a strategy must be
-#     # used to exit the algorithm upon meeting certain conditions)
-#     ON_MULTIPLE_VISIT_CONTINUE = "on-multiple-visit-continue"

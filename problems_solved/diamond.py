@@ -46,6 +46,7 @@ def getNextMovesCallback(mt: MatrixTraverser,
         Move.DIAGONAL_DOWN_LEFT: [Move.DIAGONAL_DOWN_LEFT, Move.DOWN]
     }
    
+   
    return moves[prevMove]
    
    

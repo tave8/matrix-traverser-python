@@ -31,6 +31,32 @@ From the most straightforward problems, to the more complex.
 ![Next = prev + 1](/assets/problem_diagrams/next_equals_prev_plus_1.png)
 
 
+
+# Configuration & Setup 
+
+To tell Python to include the import path as the root directory, I've done the following:
+
+1. Go in the `site-packages` directory, inside the `.venv` directory
+
+2. Create a file with any name, as long as the extension is `.pth` 
+
+3. Add the absolute path that points to your root directory, for example
+
+```
+c:/Users/giuse/Desktop/projects/matrix-traverser-python
+```
+4. Now, when you run a script from any place inside the root directory, Python will also know how to scan
+for modules starting from this root directory
+
+5. You can check that the root directory is included in the Python import paths, by running 
+
+```py
+import sys
+for p in sys.path:
+    print(p)
+```
+
+
 # Algorithm
 
 ## The start 
