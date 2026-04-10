@@ -1,5 +1,6 @@
 """
-Find the path where each cell must be exactly +1 from the previous.
+Find the path where each cell must be exactly +1 from the previous,
+and you also have start and end.
 """
 
 from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
@@ -13,14 +14,6 @@ matrix = [
     ["12",  "4",   "10",  "6",   "14"],
     ["5",   "6",   "5",   "16",  "E"]
 ]
-
-# matrix = [
-#     ["S",   "8",   "9",   "9",   "90"],
-#     ["1",   "2",   "7",   "8",   "10"],
-#     ["4",  "3",   "6",   "9",   "13"],
-#     ["5",  "4",   "10",  "6",   "14"],
-#     ["6",   "6",   "7",   "8",  "E"]
-# ]
 
 state = {}
  
@@ -92,8 +85,6 @@ matrixTraverser.traverseMatrix(
     )
 )
 
-for visitedCell in matrixTraverser.stateManager.state["visitedCellsSoFar"]:
-    print(visitedCell)
 
 
 

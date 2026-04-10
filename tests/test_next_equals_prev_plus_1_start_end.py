@@ -1,7 +1,7 @@
 from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
 
 
-def make_traverser(matrix):
+def makeTraverser(matrix):
 
     state = {}
 
@@ -29,7 +29,10 @@ def make_traverser(matrix):
     return mt
 
 
-def test_finds_correct_path():
+# tests whether the first and last values 
+# are the start (S) and end (E)
+# and whether each cell's value = prev cell value + 1
+def test_firstCellIsStartAndLastIsEnd():
     matrix = [
         ["S",  "8",  "9",  "9",  "90"],
         ["1",  "2",  "7",  "8",  "10"],
@@ -38,12 +41,27 @@ def test_finds_correct_path():
         ["5",  "6",  "5",  "16", "E"]
     ]
 
-    mt = make_traverser(matrix)
+    mt = makeTraverser(matrix)
     visitedCells = mt.stateManager.state["visitedCellsSoFar"]
 
+    assert len(visitedCells) > 1
     # path must start at S and end at E
     assert visitedCells[0]["currValue"] == "S"
     assert visitedCells[-1]["currValue"] == "E"
+
+
+def test_allCellsExceptStartOrEndAreIncremental():
+
+    matrix = [
+        ["S",  "8",  "9",  "9",  "90"],
+        ["1",  "2",  "7",  "8",  "10"],
+        ["10", "3",  "6",  "9",  "13"],
+        ["12", "4",  "10", "6",  "14"],
+        ["5",  "6",  "5",  "16", "E"]
+    ]
+
+    mt = makeTraverser(matrix)
+    visitedCells = mt.stateManager.state["visitedCellsSoFar"]
 
     # every step between S and E must increment by exactly 1
     # skip first cell (S) and last cell (E)
@@ -55,30 +73,16 @@ def test_finds_correct_path():
         assert currValue == prevValue + 1
 
 
-# def test_first_step_is_1():
-#     matrix = [
-#         ["S",  "8",  "9",  "9",  "90"],
-#         ["1",  "2",  "7",  "8",  "10"],
-#         ["10", "3",  "6",  "9",  "13"],
-#         ["12", "4",  "10", "6",  "14"],
-#         ["5",  "6",  "5",  "16", "E"]
-#     ]
 
-#     mt = make_traverser(matrix)
-#     visited = mt.stateManager.state["visitedCellsSoFar"]
+def test_hasOnlyStart():
+    matrix = [
+        ["S",  "8",  "9"],
+        ["99", "99", "99"],
+        ["5",  "6",  "E"]
+    ]
 
-#     assert visited[1] == "1"
+    mt = makeTraverser(matrix)
+    visitedCells = mt.stateManager.state["visitedCellsSoFar"]
 
-
-# def test_no_path_on_impossible_matrix():
-#     matrix = [
-#         ["S",  "8",  "9"],
-#         ["99", "99", "99"],
-#         ["5",  "6",  "E"]
-#     ]
-
-#     mt = make_traverser(matrix)
-#     visited = mt.stateManager.state["visitedCellsSoFar"]
-
-#     # should only contain S, never reaching E
-#     assert "E" not in visited
+    # should only contain S, never reaching E
+    assert len(visitedCells) == 1 and visitedCells[0]["currValue"] == "S"
