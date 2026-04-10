@@ -2,7 +2,7 @@
 PROBLEM: Traverse the matrix in zigzag.
 """
 
-from MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
+from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
 
 
 matrix = [

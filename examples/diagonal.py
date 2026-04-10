@@ -1,4 +1,4 @@
-from MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
+from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
 
 matrix = [
     [5,   6,   11,  16,  21],

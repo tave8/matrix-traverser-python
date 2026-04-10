@@ -1,5 +1,5 @@
 from enum import Enum
-from helpers import FunctionHelper
+from src.helpers import FunctionHelper
 
 class MatrixTraverser:
     """

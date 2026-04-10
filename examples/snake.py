@@ -7,7 +7,7 @@ PROBLEM: Traverse the matrix in snake traverse.
 
 """
 
-from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
+from src.MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
 
 
 matrix = [

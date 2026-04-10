@@ -2,7 +2,7 @@
 Find the path where each cell must be exactly +1 from the previous.
 """
 
-from MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
+from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
 
 
 

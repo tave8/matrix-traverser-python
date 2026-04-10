@@ -4,7 +4,7 @@ PROBLEM: Traverse the matrix in a cross.
 
 """
 
-from MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
+from src.MatrixTraverser import MatrixTraverser, MatrixTraverserCallbackManager, MatrixTraverserStateManager, Coordinate, Move
 
 
 matrix = [

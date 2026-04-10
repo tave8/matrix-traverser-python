@@ -1,54 +1,53 @@
-# Problems solved
+# Examples
 
 From the most straightforward problems, to the more complex.
 
 ## Diagonal
 
-![Diagonal](/assets/problem_diagrams/diagonal.png)
+![Diagonal](/assets/diagrams/diagonal.png)
 
 ## T shape
 
-![T shape](/assets/problem_diagrams/t_shape.png)
+![T shape](/assets/diagrams/t_shape.png)
 
 ## Snake
 
-![Snake](/assets/problem_diagrams/snake.png)
+![Snake](/assets/diagrams/snake.png)
 
 ## Spiral
 
-![Spiral](/assets/problem_diagrams/spiral.png)
+![Spiral](/assets/diagrams/spiral.png)
 
 ## Zigzag
 
-![Zigzag](/assets/problem_diagrams/zigzag.png)
+![Zigzag](/assets/diagrams/zigzag.png)
 
-## Geometry 1 
+## Geometry 1
 
-![Geometry 1](/assets/problem_diagrams/geometry_1.png)
+![Geometry 1](/assets/diagrams/geometry_1.png)
 
 ## Next = prev + 1
 
-![Next = prev + 1](/assets/problem_diagrams/next_equals_prev_plus_1.png)
+![Next = prev + 1](/assets/diagrams/next_equals_prev_plus_1.png)
 
-
-
-# Configuration & Setup 
+# Configuration & Setup
 
 To tell Python to include the import path as the root directory, I've done the following:
 
 1. Go in the `site-packages` directory, inside the `.venv` directory
 
-2. Create a file with any name, as long as the extension is `.pth` 
+2. Create a file with any name, as long as the extension is `.pth`
 
 3. Add the absolute path that points to your root directory, for example
 
 ```
 c:/Users/giuse/Desktop/projects/matrix-traverser-python
 ```
-4. Now, when you run a script from any place inside the root directory, Python will also know how to scan
-for modules starting from this root directory
 
-5. You can check that the root directory is included in the Python import paths, by running 
+4. Now, when you run a script from any place inside the root directory, Python will also know how to scan
+   for modules starting from this root directory
+
+5. You can check that the root directory is included in the Python import paths, by running
 
 ```py
 import sys
@@ -56,30 +55,29 @@ for p in sys.path:
     print(p)
 ```
 
-
 # Algorithm
 
-## The start 
+## The start
 
 When we first call the algorithm to traverse matrix with `traverseMatrix`, we must note a few things:
 
 - The currCoordinate is the start coordinate, which is the actual user-provided start coordinate
 
 - The prevCoordinate is the "before to start" coordinate which, on the other hand, is a dummy coordinate
-    whose sole purpose is to comply with the method `traverseMatrix` which requires both currCoordinate
-    and prevCoordinate
+  whose sole purpose is to comply with the method `traverseMatrix` which requires both currCoordinate
+  and prevCoordinate
 
 - This means that, at the very start, trying to access or comparing prevCoordinate, will and should
-    result in error, because as we said, prevCoordinate at the very start is a dummy coordinate.
-    This edge case is left to the implementation of the user-defined callbacks to handle,
-    for example by specifying, as the very first lines of code of the user-defined callback,
-    the logic that should apply only to the currCoordinate of the start, which is precisely 
-    the start coordinate. Example below.
+  result in error, because as we said, prevCoordinate at the very start is a dummy coordinate.
+  This edge case is left to the implementation of the user-defined callbacks to handle,
+  for example by specifying, as the very first lines of code of the user-defined callback,
+  the logic that should apply only to the currCoordinate of the start, which is precisely
+  the start coordinate. Example below.
 
 ```py
 
-def beforeFirstVisitCallback(mt: MatrixTraverser, 
-                             prevCoordinate: Coordinate, 
+def beforeFirstVisitCallback(mt: MatrixTraverser,
+                             prevCoordinate: Coordinate,
                              currCoordinate: Coordinate):
     # print only current coordinate, which is the start coordinate
     if currCoordinate.isStart:
@@ -92,24 +90,23 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
 
 ```py
 
-def canMoveCallback(mt: MatrixTraverser, 
-                    desiredCoordinate: Coordinate, 
-                    prevCoordinate: Coordinate, 
+def canMoveCallback(mt: MatrixTraverser,
+                    desiredCoordinate: Coordinate,
+                    prevCoordinate: Coordinate,
                     currCoordinate: Coordinate):
 
-    # from the start, you can only move to 
+    # from the start, you can only move to
     # a cell with value 1
     if currCoordinate.isStart:
         return mt.getAtCoordinate(desiredCoordinate) == "1"
 
 ```
 
-- Note that, at the very start, saying currCoordinate.isStart is logically equivalent to 
-    prevCoordinate.isBeforeStart. I didn't say they are the same things; I only said that they should 
-    be logically equivalent operations.
+- Note that, at the very start, saying currCoordinate.isStart is logically equivalent to
+  prevCoordinate.isBeforeStart. I didn't say they are the same things; I only said that they should
+  be logically equivalent operations.
 
 - About this dummy "before to start" coordinate: It's a real Coordinate instance (not something like None)
-
 
 # Callbacks
 
@@ -118,9 +115,6 @@ def canMoveCallback(mt: MatrixTraverser,
 ## beforeFirstVisit
 
 ## getNextMoves
-
-
-
 
 # Entity design
 
@@ -143,7 +137,7 @@ MatrixTraverser
 CallbackManager
     callbackMap
     matrixTraverser
-    canMove(): 
+    canMove():
     beforeFirstVisit():
     getNextMoves():
     canVisit():
@@ -179,7 +173,7 @@ Coordinate
     diagonalDownLeft()
     clone()
 
-Move 
+Move
     _BEFORE_START
     UP
     DIAGONAL_UP_RIGHT
@@ -191,7 +185,3 @@ Move
     DIAGONAL_UP_LEFT
 
 ```
-
-
-
-

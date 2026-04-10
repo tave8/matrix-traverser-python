@@ -1,23 +1,20 @@
 """
-PROBLEM: Traverse the matrix in a line.
-
-
+PROBLEM: Traverse the matrix in T shape, 
+so first row and the column in the middle.
 """
 
-from MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
+from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
 
 
 matrix = [
-    [11,   10,    9,   8,   7],
-    [3,    8,    7,  2,    6],
-    [1,    2,    3,  4,    5],
-    [10,   6,    8,  4,    23],
-    [11,   19,   9,   24,  25]
+    [1,    2,  3,   4,    5],
+    [23,   0,  6,  17,  22],
+    [32,   8,  7,  18,  23],
+    [4,   11,  8,  19,  24],
+    [5,   10,  9,  20,  25]
 ]
 
-state = {
-
-}
+state = {}
 
 
 def beforeFirstVisitCallback(mt: MatrixTraverser, 
@@ -31,41 +28,35 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
     pass
 
 
-
-
 def getNextMovesCallback(mt: MatrixTraverser, 
-                         prevCoord: Coordinate, 
-                         currCoord: Coordinate,
+                         prevCoordinate: Coordinate, 
+                         currCoordinate: Coordinate,
                          prevMove: Move):
-
-    # the most specific instruction first
-    if currCoord.isMiddleRow(mt.matrix) and currCoord.isLastCol(mt.matrix):
+    
+    # if this is the cell right 
+    # at the intersection in the T shape
+    # this cell must move first right, and then down
+    if currCoordinate.isFirstRow() and currCoordinate.isCol(2):
         return [
-            Move.UP
+            Move.RIGHT,
+            Move.DOWN
         ]
     
-    # if it's the row in the middle
-    if currCoord.isMiddleRow(mt.matrix):
+    # if this is the cell in a column in the middle,
+    # it can only move down
+    if currCoordinate.isCol(2):
+        return [
+            Move.DOWN
+        ]
+
+    # if this is the first row, you can only move right
+    if currCoordinate.isFirstRow():
         return [
             Move.RIGHT
         ]
-
-    # if it's the first row
-    if currCoord.isFirstRow():
-        return [
-            Move.LEFT
-        ]
     
-    # if it's the last col in the middle
-    if currCoord.isLastCol(mt.matrix):
-        return [
-            Move.UP
-        ]
-    
+    # for any other cell, you cannot move anywhere else
     return []
-
-
-   
 
 
 def canMoveCallback(mt: MatrixTraverser, 
@@ -76,11 +67,10 @@ def canMoveCallback(mt: MatrixTraverser,
     pass
 
 
-
 callbackMap = {
     "canMove": canMoveCallback,
     "getNextMoves": getNextMovesCallback,
-    "beforeFirstVisit": beforeFirstVisitCallback
+    "beforeFirstVisit": beforeFirstVisitCallback,
 }
 
 
@@ -91,10 +81,8 @@ matrixTraverser = MatrixTraverser(
     state
 )
 
-
-
 # for now you cannot call the method more than once
 matrixTraverser.traverseMatrix(
-    Coordinate.generateIsStartCoord(2, 0), 
+    Coordinate.generateIsStartCoord(0, 0), 
     Coordinate.generateIsBeforeStartCoord()
 )
