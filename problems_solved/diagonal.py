@@ -5,7 +5,7 @@ matrix = [
     [2,   4,   12,  17,  22],
     [3,   8,   3,  18,  23],
     [4,   9,   14,  2,  24],
-    [5,   10,  15,  20,  1]
+    [5,   10,  15,  20,  1],
 ]
 
 state = {}
@@ -15,7 +15,6 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
                              prevCoordinate: Coordinate, 
                              currCoordinate: Coordinate,
                              prevMove: Move):
-    # print(currCoordinate)
     if currCoordinate.isStart:
         print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
     else:
@@ -50,5 +49,8 @@ matrixTraverser = MatrixTraverser(
 
 
 matrixTraverser.traverseMatrix(
-    Coordinate(4, 4)
+    Coordinate(
+        Matrix.getLastRow(matrix),
+        Matrix.getLastCol(matrix)
+    )
 )
