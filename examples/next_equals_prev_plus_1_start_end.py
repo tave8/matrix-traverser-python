@@ -36,22 +36,24 @@ def beforeFirstVisitCallback(mt: MatrixTraverser,
         print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
     else:
         print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-
+    pass
 
 def canMoveToCallback(mt: MatrixTraverser, 
                     desiredCoord: Coordinate, 
                     prevCoord: Coordinate, 
                     currCoord: Coordinate,
                     prevMove: Move):
-
     # from the start, you can only move to 
     # a cell with value 1
     if currCoord.isStart:
         return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "1"
 
     # the cells around S might try to go to S, but they must not
-    # if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "S":
-    #     return False
+    # because of how the engine works and the nature of its recursive calls,
+    # even though the start is already visited,
+    # some start paths might still be asking if i can move to start
+    if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "S":
+        return False
     
     # if the next move is the end, you can move
     if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "E":
@@ -64,6 +66,7 @@ def canMoveToCallback(mt: MatrixTraverser,
         StateManager.setWasEnded(mt, True)
         # it does not matter what you return
         return
+
 
     nextNum = int(Matrix.getAtCoordinate(mt.matrix, desiredCoord)) # type: ignore
     currNum = int(Matrix.getAtCoordinate(mt.matrix, currCoord)) # type: ignore

@@ -10,9 +10,8 @@ def makeTraverser(matrix,
     def canMoveToCallback(mt, desiredCoord, prevCoord, currCoord, prevMove):
         if currCoord.isStart:
             return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == 1
-        # for now i comment this out
-        # if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "S":
-        #     return False
+        if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "S":
+            return False
         if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "E":
             return True
         if Matrix.getAtCoordinate(mt.matrix, currCoord) == "E":
@@ -46,6 +45,7 @@ def assertOnCellInfo(cellInfo: dict):
         else:
             assert isinstance(cellInfo["prevValue"], int)
             assert isinstance(cellInfo["currValue"], int)
+            # for each cell pair in a move, this property must be satisfied
             assert cellInfo["currValue"] == cellInfo["prevValue"] + 1
 
 
@@ -196,12 +196,12 @@ def test_many_neighbors_with_incremental_values_and_swapped_start():
 def test_path_no_exists():
 
     matrix = [
-        ["E",  7,  7,  6,  4,  5],
-        [ 1,  11, 12,  5, 13, 12],
-        [ 2,  11, 15,  4, 11,  7],
-        [ 3,  10, 16,  3,  7,  8],
-        [ 4,   9,  9,  8,  2,  9],
-        [ 7,   8,  4,  9,  1,  2],
+        ["E",  9,  9,  8,  7,  6],
+        [ 1,  11, 12,  5, 13,  5],
+        [ 2,  11, 15,  4, 11,  4],
+        [ 3,  10, 16,  3,  7,  3],
+        [ 4,   9,  9,  8,  2,  2],
+        [ 7,   8,  4,  9,  1,  1],
         [ 6,   5,  3,  2,  1, "S"]
     ]
 
