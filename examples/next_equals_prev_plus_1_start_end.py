@@ -65,7 +65,7 @@ def canMoveToCallback(mt: MatrixTraverser,
         # end the algorithm at 
         StateManager.setWasEnded(mt, True)
         # it does not matter what you return
-        return
+        return False
 
 
     nextNum = int(Matrix.getAtCoordinate(mt.matrix, desiredCoord)) # type: ignore
