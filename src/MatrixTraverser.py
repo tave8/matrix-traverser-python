@@ -804,6 +804,35 @@ class Moves:
         return [move for move in Move]
 
 
+class Shape:
+
+    @staticmethod
+    def getCircle(matrix: list[list], 
+                  center: Coordinate,
+                  radius: int) -> list[Coordinate]:
+        """
+        Get a circle, which is a list of 
+        coordinates that make up the circle
+        """
+        # if this submatrix cannot be a square, 
+        # raise exception 
+
+        # verify that there's enough space in the matrix
+        # to make the circle
+
+        # maybe verify if the matrix is square
+        # and if it has even number of cols/rows
+
+        # 
+        ret = []
+
+        # if the matrix has 
+        # center.
+        # center.getCol()
+
+        return ret  
+
+
 
 class Coordinate:
     """
@@ -969,31 +998,61 @@ class Coordinate:
 
     def getCol(self) -> int:
         return self.col
+    
+    # -----------------------------------
+    # DIRECTIONS/MOVES
 
-    # DIRECTIONS/MOVES 
+    def upBy(self, k: int) -> Coordinate:
+        return Coordinate(self.getRow()-k, self.getCol())
+
+    def downBy(self, k: int) -> Coordinate:
+        return Coordinate(self.getRow()+k, self.getCol())
+    
+    def leftBy(self, k: int) -> Coordinate:
+        return Coordinate(self.getRow(), self.getCol()-k)
+    
+    def rightBy(self, k: int) -> Coordinate:
+        return Coordinate(self.getRow(), self.getCol()+k)
+
+    def diagonalUpLeftBy(self, k: int) -> Coordinate:
+        return Coordinate(self.getRow()-k, self.getCol()-k)
+
+    def diagonalUpRightBy(self, k: int) -> Coordinate:
+        return Coordinate(self.getRow()-k, self.getCol()+k)
+
+    def diagonalDownLeftBy(self, k: int) -> Coordinate:
+        return Coordinate(self.getRow()+k, self.getCol()-k)
+
+    def diagonalDownRightBy(self, k: int) -> Coordinate:
+        return Coordinate(self.getRow()+k, self.getCol()+k)
+
+    # -----------------------------------
+
     def up(self) -> Coordinate:
-        return Coordinate(self.row-1, self.col)
+        return self.upBy(1)
 
     def down(self) -> Coordinate:
-        return Coordinate(self.row+1, self.col)
+        return self.downBy(1)
     
     def diagonalUpRight(self) -> Coordinate:
-        return Coordinate(self.row-1, self.col+1)
+        return self.diagonalUpRightBy(1)
 
     def diagonalUpLeft(self) -> Coordinate:
-        return Coordinate(self.row-1, self.col-1)
+        return self.diagonalUpLeftBy(1)
 
     def right(self) -> Coordinate:
-        return Coordinate(self.row, self.col+1)
+        return self.rightBy(1)
 
     def left(self) -> Coordinate:
-        return Coordinate(self.row, self.col-1)
+        return self.leftBy(1)
     
     def diagonalDownRight(self) -> Coordinate:
-        return Coordinate(self.row+1, self.col+1)
+        return self.diagonalDownRightBy(1)
     
     def diagonalDownLeft(self) -> Coordinate:
-        return Coordinate(self.row+1, self.col-1)
+        return self.diagonalDownLeftBy(1)
+
+    # -----------------------------------
 
     def clone(self) -> Coordinate:
         return Coordinate(self.getRow(), self.getCol(), self.isStart, self.isBeforeStart)

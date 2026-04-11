@@ -161,6 +161,5 @@ matrixTraverser = MatrixTraverser(
 
 # for now you cannot call the method more than once
 matrixTraverser.traverseMatrix(
-    Coordinate.generateIsStartCoord(2, 0), 
-    Coordinate.generateIsBeforeStartCoord()
+    Coordinate.generateIsStartCoord(2, 0),
 )
