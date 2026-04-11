@@ -50,8 +50,8 @@ def canMoveToCallback(mt: MatrixTraverser,
         return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "1"
 
     # the cells around S might try to go to S, but they must not
-    if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "S":
-        return False
+    # if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "S":
+    #     return False
     
     # if the next move is the end, you can move
     if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "E":

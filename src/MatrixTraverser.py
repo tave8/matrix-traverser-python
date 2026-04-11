@@ -1,5 +1,6 @@
 from enum import Enum
 from src.helpers import FunctionHelper
+from src.exceptions.DuringUserCallbackError import DuringUserCallbackError
 
 class MatrixTraverser:
     """
@@ -257,21 +258,27 @@ class CallbackManager:
 
         # run the user-defined callback, if exists
         if FunctionHelper.mapHasFunction("canMoveTo", mt.callbackManager.callbackMap):
-            userSaysCanMove: bool | None = mt.callbackManager.callbackMap["canMoveTo"](mt, 
-                                                                                    desiredCoordinate, 
-                                                                                    prevCoordinate, 
-                                                                                    currCoordinate,
-                                                                                    prevMove)
+            canMoveToCallback = mt.callbackManager.callbackMap["canMoveTo"]
+
+            try: 
+                userWantsMove: bool | None = canMoveToCallback(mt, 
+                                                                desiredCoordinate, 
+                                                                prevCoordinate, 
+                                                                currCoordinate,
+                                                                prevMove)
+            except Exception as e:
+                raise DuringUserCallbackError(canMoveToCallback) from e
+
             # if the user did not return, it means 
             # it's happy with this cell moving in the desired direction 
-            if userSaysCanMove is None:
+            if userWantsMove is None:
                 return True
             
             # check if the returned value is correct
-            if not isinstance(userSaysCanMove, bool):
-                raise Exception("userSaysCanMove must be of type bool")
+            if not isinstance(userWantsMove, bool):
+                raise Exception("userWantsMove must be of type bool")
             
-            return userSaysCanMove
+            return userWantsMove
 
         # if the user did not specify the callback, 
         # we assume every direction is good to move to
