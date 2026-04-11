@@ -43,9 +43,9 @@ class MatrixTraverser:
             return 
 
         # if you can end the algorithm now
-        if CallbackManager.canEnd(self, prevCoord, currCoord, prevMove):
-            # self.callbackManager.onEnd()
-            return 
+        # if CallbackManager.canEnd(self, prevCoord, currCoord, prevMove):
+        #     # self.callbackManager.onEnd()
+        #     return 
 
         # if this cell does not exist (out of matrix)
         if not Matrix.isInsideMatrix(self.matrix, currCoord):
@@ -122,7 +122,9 @@ class MatrixTraverser:
             if nextMove == Move.UP:
                 # up
                 if CallbackManager.canMoveTo(self, currCoord.up(), prevCoord, currCoord, prevMove):
+                    # CALLBACK IDEA: beforeMove
                     self.__traverse(currCoord.up(), currCoord, Move.UP)
+                    # CALLBACK IDEA: afterMove
 
             elif nextMove == Move.DIAGONAL_UP_RIGHT:
                 # diagonal up right
@@ -158,6 +160,11 @@ class MatrixTraverser:
                 # diagonal up left 
                 if CallbackManager.canMoveTo(self, currCoord.diagonalUpLeft(), prevCoord, currCoord, prevMove):
                     self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT)
+
+
+        # CALLBACK IDEA: afterAllMoves
+
+        
 
     #  def __jumpTo() -> None:
     #     """
@@ -443,41 +450,41 @@ class CallbackManager:
         return True
     
 
-    @staticmethod
-    def canEnd(mt: MatrixTraverser, 
-                prevCoord: Coordinate, 
-                currCoord: Coordinate,
-                prevMove: Move) -> bool:
-        """
-        Can I end the algorithm right now?
+    # @staticmethod
+    # def canEnd(mt: MatrixTraverser, 
+    #             prevCoord: Coordinate, 
+    #             currCoord: Coordinate,
+    #             prevMove: Move) -> bool:
+    #     """
+    #     Can I end the algorithm right now?
         
-        By default the algorithm will terminate only 
-        when all cells will be visited. We can prevent that 
-        and decide the end of the algorithm.
-        """
+    #     By default the algorithm will terminate only 
+    #     when all cells will be visited. We can prevent that 
+    #     and decide the end of the algorithm.
+    #     """
 
-        # run the user-defined callback, if exists
-        if FunctionHelper.mapHasFunction("canEnd", mt.callbackManager.callbackMap):
-            canEndCallback = mt.callbackManager.callbackMap["canEnd"]
+    #     # run the user-defined callback, if exists
+    #     if FunctionHelper.mapHasFunction("canEnd", mt.callbackManager.callbackMap):
+    #         canEndCallback = mt.callbackManager.callbackMap["canEnd"]
             
-            userSaysCanEnd: bool | None = canEndCallback(mt, prevCoord, currCoord, prevMove)
+    #         userSaysCanEnd: bool | None = canEndCallback(mt, prevCoord, currCoord, prevMove)
             
-            # if the user did not return, it means 
-            # it's happy with not ending the algorithm
-            if userSaysCanEnd is None:
-                return False
+    #         # if the user did not return, it means 
+    #         # it's happy with not ending the algorithm
+    #         if userSaysCanEnd is None:
+    #             return False
             
-            # check if the returned value is correct
-            if not isinstance(userSaysCanEnd, bool):
-                raise Exception("userSaysCanEnd must be of type bool")
+    #         # check if the returned value is correct
+    #         if not isinstance(userSaysCanEnd, bool):
+    #             raise Exception("userSaysCanEnd must be of type bool")
 
-            if userSaysCanEnd:
-                mt.stateManager.state["wasEnded"] = True
+    #         if userSaysCanEnd:
+    #             mt.stateManager.state["wasEnded"] = True
             
-            return userSaysCanEnd
+    #         return userSaysCanEnd
 
-        # by default, we don't end the algorithm
-        return False
+    #     # by default, we don't end the algorithm
+    #     return False
     
 
     # def onEnd(self) -> None:
