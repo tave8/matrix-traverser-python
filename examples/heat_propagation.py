@@ -1,18 +1,89 @@
 """
-
-The Problem
-You have a matrix of temperatures. A traveler starts at S and wants to reach E.
-S    6    2    1
-5    5    3    2
-4    4    4    3
-3    2    1    E
-The traveler moves one cell at a time to any adjacent cell.
-The traveler has a tolerance — the maximum temperature difference they can handle in a single step. 
-If the current cell is temperature 8 and tolerance is 3, they can only move to cells between temperature 5 and 11.
-
-Here is the twist: the tolerance shrinks the further the traveler walks.
-The traveler starts fresh and can handle larger temperature differences. As the journey gets longer, 
-fatigue sets in and only smaller temperature differences are tolerable.
-
-Does a path from S to E exist?
+Heat propagation.
 """
+
+from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
+
+
+
+matrix = [
+    ["S",  12,   8,   3,   2],
+    [ 11,  10,   7,   4,   3],
+    [  9,   8,   7,   5,   4],
+    [  7,   6,   6,   5,   5],
+    [  5,   4,   5,   5,  "E"]
+]
+
+state = {}
+ 
+
+def beforeFirstVisitCallback(mt: MatrixTraverser, 
+                             prevCoordinate: Coordinate, 
+                             currCoordinate: Coordinate,
+                             prevMove: Move):
+    if currCoordinate.isStart:
+        print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
+    else:
+        print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
+
+
+def canMoveToCallback(mt: MatrixTraverser, 
+                    desiredCoord: Coordinate, 
+                    prevCoord: Coordinate, 
+                    currCoord: Coordinate,
+                    prevMove: Move):
+
+    # from the start, you can only move to 
+    # a cell with value 1
+    if currCoord.isStart:
+        return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == 10
+
+    # the cells around S might try to go to S, but they must not
+    if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "S":
+        return False
+    
+    # if the next move is the end, you can move
+    if Matrix.getAtCoordinate(mt.matrix, desiredCoord) == "E":
+        return True
+    
+    # if the curr coordinate is the end itself,
+    # end the algorithm
+    if Matrix.getAtCoordinate(mt.matrix, currCoord) == "E":
+        # end the algorithm at 
+        StateManager.setWasEnded(mt, True)
+        # it does not matter what you return
+        return
+
+    nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord) # type: ignore
+    currNum = Matrix.getAtCoordinate(mt.matrix, currCoord) # type: ignore
+
+    # this cell can move to the desired/next coordinate 
+    # only if this condition is met
+    return nextNum == currNum + 1 # type: ignore
+
+
+
+
+
+callbackMap = {
+    "canMoveTo": canMoveToCallback,
+    "beforeFirstVisit": beforeFirstVisitCallback,
+}
+
+
+matrixTraverser = MatrixTraverser(
+    matrix, 
+    callbackMap,
+    state
+)
+
+matrixTraverser.traverseMatrix(
+    Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+)
+
+
+
+
