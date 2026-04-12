@@ -16,8 +16,7 @@ from src.MazeTraverser import MazeTraverser
 
 
 
-def makeIncrementalPathMaze(matrix: list[list], 
-                            startCoord: Coordinate) -> MazeTraverser:
+def makeIncrementalPathMaze(matrix: list[list]) -> MazeTraverser:
     """
     Makes the Incremental Path Maze, an implementation of the 
     Maze Traverser.

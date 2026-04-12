@@ -14,9 +14,9 @@ class DataToTest:
 
 
 def makeAndRunIncrementalPathMaze(matrix: list[list], 
-                            startCoord: Coordinate) -> DataToTest:
+                                    startCoord: Coordinate) -> DataToTest:
 
-    mazeTraverser = makeIncrementalPathMaze(matrix, startCoord)
+    mazeTraverser = makeIncrementalPathMaze(matrix)
 
     mazeTraverser.run(startCoord)
 

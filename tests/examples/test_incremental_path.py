@@ -74,7 +74,7 @@ def test_one_row_matrix_path_exists():
     assertEndMustExist(dataToTest.movesHistory)
 
 
-def test_two_cols_zigzag_path():
+def test_two_cols_zigzag_path_exists():
     matrix = [
         ["S",  90],
         [  1,   2],
@@ -113,6 +113,30 @@ def test_two_cols_zigzag_path():
     for i in range(1, len(middleCells)):
         cell = middleCells[i]
         assertOnCellInfo(cell)
+
+
+def test_all_ones_no_path():
+    matrix = [
+        ["S", 1,  1,  "E"],
+        [1,   1,  1,   1],
+        [1,   1,  1,   1],
+        [1,   1,  1,   1],
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustNotExist(dataToTest.movesHistory)
+
+
+
+
+
 
 
 # tests whether the first and last values 
