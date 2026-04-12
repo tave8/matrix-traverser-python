@@ -2,7 +2,7 @@
 Traverse the matrix in spiral.
 """
 
-from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
+from core.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
 
 
 matrix = [

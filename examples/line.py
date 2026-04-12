@@ -4,7 +4,7 @@ PROBLEM: Traverse the matrix in a line.
 
 """
 
-from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
+from core.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
 
 
 matrix = [

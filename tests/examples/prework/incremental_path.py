@@ -1,6 +1,6 @@
 from src.components import Coordinate, Matrix, Move
 from src.implementations.incremental_path import makeIncrementalPathMaze 
-from src.MazeTraverser import MazeTraverser
+from src.core.MazeTraverser import MazeTraverser
 
 
 class DataToTest:

@@ -2,7 +2,7 @@
 Heat propagation.
 """
 
-from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
+from core.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
 
 
 

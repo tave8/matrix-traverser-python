@@ -5,7 +5,7 @@ Maze Traverser, built on top of the Matrix Traverser Engine.
 
 from inspect import isfunction
 from collections.abc import Callable
-from src.MatrixTraverser import MatrixTraverser, StateManager
+from src.core.MatrixTraverser import MatrixTraverser, StateManager
 from src.components import Coordinate, Matrix, Move
 from src.exceptions.ExpectedUserCallbackError import ExpectedUserCallbackError
 

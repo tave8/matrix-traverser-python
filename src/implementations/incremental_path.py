@@ -12,7 +12,7 @@ Properties:
 """
 
 from src.components import Coordinate, Move, Matrix
-from src.MazeTraverser import MazeTraverser
+from src.core.MazeTraverser import MazeTraverser
 
 
 

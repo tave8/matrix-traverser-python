@@ -12,7 +12,7 @@ PROBLEM: Traverse the matrix in a custom line.
 
 """
 
-from src.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
+from core.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move, StateManager
 
 
 matrix = [
