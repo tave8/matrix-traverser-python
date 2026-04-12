@@ -3,6 +3,116 @@ from tests.examples.prework.incremental_path import makeAndRunIncrementalPathMaz
 from tests.examples.assertions.incremental_path import *
 
 
+def test_one_row_one_col_matrix():
+    matrix = [
+        ["S"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustNotExist(dataToTest.movesHistory)
+    assert len(dataToTest.movesHistory) == 1
+
+
+def test_only_start_and_end():
+    """
+    Because in this problem, the algorithm must always start 
+    with the first value (after start) being 1, this should not be allowed.
+    """
+    matrix = [
+        ["S", "E"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assert len(dataToTest.movesHistory) == 1
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustNotExist(dataToTest.movesHistory)
+
+
+def test_one_row_matrix_no_path():
+    matrix = [
+        ["S",  8,  9]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assert len(dataToTest.movesHistory) == 1
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustNotExist(dataToTest.movesHistory)
+
+
+def test_one_row_matrix_path_exists():
+    matrix = [
+        ["S",  1,  2, "E"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+
+def test_two_cols_zigzag_path():
+    matrix = [
+        ["S",  90],
+        [  1,   2],
+        [ 90,   3],
+        [  5,   4],
+        [  6,  90],
+        [  7,   8],
+        [ 90,   9],
+        [ 11,  10],
+        [ 12,  90],
+        [ 13,  14],
+        [ 90,  15],
+        [ 17,  16],
+        [ 18,  90],
+        [ 19,  20],
+        [ 90,  21],
+        [ 23,  22],
+        [ 24,  90],
+        [ 90,  25],
+        [ 90,  26],
+        [ 90, "E"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+    middleCells = dataToTest.movesHistory[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
 
 
 # tests whether the first and last values 
@@ -83,7 +193,7 @@ def test_non_ambiguous_matrix():
         assertOnCellInfo(cell)
 
 
-def test_many_neighbors_with_incremental_values():
+def test_many_candidate_neighbors1():
 
     matrix = [
         ["S",  1,  2,  3,  4,  5],
@@ -114,7 +224,7 @@ def test_many_neighbors_with_incremental_values():
     
 
 
-def test_many_neighbors_with_incremental_values_and_swapped_start():
+def test_many_candidate_neighbors2():
 
     matrix = [
         ["E", 22, 21,  3,  4,   5],
