@@ -198,3 +198,85 @@ def test_start_from_center():
         cell = middleCells[i]
         assertOnCellInfo(cell)
 
+
+
+def test_start_end_bottom():
+    matrix = [
+        [ 10,   9,   8,   7,   6],
+        [  9,   8,   7,   6,   5],
+        [  2,   3,   4,   5,   4],
+        [  1,   2,   3,   4,   3],
+        ["S",  90,  90,  90, "E"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getLastRow(matrix),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+    middleCells = dataToTest.movesHistory[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
+
+
+def test_only_one_of_multiple_paths():
+    matrix = [
+        [ 90,   7,  "E"],
+        [ 90,   6,   7 ],
+        [ 90,   5,   6 ],
+        [ 90,   4,   5 ],
+        [ 90,   3,   4 ],
+        [  1,   2,   3 ],
+        ["S",   1,   2 ]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getLastRow(matrix),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+    middleCells = dataToTest.movesHistory[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
+
+
+def test_winding_corridor():
+    matrix = [
+        ["S",  1,  90,  90,  90,  90],
+        [ 90,  2,  90,   7,   8,  90],
+        [ 90,  3,  90,   6,   9,  90],
+        [ 90,  4,   5,   5,  10,  90],
+        [ 90, 90,  90,  90,  11,  90],
+        [ 90, 90,  90,  90,  12, "E"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+    middleCells = dataToTest.movesHistory[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
+
