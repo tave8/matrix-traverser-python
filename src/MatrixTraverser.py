@@ -5,7 +5,7 @@ from src.exceptions.DuringUserCallbackError import DuringUserCallbackError
 
 class MatrixTraverser:
     """
-    Matrix Traverser.
+    The Matrix Traverser Engine.
     """
 
     def __init__(self, 
