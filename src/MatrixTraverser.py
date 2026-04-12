@@ -66,7 +66,7 @@ class MatrixTraverser:
 
         # we add this cell as visited as a default,
         # we must remove it when necessary
-        self.stateManager.state["movesFromTo"].append(currentCellInfo)
+        self.stateManager.state["movesHistory"].append(currentCellInfo)
 
         # if this cell has been visited
         if Matrix.isVisited(self.visited, currCoord):
@@ -75,7 +75,7 @@ class MatrixTraverser:
                 # if the user does not want to consider
                 # cells that have been already visited, we must
                 # pop the cell we just added 
-                self.stateManager.state["movesFromTo"].pop()
+                self.stateManager.state["movesHistory"].pop()
                 # ... operations when cell is already visited...
                 return 
         
@@ -86,14 +86,14 @@ class MatrixTraverser:
 
             # if self.callbackManager.canVisit(prevCoordinate, currCoord, prevMove):
 
-            # because we promise to only give the "movesFromTo"
+            # because we promise to only give the "movesHistory"
             # that means we must pop the one we just added, and then 
             # add it back right after the callback
-            self.stateManager.state["movesFromTo"].pop()
+            self.stateManager.state["movesHistory"].pop()
 
             CallbackManager.beforeFirstVisit(self, prevCoord, currCoord, prevMove)
 
-            self.stateManager.state["movesFromTo"].append(currentCellInfo)
+            self.stateManager.state["movesHistory"].append(currentCellInfo)
 
 
             # *******************************************+++
@@ -166,7 +166,15 @@ class MatrixTraverser:
 
         # CALLBACK IDEA: afterAllMoves
 
-        
+
+    def getMovesHistory(self) -> list[dict]:
+        """
+        Get the moves history, which is the list containing pairs of
+        previous and current cell, with their values and previous move,
+        of the last traversal done.
+        """
+        return self.stateManager.state["movesHistory"]
+    
 
     #  def __jumpTo() -> None:
     #     """
@@ -521,18 +529,18 @@ class StateManager:
             "wasEnded": False,
             # the cells that were visited so far, 
             # which does not include the one we're about to visit
-            "movesFromTo": []
+            "movesHistory": []
         }
         # dummy coordinate, will be overwritten soon
         self.startCoordinate: Coordinate = Coordinate(-1, -1, isStart=True)
     
     # @staticmethod
     # def addToVisitedC(mt: MatrixTraverser, coord: Coordinate):
-    #     mt.stateManager.state["movesFromTo"].append(coord)
+    #     mt.stateManager.state["movesHistory"].append(coord)
 
     # @staticmethod
     # def pop(mt: MatrixTraverser, coord: Coordinate):
-    #     mt.stateManager.state["movesFromTo"].append(coord)
+    #     mt.stateManager.state["movesHistory"].append(coord)
 
 
     @staticmethod

@@ -10,12 +10,12 @@ def canMoveTo(mt: MazeTraverser,
                 currCoord: Coordinate,
                 prevMove: Move) -> bool:
             
-        nextNum = int(Matrix.getAtCoordinate(mt.matrix, desiredCoord)) # type: ignore
-        currNum = int(Matrix.getAtCoordinate(mt.matrix, currCoord)) # type: ignore
+        nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord) # type: ignore
+        currNum = Matrix.getAtCoordinate(mt.matrix, currCoord) # type: ignore
 
         # this cell can move to the desired/next coordinate 
         # only if this condition is met
-        return nextNum == currNum + 1
+        return nextNum == currNum + 1 # type: ignore
 
 
 
