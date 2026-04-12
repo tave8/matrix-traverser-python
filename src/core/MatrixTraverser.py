@@ -17,6 +17,8 @@ class MatrixTraverser:
         self.visited = Matrix.generateVisitedMatrixFrom(matrix)
         self.stateManager = StateManager(userState)
         self.callbackManager = CallbackManager(callbackMap)
+        # this will be set as soon as the user runs traverseMatrix
+        self.matrixTree: MatrixTree | None = None
 
 
     def _setCallbackManager(self, callbackMap: dict):
@@ -34,19 +36,24 @@ class MatrixTraverser:
         """
 
         StateManager._setStartCoordinate(self, startCoord)
+        beforeStartCoord = Coordinate.generateIsBeforeStartCoord()
 
         # create the root of the matrix tree
         rootNode = MatrixTree(
-            startCoord,
             parent=None,
+            currCoord=startCoord,
+            prevCoord=beforeStartCoord,
             prevMove=Move._BEFORE_START
         )
+        
+        # must manually set the matrix tree root
+        self.matrixTree = rootNode
 
         self.__traverse(
             currCoord=startCoord,
-            prevCoord=Coordinate.generateIsBeforeStartCoord(),
+            prevCoord=beforeStartCoord,
             prevMove=Move._BEFORE_START,
-            # parentNode=rootNode
+            parentNode=rootNode
         ) 
     
 
@@ -54,7 +61,7 @@ class MatrixTraverser:
                   currCoord: Coordinate, 
                   prevCoord: Coordinate, 
                   prevMove: Move,
-                #   parentNode: MatrixTree
+                  parentNode: MatrixTree
                   ) -> None:
         """
         The core algorithm: Traverses the matrix.
@@ -136,6 +143,14 @@ class MatrixTraverser:
         # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
         # *******************************************+++
 
+
+        currNode = MatrixTree(
+            parent=parentNode,
+            currCoord=currCoord,
+            prevCoord=currCoord,
+            prevMove=prevMove
+        )    
+
         # GET THE MOVES OF THIS CELL
         nextMoves = CallbackManager.getNextMoves(self, prevCoord, currCoord, prevMove)
 
@@ -146,44 +161,52 @@ class MatrixTraverser:
             if nextMove == Move.UP:
                 # up
                 if CallbackManager.canMoveTo(self, currCoord.up(), prevCoord, currCoord, prevMove):
+                    
+                    currNode = MatrixTree(
+                        parent=parentNode,
+                        currCoord=currCoord.up(),
+                        prevCoord=currCoord,
+                        prevMove=Move.UP
+                    )    
+
                     # CALLBACK IDEA: beforeMove
-                    self.__traverse(currCoord.up(), currCoord, Move.UP)
+                    self.__traverse(currCoord.up(), currCoord, Move.UP, currNode)
                     # CALLBACK IDEA: afterMove
 
             elif nextMove == Move.DIAGONAL_UP_RIGHT:
                 # diagonal up right
                 if CallbackManager.canMoveTo(self, currCoord.diagonalUpRight(), prevCoord, currCoord, prevMove):
-                    self.__traverse(currCoord.diagonalUpRight(), currCoord, Move.DIAGONAL_UP_RIGHT)
+                    self.__traverse(currCoord.diagonalUpRight(), currCoord, Move.DIAGONAL_UP_RIGHT, currNode)
 
             elif nextMove == Move.RIGHT:
                 # right
                 if CallbackManager.canMoveTo(self, currCoord.right(), prevCoord, currCoord, prevMove):
-                    self.__traverse(currCoord.right(), currCoord, Move.RIGHT)
+                    self.__traverse(currCoord.right(), currCoord, Move.RIGHT, currNode)
 
             elif nextMove == Move.DIAGONAL_DOWN_RIGHT:
                 # diagonal down right
                 if CallbackManager.canMoveTo(self, currCoord.diagonalDownRight(), prevCoord, currCoord, prevMove):
-                    self.__traverse(currCoord.diagonalDownRight(), currCoord, Move.DIAGONAL_DOWN_RIGHT)
+                    self.__traverse(currCoord.diagonalDownRight(), currCoord, Move.DIAGONAL_DOWN_RIGHT, currNode)
 
             elif nextMove == Move.DOWN:
                 # down
                 if CallbackManager.canMoveTo(self, currCoord.down(), prevCoord, currCoord, prevMove):
-                    self.__traverse(currCoord.down(), currCoord, Move.DOWN)
+                    self.__traverse(currCoord.down(), currCoord, Move.DOWN, currNode)
 
             elif nextMove == Move.DIAGONAL_DOWN_LEFT:
                 # diagonal down left
                 if CallbackManager.canMoveTo(self, currCoord.diagonalDownLeft(), prevCoord, currCoord, prevMove):
-                    self.__traverse(currCoord.diagonalDownLeft(), currCoord, Move.DIAGONAL_DOWN_LEFT)
+                    self.__traverse(currCoord.diagonalDownLeft(), currCoord, Move.DIAGONAL_DOWN_LEFT, currNode)
 
             elif nextMove == Move.LEFT:
                 # left
                 if CallbackManager.canMoveTo(self, currCoord.left(), prevCoord, currCoord, prevMove):
-                    self.__traverse(currCoord.left(), currCoord, Move.LEFT)
+                    self.__traverse(currCoord.left(), currCoord, Move.LEFT, currNode)
 
             elif nextMove == Move.DIAGONAL_UP_LEFT:
                 # diagonal up left 
                 if CallbackManager.canMoveTo(self, currCoord.diagonalUpLeft(), prevCoord, currCoord, prevMove):
-                    self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT)
+                    self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT, currNode)
 
 
         # CALLBACK IDEA: afterAllMoves

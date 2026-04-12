@@ -13,16 +13,18 @@ class MatrixTree:
     """
     
     def __init__(self, 
-                 coord: Coordinate,
                  parent: MatrixTree | None,
+                 currCoord: Coordinate,
+                 prevCoord: Coordinate,
                  prevMove: Move) -> None:
         """
         Matrix Tree.
         """
 
-        self.coord = coord
         self.parent = parent
         self.children: list[MatrixTree] = [] 
+        self.currCoord = currCoord
+        self.prevCoord = prevCoord
         self.prevMove: Move = prevMove
         # if the parent is none, we assume that's the root
         self.isRoot = parent is None 
