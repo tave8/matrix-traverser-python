@@ -55,6 +55,11 @@ for p in sys.path:
     print(p)
 ```
 
+
+# Object hierarchy
+
+![Object hierarchy](/assets/object_hierarchy.png)
+
 # Terminology
 
 ## Engine
