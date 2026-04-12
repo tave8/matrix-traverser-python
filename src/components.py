@@ -3,6 +3,7 @@ The building blocks.
 """
 
 from enum import Enum
+from typing import Any
 
 
 
@@ -16,7 +17,8 @@ class MatrixTree:
                  parent: MatrixTree | None,
                  currCoord: Coordinate,
                  prevCoord: Coordinate,
-                 prevMove: Move) -> None:
+                 prevMove: Move,
+                 isDummy=False) -> None:
         """
         Matrix Tree.
         """
@@ -28,11 +30,125 @@ class MatrixTree:
         self.prevMove: Move = prevMove
         # if the parent is none, we assume that's the root
         self.isRoot = parent is None 
+        # is this a dummy tree? a dummy tree is used exclusively
+        # for initialization reasons and shall be replaced, literally
+        # overwritten, when the user runs the traversal algorithm
+        self.isDummy = isDummy
 
-	# def findAncestorsOf(self, node) -> list[MatrixTree]:
+        
+    # def findAncestorsOf(self, startNode: MatrixTree) -> list[MatrixTree]:
+    #     """
+    #     Given a node, finds its ancestors.
+    #     """
+                    
+    #     ancestors = []
+
+    #     def traverse(node: MatrixTree | None) -> None:
+    #         # base case: it's the root 
+    #         if node is None:
+    #             return 
+    #         if node.isDummy:
+    #             raise Exception("a dummy node has no meaning and cannot exist in the matrix tree")
+    #         print(node)
+
+            
+    #         # recursive call
+    #         traverse(node.parent)
+
+
+    #     traverse(startNode)
+
+    #     return ancestors
+
+    @staticmethod
+    def findOneWhereValue(startNode: MatrixTree,  
+                            targetValue: Any,
+                            matrix: list[list]) -> tuple[MatrixTree | None, list[MatrixTree]]:
+        """
+        Find a matrix tree node where the value of the cell
+        is the same as the input.
+        """
+
+        nodeFound: MatrixTree | None = None
+        # collect the ancestors of the node found
+        ancestors: list[MatrixTree] = []
+
+        def find(currNode: MatrixTree | None) -> MatrixTree | None:
+            if currNode is None:
+                return None
+            
+            # we found the target node
+            if Matrix.getAtCoordinate(matrix, currNode.currCoord) == targetValue:
+                # we found the target node,
+                # therefore the caller will now get this node
+                # at its return value
+                return currNode 
+            
+            ancestors.append(currNode)
+
+            # **********************************
+            # print(Matrix.getAtCoordinate(matrix, currNode.currCoord)) 
+            # if currNode.currCoord
+            # iterate through the children
+            # using depth-first traversal
+            
+            # nodeWasFound = False 
+            actualNodeFound = None
+            maybeTargetNodes = []
+            
+            for child in currNode.children:
+                maybeTargetNode = find(child)
+                
+                # maybeTargetNodes.append(maybeTargetNode)
+                if maybeTargetNode:
+                    actualNodeFound = maybeTargetNode
+                    break
+        
+            # # a node was truly found (maybeTargetNode exists)
+            # # and the flag was false: we've actually found the node
+            # # and flagged it as found
+            # if maybeTargetNode:
+            #     actualNodeFound = child
+            #     if not nodeWasFound:
+            #         nodeWasFound = True  
+
+            # if nodeWasFound:
+            #     ancestors.pop()
+            
+            # **********************************
+
+            return actualNodeFound
+        
+
+        nodeFound = find(startNode)
+
+        return (nodeFound, ancestors)
+
+
+    # def find 
+
+    @staticmethod
+    def makeDummyNode() -> MatrixTree:
+        """
+        Returns a dummy MatrixTree, which is just needed for internal reasons,
+        like "type coherency" and initialization reasons.
+        It shall not be used truly, and it should be replaced immediately
+        when the user calls the run method on the matrix. 
+        """
+        return MatrixTree(
+            None, 
+            Coordinate(-1, -1), 
+            Coordinate(-1, -1), 
+            prevMove=Move._BEFORE_START,
+            isDummy=True
+        )
+
+
+    # def __str__(self) -> str:
+    #     return f"<MatrixTree>"
+
+    # def __repr__(self) -> str:
     #     pass
-
-
 
 
 class Matrix:

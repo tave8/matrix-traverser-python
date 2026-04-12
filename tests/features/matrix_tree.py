@@ -11,4 +11,8 @@ matrixTraverser.traverseMatrix(
     Coordinate(0,0)
 )
 
-print(matrixTraverser.matrixTree)
+# print(matrixTraverser.getMovesHistory())
+# print(matrixTraverser.matrixTree)
+# matrixTraverser.matrixTree.findAncestorsOf(
+#     matrixTraverser.matrixTree
+# )

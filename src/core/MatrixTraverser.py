@@ -18,7 +18,8 @@ class MatrixTraverser:
         self.stateManager = StateManager(userState)
         self.callbackManager = CallbackManager(callbackMap)
         # this will be set as soon as the user runs traverseMatrix
-        self.matrixTree: MatrixTree | None = None
+        # NOTE: this is a dummy tree: you 
+        self.matrixTree: MatrixTree = MatrixTree.makeDummyNode()
 
 
     def _setCallbackManager(self, callbackMap: dict):
@@ -47,7 +48,16 @@ class MatrixTraverser:
         )
         
         # must manually set the matrix tree root
+        # we must do so, because the matrixTree that was set
+        # on instantiation, was just a dummy node 
         self.matrixTree = rootNode
+
+        # make sure no node is dummy. we must manually set
+        # the matrixTree before calling this method
+        if self.matrixTree.isDummy:
+            raise Exception("before traversing the matrix, the dummy matrix tree was detected; instead, "
+                            +"the 'matrixTree' attribute of this MatrixTraverser instance should be manually set"
+                            +"before traversing the matrix")
 
         self.__traverse(
             currCoord=startCoord,
@@ -66,6 +76,7 @@ class MatrixTraverser:
         """
         The core algorithm: Traverses the matrix.
         """
+
 
         if self.stateManager.state["wasEnded"]:
             return 
@@ -143,13 +154,17 @@ class MatrixTraverser:
         # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
         # *******************************************+++
 
-
         currNode = MatrixTree(
             parent=parentNode,
             currCoord=currCoord,
             prevCoord=currCoord,
             prevMove=prevMove
         )    
+
+        parentNode.children.append(currNode)
+
+
+        # print(Matrix.getAtCoordinate(self.matrix, currNode.currCoord), currNode.currCoord)
 
         # GET THE MOVES OF THIS CELL
         nextMoves = CallbackManager.getNextMoves(self, prevCoord, currCoord, prevMove)
@@ -162,12 +177,12 @@ class MatrixTraverser:
                 # up
                 if CallbackManager.canMoveTo(self, currCoord.up(), prevCoord, currCoord, prevMove):
                     
-                    currNode = MatrixTree(
-                        parent=parentNode,
-                        currCoord=currCoord.up(),
-                        prevCoord=currCoord,
-                        prevMove=Move.UP
-                    )    
+                    # currNode = MatrixTree(
+                    #     parent=parentNode,
+                    #     currCoord=currCoord.up(),
+                    #     prevCoord=currCoord,
+                    #     prevMove=Move.UP
+                    # )    
 
                     # CALLBACK IDEA: beforeMove
                     self.__traverse(currCoord.up(), currCoord, Move.UP, currNode)
