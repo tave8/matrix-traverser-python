@@ -1,6 +1,6 @@
 from src.components import Matrix, Coordinate, Move
-from tests.examples.prework.next_equals_prev_plus_1 import *
-from tests.examples.assertions.next_equals_prev_plus_1 import *
+from tests.examples.prework.incremental_path import makeAndRunIncrementalPathMaze
+from tests.examples.assertions.incremental_path import *
 
 
 
@@ -26,7 +26,7 @@ def test_first_cell_is_start_and_last_is_end():
         Matrix.getFirstCol()
     )
 
-    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
 
     # for cellInfo in mazeTraverser.getMovesHistory():
     #     print(cellInfo)
@@ -49,7 +49,7 @@ def test_has_only_start():
         Matrix.getFirstCol()
     )
 
-    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
 
     assert len(dataToTest.movesHistory) == 1
     assertStartMustExist(dataToTest.movesHistory)
@@ -71,7 +71,7 @@ def test_non_ambiguous_matrix():
         Matrix.getFirstCol()
     )
 
-    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
 
     assertStartMustExist(dataToTest.movesHistory)
     assertEndMustExist(dataToTest.movesHistory)
@@ -100,7 +100,7 @@ def test_many_neighbors_with_incremental_values():
         Matrix.getFirstCol()
     )
 
-    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
 
     assertStartMustExist(dataToTest.movesHistory)
     assertEndMustExist(dataToTest.movesHistory)
@@ -132,7 +132,7 @@ def test_many_neighbors_with_incremental_values_and_swapped_start():
         Matrix.getLastCol(matrix)
     )
 
-    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
 
     assertStartMustExist(dataToTest.movesHistory)
     assertEndMustExist(dataToTest.movesHistory)
@@ -162,7 +162,7 @@ def test_path_no_exists():
         Matrix.getLastCol(matrix)
     )
 
-    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
 
     assertStartMustExist(dataToTest.movesHistory)
     assertEndMustNotExist(dataToTest.movesHistory)
@@ -187,7 +187,7 @@ def test_start_from_center():
         Matrix.getMiddleCol(matrix)
     )
 
-    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
 
     assertStartMustExist(dataToTest.movesHistory)
     assertEndMustExist(dataToTest.movesHistory)
