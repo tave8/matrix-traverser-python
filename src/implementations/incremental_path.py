@@ -60,7 +60,7 @@ def makeIncrementalPathMaze(matrix: list[list],
 
 
 
-# callback specific for this maze
+# callback specific for this maze problem
 def _canMoveTo(mt: MazeTraverser, 
                 desiredCoord: Coordinate, 
                 prevCoord: Coordinate, 
@@ -75,7 +75,7 @@ def _canMoveTo(mt: MazeTraverser,
         return nextNum == currNum + 1 # type: ignore
 
 
-# callback specific for this maze
+# callback specific for this maze problem
 def _canMoveToOnStart(mt: MazeTraverser, 
                     desiredCoord: Coordinate, 
                     prevCoord: Coordinate, 

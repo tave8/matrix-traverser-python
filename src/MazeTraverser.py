@@ -1,5 +1,5 @@
 """
-Maze Traverser, built on the Matrix Traverser Engine.
+Maze Traverser, built on top of the Matrix Traverser Engine.
 
 """
 
@@ -35,23 +35,36 @@ class MazeTraverser(MatrixTraverser):
         :param endName: the value of the end cell
         """
         
+        # callback must be a function
+        if not isfunction(canMoveToCallback):
+            raise ExpectedUserCallbackError(canMoveToCallback)
+
+            # callback must be a function
+        if not isfunction(canMoveToOnStartCallback):
+            raise ExpectedUserCallbackError(canMoveToOnStartCallback)
+
+        # ************ START *********************
+        # these logical block must go together
+
+        # call MatrixTraverser constructor
+        super().__init__(
+            matrix,
+            # because the Maze Traverser instance has not been
+            # initialized yet, and we need it to find its callbacks,
+            # we pass an empty dict for now. after this initialization,
+            # you MUST immediately set the callback manager manually
+            {},
+            userState
+        )
         # configure the Matrix Traverser Engine to use 
         # these callbacks. by callbacks we assume
         # it's one callback (canMoveTo) which has been proven
         # to solve maze-related problems
         mazeCallbackMap = MazeTraverser._getMazeCallbackMap(self)
         # print(mazeCallbackMap)
+        self._setCallbackManager(mazeCallbackMap)
 
-        # call MatrixTraverser constructor
-        super().__init__(
-            matrix,
-            mazeCallbackMap,
-            userState
-        )
-
-        # callback must be a function
-        if not isfunction(canMoveToCallback):
-            raise ExpectedUserCallbackError(canMoveToCallback)
+        # ********************END *************************
 
         # user-defined, maze-specific callback
         # in this callback, the user will define the exact logic

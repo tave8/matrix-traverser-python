@@ -10,13 +10,22 @@ class MatrixTraverser:
 
     def __init__(self, 
                  matrix: list[list], 
-                 userCallbackMap: dict = {}, 
+                 callbackMap: dict = {}, 
                  userState: dict = {}):
         
         self.matrix = matrix
         self.visited = Matrix.generateVisitedMatrixFrom(matrix)
         self.stateManager = StateManager(userState)
-        self.callbackManager = CallbackManager(userCallbackMap)
+        self.callbackManager = CallbackManager(callbackMap)
+
+
+    def _setCallbackManager(self, callbackMap: dict):
+        """
+        Set the Callback Manager instance manually,
+        from a callback map. Careful: this manual setting 
+        should be only for proven reasons. 
+        """
+        self.callbackManager = CallbackManager(callbackMap)
 
 
     def traverseMatrix(self, startCoord: Coordinate) -> None:
