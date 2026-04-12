@@ -28,11 +28,8 @@ def test_first_cell_is_start_and_last_is_end():
 
     dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
 
-
-
     # for cellInfo in mazeTraverser.getMovesHistory():
     #     print(cellInfo)
-
 
     assert len(dataToTest.movesHistory) > 1
     assertStartMustExist(dataToTest.movesHistory)
@@ -40,44 +37,50 @@ def test_first_cell_is_start_and_last_is_end():
 
 
 
-# def test_has_only_start():
-#     matrix = [
-#         ["S",  8,  9],
-#         [ 99, 99, 99],
-#         [  5,  6, "E"]
-#     ]
+def test_has_only_start():
+    matrix = [
+        ["S",  8,  9],
+        [ 99, 99, 99],
+        [  5,  6, "E"]
+    ]
 
-#     mt = makeTraverser(matrix, Coordinate(Matrix.getFirstRow(), Matrix.getFirstCol()))
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
 
-#     visitedCells = mt.stateManager.state["movesFromTo"]
+    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
 
-#     assert len(visitedCells) == 1
-#     assertStartMustExist(visitedCells)
-#     assertEndMustNotExist(visitedCells)
+    assert len(dataToTest.movesHistory) == 1
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustNotExist(dataToTest.movesHistory)
 
 
-# def test_non_ambiguous_matrix():
+def test_non_ambiguous_matrix():
 
-#     matrix = [
-#         ["S",  8,  9,  9, 90],
-#         [ 1,   2,  7,  8, 10],
-#         [10,   3,  4,  5, 13],
-#         [12,   8, 10,  6, 14],
-#         [ 5,   6,  5, 16, "E"]
-#     ]
+    matrix = [
+        ["S",  8,  9,  9, 90],
+        [ 1,   2,  7,  8, 10],
+        [10,   3,  4,  5, 13],
+        [12,   8, 10,  6, 14],
+        [ 5,   6,  5, 16, "E"]
+    ]
 
-#     mt = makeTraverser(matrix, Coordinate(Matrix.getFirstRow(), Matrix.getFirstCol()))
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
 
-#     visitedCells = mt.stateManager.state["movesFromTo"]
+    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
 
-#     assertStartMustExist(visitedCells)
-#     assertEndMustExist(visitedCells)
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
 
-#     middleCells = visitedCells[1:-1]
+    middleCells = dataToTest.movesHistory[1:-1]
 
-#     for i in range(1, len(middleCells)):
-#         cell = middleCells[i]
-#         assertOnCellInfo(cell)
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
 
 
 # def test_many_neighbors_with_incremental_values():
