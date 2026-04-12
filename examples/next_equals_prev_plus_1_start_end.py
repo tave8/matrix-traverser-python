@@ -99,5 +99,6 @@ matrixTraverser.traverseMatrix(
 )
 
 
-
+for cellInfo in matrixTraverser.stateManager.state["movesFromTo"]:
+    print(cellInfo)
 
