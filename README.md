@@ -55,6 +55,44 @@ for p in sys.path:
     print(p)
 ```
 
+# Terminology
+
+## Engine
+
+When we refer to Engine, we refer to the Matrix Traverser Engine. 
+
+It is the underlying, configurable algorithm that traverses a matrix.
+
+The Engine can be used as the basis for more specific algorithms.
+
+For example, the Maze Traverser uses the Engine to pilot cells and find whether a path in a labyrinth exists.
+
+The Maze Traverser therefore abstracts the Engine, however we might still want to make life easier for the user,
+
+by providing another abstraction: The Implementation.
+
+
+## Implementation
+
+You may think of an Implementation as "the actual problem solved", it is therefore very problem-specific.
+
+An Implementation is the end outcome of one of the algorithms. 
+
+It is supposed to provide a user-friendly and intuitive interface, and zero boilerplate, to solve a specific problem: Only the actual input that the problem requires. 
+
+For example, for a maze-based Implementation, we may want to provide at the very least the start of the maze. 
+
+For example, an Implementation is the "Incremental Path", which finds whether a path of incremental values exists (S -> 1 -> 2 -> 3 -> 4 -> ... -> E).
+
+An Implementation, as the name suggests, implements, and more specifically it implements an algorithm.
+
+For example, the Incremental Path implements the Maze Traverser, which in turn implements Matrix Traverser.
+
+The higher up we go in the "implementation chain", the more abstract the logic.
+
+The further down we go, the more user-friendly.
+
+
 # Algorithm
 
 ## The start
