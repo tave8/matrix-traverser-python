@@ -21,6 +21,7 @@ class MazeTraverser(MatrixTraverser):
     def __init__(self, 
                  matrix: list[list], 
                  canMoveToCallback: Callable[[MazeTraverser, Coordinate, Coordinate, Coordinate, Move], bool],
+                 canMoveToOnStartCallback: Callable[[MazeTraverser, Coordinate, Coordinate, Coordinate, Move], bool],
                  userState: dict = {},
                  startName = "S",
                  endName = "E") -> None:
@@ -28,6 +29,9 @@ class MazeTraverser(MatrixTraverser):
         canMoveCallback is the user-defined, maze-specific callback.
         It will be used in the specific steps of the maze traversal,
         where the user will be able to pilot the traversal.
+
+        :param startName: the value of the start cell
+        :param endName: the value of the end cell
         """
         
         # configure the Matrix Traverser Engine to use 
@@ -52,7 +56,8 @@ class MazeTraverser(MatrixTraverser):
         # in this callback, the user will define the exact logic
         # of how they want their maze logic to play out
         self.canMoveToCallback = canMoveToCallback
-        
+        self.canMoveToOnStartCallback = canMoveToOnStartCallback
+
         self.startName = startName
         self.endName = endName
 
@@ -86,7 +91,8 @@ class MazeTraverser(MatrixTraverser):
         """
 
 
-    
+        # CLOSURE FUNCTION: this will be run directly 
+        # by the Matrix Traversal Engine
         def _canMoveToWrapper(_matrixTraverser: MatrixTraverser, 
                                 desiredCoord: Coordinate, 
                                 prevCoord: Coordinate, 
@@ -98,12 +104,14 @@ class MazeTraverser(MatrixTraverser):
             engine will expect.
             """
 
-            # from the start, you can only move to 
-            # a cell with value 1
+            # at the very start, the user defines where to move
             if currCoord.isStart:
-                # return MazeTraverser._canMoveToOnStart(mazeTraverser)
-            
-                return Matrix.getAtCoordinate(mazeTraverser.matrix, desiredCoord) == 1
+
+                return mazeTraverser.canMoveToOnStartCallback(mazeTraverser, 
+                                                              desiredCoord, 
+                                                              prevCoord, 
+                                                              currCoord, 
+                                                              prevMove)            
 
             # the cells around S might try to go to S, but they must not
             # because of how the engine works and the nature of its recursive calls,
@@ -137,17 +145,6 @@ class MazeTraverser(MatrixTraverser):
         return _canMoveToWrapper 
 
     
-
-    # def getStartName():
-    #     return "S"
-
-    # def getEndName():
-    #     return "E"
-
-    # def getFirstNextValueAtStart():
-    #     return "1"
-
-
     @staticmethod
     def _getMazeCallbackMap(mazeTraverser: MazeTraverser) -> dict[str, Callable]:
         """
@@ -180,7 +177,6 @@ def canMoveTo(mt: MazeTraverser,
         # this cell can move to the desired/next coordinate 
         # only if this condition is met
         return nextNum == currNum + 1
-        # return False
 
 
 
@@ -215,7 +211,11 @@ matrix = [
 ]
 
 
-mazeTraverser = MazeTraverser(matrix, canMoveTo)
+mazeTraverser = MazeTraverser(
+    matrix, 
+    canMoveToCallback=canMoveTo, 
+    canMoveToOnStartCallback=canMoveToOnStart
+)
 
 
 startCoord = Coordinate(
