@@ -21,7 +21,9 @@ class MazeTraverser(MatrixTraverser):
     def __init__(self, 
                  matrix: list[list], 
                  canMoveToCallback: Callable[[MazeTraverser, Coordinate, Coordinate, Coordinate, Move], bool],
-                 userState: dict = {}) -> None:
+                 userState: dict = {},
+                 startName = "S",
+                 endName = "E") -> None:
         """
         canMoveCallback is the user-defined, maze-specific callback.
         It will be used in the specific steps of the maze traversal,
@@ -50,6 +52,9 @@ class MazeTraverser(MatrixTraverser):
         # in this callback, the user will define the exact logic
         # of how they want their maze logic to play out
         self.canMoveToCallback = canMoveToCallback
+        
+        self.startName = startName
+        self.endName = endName
 
 
     def run(self, startCoord: Coordinate) -> None:
@@ -79,6 +84,8 @@ class MazeTraverser(MatrixTraverser):
         NOTE: the mechanism of function closure is being used. 
         this is because I want the actual Maze Traverser Instance.
         """
+
+
     
         def _canMoveToWrapper(_matrixTraverser: MatrixTraverser, 
                                 desiredCoord: Coordinate, 
@@ -91,27 +98,27 @@ class MazeTraverser(MatrixTraverser):
             engine will expect.
             """
 
-            # return True
-    
             # from the start, you can only move to 
             # a cell with value 1
             if currCoord.isStart:
-                return Matrix.getAtCoordinate(mazeTraverser.matrix, desiredCoord) == "1"
+                # return MazeTraverser._canMoveToOnStart(mazeTraverser)
+            
+                return Matrix.getAtCoordinate(mazeTraverser.matrix, desiredCoord) == 1
 
             # the cells around S might try to go to S, but they must not
             # because of how the engine works and the nature of its recursive calls,
             # even though the start is already visited,
             # some start paths might still be asking if i can move to start
-            if Matrix.getAtCoordinate(mazeTraverser.matrix, desiredCoord) == "S":
+            if Matrix.getAtCoordinate(mazeTraverser.matrix, desiredCoord) == mazeTraverser.startName:
                 return False
             
             # if the next move is the end, you can move
-            if Matrix.getAtCoordinate(mazeTraverser.matrix, desiredCoord) == "E":
+            if Matrix.getAtCoordinate(mazeTraverser.matrix, desiredCoord) == mazeTraverser.endName:
                 return True
             
             # if the curr coordinate is the end itself,
             # end the algorithm
-            if Matrix.getAtCoordinate(mazeTraverser.matrix, currCoord) == "E":
+            if Matrix.getAtCoordinate(mazeTraverser.matrix, currCoord) == mazeTraverser.endName:
                 # end the algorithm at 
                 StateManager.setWasEnded(mazeTraverser, True)
                 return False
@@ -176,14 +183,35 @@ def canMoveTo(mt: MazeTraverser,
         # return False
 
 
+
+def canMoveToOnStart(mt: MazeTraverser, 
+                    desiredCoord: Coordinate, 
+                    prevCoord: Coordinate, 
+                    currCoord: Coordinate,
+                    prevMove: Move) -> bool:
+        
+    return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == 1
+                
+
+
+# matrix = [
+#         ["S",  "1",  "2",   "3",   "4",  "5"],
+#         ["1",  "1",  "2",   "4",   "5",  "6"],
+#         ["2",  "2",  "4",   "5",   "6",  "7"],
+#         ["3",  "4",  "3",   "5",   "7",  "8"],
+#         ["4",  "5",  "6",   "8",   "6",  "9"],
+#         ["5",  "8",  "11",  "9",   "11", "2"],
+#         ["6",  "7",  "10",  "10",  "8",  "E"]
+# ]
+
 matrix = [
-        ["S",  "1",  "2",   "3",   "4",  "5"],
-        ["1",  "1",  "2",   "4",   "5",  "6"],
-        ["2",  "2",  "4",   "5",   "6",  "7"],
-        ["3",  "4",  "3",   "5",   "7",  "8"],
-        ["4",  "5",  "6",   "8",   "6",  "9"],
-        ["5",  "8",  "11",  "9",   "11", "2"],
-        ["6",  "7",  "10",  "10",  "8",  "E"]
+        ["S",  1,  2,  3,  4,  5],
+        [ 1,   1,  2,  4,  5,  6],
+        [ 2,   2,  4,  5,  6,  7],
+        [ 3,   4,  3,  5,  7,  8],
+        [ 4,   5,  6,  8,  6,  9],
+        [ 5,   8, 11,  9, 11,  2],
+        [ 6,   7, 10, 10,  8, "E"]
 ]
 
 
