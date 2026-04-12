@@ -73,7 +73,7 @@ class MatrixTraverser:
             return
 
 
-        CallbackManager.beforeVisit(self, prevCoord, currCoord, prevMove)
+        # CallbackManager.beforeVisit(self, prevCoord, currCoord, prevMove)
 
         currentCellInfo = {
             "prevCoord": prevCoord,
@@ -111,11 +111,11 @@ class MatrixTraverser:
             # because we promise to only give the "movesHistory"
             # that means we must pop the one we just added, and then 
             # add it back right after the callback
-            self.stateManager.state["movesHistory"].pop()
+            # self.stateManager.state["movesHistory"].pop()
 
-            CallbackManager.beforeFirstVisit(self, prevCoord, currCoord, prevMove)
+            # CallbackManager.beforeFirstVisit(self, prevCoord, currCoord, prevMove)
 
-            self.stateManager.state["movesHistory"].append(currentCellInfo)
+            # self.stateManager.state["movesHistory"].append(currentCellInfo)
 
 
             # *******************************************+++
@@ -316,40 +316,40 @@ class CallbackManager:
         return True
 
 
-    @staticmethod
-    def beforeFirstVisit(mt: MatrixTraverser, 
-                         prevCoord: Coordinate, 
-                         currCoord: Coordinate, 
-                         prevMove: Move) -> None:
-        """
-        Before first visit of a cell, run this callback.
-        """
+    # @staticmethod
+    # def beforeFirstVisit(mt: MatrixTraverser, 
+    #                      prevCoord: Coordinate, 
+    #                      currCoord: Coordinate, 
+    #                      prevMove: Move) -> None:
+    #     """
+    #     Before first visit of a cell, run this callback.
+    #     """
 
-        # run the user-defined callback, if exists
-        if FunctionHelper.mapHasFunction("beforeFirstVisit", mt.callbackManager.callbackMap):
-            beforeFirstVisitCallback = mt.callbackManager.callbackMap["beforeFirstVisit"]
+    #     # run the user-defined callback, if exists
+    #     if FunctionHelper.mapHasFunction("beforeFirstVisit", mt.callbackManager.callbackMap):
+    #         beforeFirstVisitCallback = mt.callbackManager.callbackMap["beforeFirstVisit"]
 
-            beforeFirstVisitCallback(mt, prevCoord, currCoord, prevMove)
+    #         beforeFirstVisitCallback(mt, prevCoord, currCoord, prevMove)
         
         # if the user did not specify a callback,
         # we don't have to do anything particular here
 
 
-    @staticmethod
-    def beforeVisit(mt: MatrixTraverser, 
-                        prevCoordinate: Coordinate, 
-                        currCoordinate: Coordinate, 
-                        prevMove: Move) -> None:
-        """
-        Before ANY visit of a cell, run this callback.
-        """
+    # @staticmethod
+    # def beforeVisit(mt: MatrixTraverser, 
+    #                     prevCoordinate: Coordinate, 
+    #                     currCoordinate: Coordinate, 
+    #                     prevMove: Move) -> None:
+    #     """
+    #     Before ANY visit of a cell, run this callback.
+    #     """
 
-        # run the user-defined callback, if exists
-        if FunctionHelper.mapHasFunction("beforeVisit", mt.callbackManager.callbackMap):
-            mt.callbackManager.callbackMap["beforeVisit"](mt, 
-                                                            prevCoordinate, 
-                                                            currCoordinate,
-                                                            prevMove)
+    #     # run the user-defined callback, if exists
+    #     if FunctionHelper.mapHasFunction("beforeVisit", mt.callbackManager.callbackMap):
+    #         mt.callbackManager.callbackMap["beforeVisit"](mt, 
+    #                                                         prevCoordinate, 
+    #                                                         currCoordinate,
+    #                                                         prevMove)
         # if the user did not specify a callback,
         # we don't have to do anything particular here
 
