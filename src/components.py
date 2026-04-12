@@ -6,6 +6,30 @@ from enum import Enum
 
 
 
+class MatrixTree:
+    """
+    A tree data structure where 
+    each node has N children.
+    """
+    
+    def __init__(self, 
+                 coord: Coordinate,
+                 parent: MatrixTree | None,
+                 prevMove: Move) -> None:
+        """
+        Matrix Tree.
+        """
+
+        self.coord = coord
+        self.parent = parent
+        self.children: list[MatrixTree] = [] 
+        self.prevMove: Move = prevMove
+        # if the parent is none, we assume that's the root
+        self.isRoot = parent is None 
+
+	# def findAncestorsOf(self, node) -> list[MatrixTree]:
+    #     pass
+
 
 
 

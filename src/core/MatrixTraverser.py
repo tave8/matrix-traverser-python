@@ -1,5 +1,5 @@
 from src.helpers import FunctionHelper
-from src.components import Coordinate, Move, Moves, Matrix
+from src.components import Coordinate, Move, Moves, Matrix, MatrixTree
 from src.exceptions.DuringUserCallbackError import DuringUserCallbackError
 
 
@@ -35,17 +35,27 @@ class MatrixTraverser:
 
         StateManager._setStartCoordinate(self, startCoord)
 
+        # create the root of the matrix tree
+        rootNode = MatrixTree(
+            startCoord,
+            parent=None,
+            prevMove=Move._BEFORE_START
+        )
+
         self.__traverse(
             currCoord=startCoord,
             prevCoord=Coordinate.generateIsBeforeStartCoord(),
-            prevMove=Move._BEFORE_START
-        )
+            prevMove=Move._BEFORE_START,
+            # parentNode=rootNode
+        ) 
     
 
     def __traverse(self, 
                   currCoord: Coordinate, 
                   prevCoord: Coordinate, 
-                  prevMove: Move) -> None:
+                  prevMove: Move,
+                #   parentNode: MatrixTree
+                  ) -> None:
         """
         The core algorithm: Traverses the matrix.
         """
@@ -77,10 +87,13 @@ class MatrixTraverser:
         # we must remove it when necessary
         self.stateManager.state["movesHistory"].append(currentCellInfo)
 
-        # if this cell has been visited
-        if Matrix.isVisited(self.visited, currCoord):
 
-            if CallbackManager.onMultipleVisitMustStop(self, prevCoord, currCoord, prevMove):
+        wasVisited = Matrix.isVisited(self.visited, currCoord)
+
+        # if this cell has been visited
+        if wasVisited:
+
+            # if CallbackManager.onMultipleVisitMustStop(self, prevCoord, currCoord, prevMove):
                 # if the user does not want to consider
                 # cells that have been already visited, we must
                 # pop the cell we just added 
@@ -91,7 +104,7 @@ class MatrixTraverser:
         # because skipping a visited cell is left to the user,
         # we don't know if, when we get here, that cell will have 
         # been visited for the first time or not. so we must do a check
-        if not Matrix.isVisited(self.visited, currCoord):
+        if not wasVisited:
 
             # if self.callbackManager.canVisit(prevCoordinate, currCoord, prevMove):
 
@@ -421,58 +434,58 @@ class CallbackManager:
     #     # by default, we always visit a cell
     #     return True 
     
-    @staticmethod
-    def onMultipleVisitMustStop(mt: MatrixTraverser, 
-                                prevCoordinate: Coordinate, 
-                                currCoordinate: Coordinate, 
-                                prevMove: Move) -> bool:
-        """
-        Defines the logic of whether a cell that is visited multiple times
-        must be skipped. Wrong configuration of this callback
-        can result in non termination of the algorithm, which is 
-        why the primary semantics points to skip instead of continuing.
+    # @staticmethod
+    # def onMultipleVisitMustStop(mt: MatrixTraverser, 
+    #                             prevCoordinate: Coordinate, 
+    #                             currCoordinate: Coordinate, 
+    #                             prevMove: Move) -> bool:
+    #     """
+    #     Defines the logic of whether a cell that is visited multiple times
+    #     must be skipped. Wrong configuration of this callback
+    #     can result in non termination of the algorithm, which is 
+    #     why the primary semantics points to skip instead of continuing.
         
-        If we don't skip (so if we continue) it probably means 
-        we're more interested in exploring the matrix rather than
-        using some cell value. This behavior is desirable 
-        in the following cases, for example: 
+    #     If we don't skip (so if we continue) it probably means 
+    #     we're more interested in exploring the matrix rather than
+    #     using some cell value. This behavior is desirable 
+    #     in the following cases, for example: 
         
-        - we don't know where a certain target cell is, and therefore
-        we don't really care about whether a cell was visited or not
+    #     - we don't know where a certain target cell is, and therefore
+    #     we don't really care about whether a cell was visited or not
         
-        - we must ignore that this cell was visited because we might
-        need to go back to certain places of the matrix, and therefore 
-        we have to inevitably pass through some visited cells, and we 
-        don't care that they were visited
-        """
+    #     - we must ignore that this cell was visited because we might
+    #     need to go back to certain places of the matrix, and therefore 
+    #     we have to inevitably pass through some visited cells, and we 
+    #     don't care that they were visited
+    #     """
 
-        # run the user-defined callback, if exists
-        if FunctionHelper.mapHasFunction("onMultipleVisitMustStop", mt.callbackManager.callbackMap):
-            mustStop: bool | None = mt.callbackManager.callbackMap["onMultipleVisitMustStop"](mt, 
-                                                                                        prevCoordinate, 
-                                                                                        currCoordinate,
-                                                                                        prevMove)
-            # if the user did not return, it means 
-            # it's happy with this cell moving being skipped, 
-            # if it's been visited 
-            if mustStop is None:
-                return True
+    #     # run the user-defined callback, if exists
+    #     if FunctionHelper.mapHasFunction("onMultipleVisitMustStop", mt.callbackManager.callbackMap):
+    #         mustStop: bool | None = mt.callbackManager.callbackMap["onMultipleVisitMustStop"](mt, 
+    #                                                                                     prevCoordinate, 
+    #                                                                                     currCoordinate,
+    #                                                                                     prevMove)
+    #         # if the user did not return, it means 
+    #         # it's happy with this cell moving being skipped, 
+    #         # if it's been visited 
+    #         if mustStop is None:
+    #             return True
             
-            # check if the returned value is correct
-            if not isinstance(mustStop, bool):
-                raise Exception("stop must be of type bool")
+    #         # check if the returned value is correct
+    #         if not isinstance(mustStop, bool):
+    #             raise Exception("stop must be of type bool")
             
-            return mustStop
+    #         return mustStop
         
-        # default behavior is, we always skip visited cells
-        # in other words, in this case the algorithm cannot 
-        # "jump" or ignore visited cells, which means that 
-        # the algorithm might get stuck in a sort of "fence"
-        # where it will not visit visited cells, and therefore
-        # it will not explore other cells "on the other side" 
-        # of the visited cells. this behavior is normal, if 
-        # if the "explorer" behaviour is not desired or needed. 
-        return True
+    #     # default behavior is, we always skip visited cells
+    #     # in other words, in this case the algorithm cannot 
+    #     # "jump" or ignore visited cells, which means that 
+    #     # the algorithm might get stuck in a sort of "fence"
+    #     # where it will not visit visited cells, and therefore
+    #     # it will not explore other cells "on the other side" 
+    #     # of the visited cells. this behavior is normal, if 
+    #     # if the "explorer" behaviour is not desired or needed. 
+    #     return True
     
 
     # @staticmethod
