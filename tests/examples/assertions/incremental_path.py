@@ -6,11 +6,16 @@ def assertOnCellInfo(cellInfo: dict):
         assert isinstance(cellInfo["currCoord"], Coordinate)
         assert Coordinate.areAdjacent(cellInfo["currCoord"], cellInfo["prevCoord"])
 
-        # the previous cell is the start, so 
-        # to the next cell must be 1
-        if cellInfo["prevValue"] == "S":
+        # if this is the very start (before start -> start)
+        if cellInfo["prevCoord"].isBeforeStart:
+           assert cellInfo["currCoord"].isStart  
+        
+        # if the previous cell is start, the next must be 1
+        elif cellInfo["prevCoord"].isStart:
             assert isinstance(cellInfo["currValue"], int)
             assert cellInfo["currValue"] == 1
+
+        # for every other cell
         else:
             assert isinstance(cellInfo["prevValue"], int)
             assert isinstance(cellInfo["currValue"], int)

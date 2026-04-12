@@ -2,10 +2,10 @@ from src.components import Coordinate, Matrix
 from src.implementations.incremental_path import makeIncrementalPathMaze
 
 incrementalPathMaze = makeIncrementalPathMaze([
-    ["S", 1, 1, "E"],
-    [1, 1, 1, 1],
-    [1, 1, 1, 1],
-    [1, 1, 1, 1],
+    ["S", 1,  1, "E"],
+    [1,   2,  1,  4],
+    [1,   1,  3,  1],
+    [1,   1,  1,  1],
 ])
 
 incrementalPathMaze.run(Coordinate(

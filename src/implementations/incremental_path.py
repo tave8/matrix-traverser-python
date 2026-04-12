@@ -20,13 +20,12 @@ def makeIncrementalPathMaze(matrix: list[list]) -> MazeTraverser:
     """
     Makes the Incremental Path Maze, an implementation of the 
     Maze Traverser.
-
-    What it does:
-    - search whether a path from start to end exists, with any 
+    
+    Search whether a path from start to end exists, with any 
     number of candidate paths for each cell, where the next value 
     must be the previous value + 1.
 
-    Example:  
+    # Example  
 
     ```
     S - 1   5    3
@@ -42,11 +41,14 @@ def makeIncrementalPathMaze(matrix: list[list]) -> MazeTraverser:
     8   5   2    E
     ```
 
-    Rules:
+    # Rules
     - start value is "S"
     - end value is "E"
     - all values except start and end must be number types
     - from the start, the next value is exactly 1
+    - at start, if no adjacent 1 is found, the algorithm terminates
+    - start and end must have at least a number in between, and if that number is only one number,
+        it will have to be 1 
     """
 
     mazeTraverser = MazeTraverser(

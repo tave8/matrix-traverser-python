@@ -41,6 +41,30 @@ def test_only_start_and_end():
     assertEndMustNotExist(dataToTest.movesHistory)
 
 
+
+def test_only_one_between_start_and_end():
+    matrix = [
+        ["S", 1, "E"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+    middleCells = dataToTest.movesHistory[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
+
+
+
 def test_one_row_matrix_no_path():
     matrix = [
         ["S",  8,  9]
@@ -135,10 +159,6 @@ def test_all_ones_no_path():
 
 
 
-
-
-
-
 # tests whether the first and last values 
 # are the start (S) and end (E)
 # and whether each cell's value = prev cell value + 1
@@ -217,7 +237,7 @@ def test_non_ambiguous_matrix():
         assertOnCellInfo(cell)
 
 
-def test_many_candidate_neighbors1():
+def test_many_candidate_neighbors_path_exists_1():
 
     matrix = [
         ["S",  1,  2,  3,  4,  5],
@@ -248,7 +268,7 @@ def test_many_candidate_neighbors1():
     
 
 
-def test_many_candidate_neighbors2():
+def test_many_candidate_neighbors_path_exists_2():
 
     matrix = [
         ["E", 22, 21,  3,  4,   5],
@@ -277,7 +297,100 @@ def test_many_candidate_neighbors2():
         cell = middleCells[i]
         assertOnCellInfo(cell)
 
-    
+
+def test_many_candidate_neighbors_path_exists_3():
+    matrix = [
+        [  7,   8,   9,  10,  11,  12,  99,  99,  99,  99,  45,  46,  47,  48,  49],
+        [  6,   9,  10,  11,  12,  13,  99,  99,  99,  99,  44,  47,  48,  49,  50],
+        [  5,  10,  11,  12,  13,  14,  99,  99,  99,  99,  43,  48,  49,  50,  "E"],
+        [  4,   5,   6,  13,  14,  15,  99,  99,  99,  99,  42,  99,  99,  99,  99],
+        [  3,   4,   7,  14,  15,  16,  99,  99,  99,  99,  41,  99,  99,  99,  99],
+        [  2,   3,   8,  15,  16,  17,  99,  99,  99,  99,  40,  99,  99,  99,  99],
+        [  1,   2,   9,  16,  17,  18,  99,  99,  99,  99,  39,  99,  99,  99,  99],
+        ["S",   1,  10,  17,  18,  19,  99,  99,  99,  99,  38,  99,  99,  99,  99],
+        [ 99,   2,  11,  18,  19,  20,  99,  99,  99,  99,  37,  99,  99,  99,  99],
+        [ 99,   3,  12,  19,  20,  21,  99,  99,  99,  99,  36,  99,  99,  99,  99],
+        [ 99,   4,  13,  20,  21,  22,  99,  99,  99,  99,  35,  99,  99,  99,  99],
+        [ 99,   5,  14,  21,  22,  23,  99,  99,  99,  99,  34,  99,  99,  99,  99],
+        [ 99,   6,  15,  22,  23,  24,  99,  99,  99,  99,  33,  99,  99,  99,  99],
+        [ 99,   7,  16,  23,  24,  25,  99,  99,  99,  99,  32,  99,  99,  99,  99],
+        [ 99,   8,  17,  24,  25,  26,  27,  28,  29,  30,  31,  99,  99,  99,  99],
+    ]
+
+    startCoord = Coordinate(7, 0)
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+    middleCells = dataToTest.movesHistory[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
+
+
+
+
+def test_only_one_candidate_neighbor_path_exists_1():
+    matrix = [
+        ["S",  1,  90,  90,  90,  90],
+        [ 90,  2,  90,   7,   8,  90],
+        [ 90,  3,  90,   6,   9,  90],
+        [ 90,  4,   5,   5,  10,  90],
+        [ 90, 90,  90,  90,  11,  90],
+        [ 90, 90,  90,  90,  12, "E"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+    middleCells = dataToTest.movesHistory[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
+
+
+
+def test_only_one_candidate_neighbor_path_exists_2():
+    matrix = [
+        ["S",  1,  99,  99,  99,  99,  99,  99,  99,  99],
+        [ 99,  2,  99,  99,  99,  99,  99,  99,  99,  99],
+        [ 99,  3,   4,   5,   6,   7,   8,   9,  99,  99],
+        [ 99,  99,  99,  99,  99,  99,  99,  10,  99,  99],
+        [ 99,  99,  16,  15,  14,  13,  12,  11,  99,  99],
+        [ 99,  99,  17,  99,  99,  99,  99,  99,  99,  99],
+        [ 99,  99,  18,  99,  99,  99,  99,  99,  99,  99],
+        [ 99,  99,  19,  20,  21,  22,  23,  24,  99,  99],
+        [ 99,  99,  99,  99,  99,  99,  99,  25,  99,  99],
+        [ 99,  99,  99,  99,  99,  99,  99,  26,  27, "E"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+    middleCells = dataToTest.movesHistory[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
+
 
 def test_path_no_exists():
 
@@ -388,29 +501,5 @@ def test_only_one_of_multiple_paths():
         assertOnCellInfo(cell)
 
 
-def test_winding_corridor():
-    matrix = [
-        ["S",  1,  90,  90,  90,  90],
-        [ 90,  2,  90,   7,   8,  90],
-        [ 90,  3,  90,   6,   9,  90],
-        [ 90,  4,   5,   5,  10,  90],
-        [ 90, 90,  90,  90,  11,  90],
-        [ 90, 90,  90,  90,  12, "E"]
-    ]
 
-    startCoord = Coordinate(
-        Matrix.getFirstRow(),
-        Matrix.getFirstCol()
-    )
-
-    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
-
-    assertStartMustExist(dataToTest.movesHistory)
-    assertEndMustExist(dataToTest.movesHistory)
-
-    middleCells = dataToTest.movesHistory[1:-1]
-
-    for i in range(1, len(middleCells)):
-        cell = middleCells[i]
-        assertOnCellInfo(cell)
 
