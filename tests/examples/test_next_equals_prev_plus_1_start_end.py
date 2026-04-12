@@ -83,156 +83,118 @@ def test_non_ambiguous_matrix():
         assertOnCellInfo(cell)
 
 
-# def test_many_neighbors_with_incremental_values():
+def test_many_neighbors_with_incremental_values():
 
-#     matrix = [
-#         ["S",  1,  2,  3,  4,  5],
-#         [ 1,   1,  2,  4,  5,  6],
-#         [ 2,   2,  4,  5,  6,  7],
-#         [ 3,   4,  3,  5,  7,  8],
-#         [ 4,   5,  6,  8,  6,  9],
-#         [ 5,   8, 11,  9, 11,  2],
-#         [ 6,   7, 10, 10,  8, "E"]
-#     ]
+    matrix = [
+        ["S",  1,  2,  3,  4,  5],
+        [ 1,   1,  2,  4,  5,  6],
+        [ 2,   2,  4,  5,  6,  7],
+        [ 3,   4,  3,  5,  7,  8],
+        [ 4,   5,  6,  8,  6,  9],
+        [ 5,   8, 11,  9, 11,  2],
+        [ 6,   7, 10, 10,  8, "E"]
+    ]
 
-#     mt = makeTraverser(matrix, Coordinate(Matrix.getFirstRow(), Matrix.getFirstCol()))
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
 
+    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
 
-#     visitedCells = mt.stateManager.state["movesFromTo"]
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
 
-#     assertStartMustExist(visitedCells)
-#     assertEndMustExist(visitedCells)
+    middleCells = dataToTest.movesHistory[1:-1]
 
-#     middleCells = visitedCells[1:-1]
-
-#     for i in range(1, len(middleCells)):
-#         cell = middleCells[i]
-#         assertOnCellInfo(cell)
-
-    
-
-
-# def test_many_neighbors_with_incremental_values_and_swapped_start():
-
-#     matrix = [
-#         ["E", 22, 21,  3,  4,   5],
-#         [  1, 20,  2,  4, 13,  12],
-#         [  2, 19, 15, 14, 11,   7],
-#         [  3, 18, 16, 10,  7,   8],
-#         [  4, 17,  9,  8,  6,   9],
-#         [  7,  8,  4,  9, 11,   2],
-#         [  6,  5,  3,  2,  1, "S"]
-#     ]
-
-#     def beforeFirstVisitCallback(mt: MatrixTraverser, 
-#                              prevCoordinate: Coordinate, 
-#                              currCoordinate: Coordinate,
-#                              prevMove: Move):
-#         if currCoordinate.isStart:
-#             print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-#         else:
-#             print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-
-
-#     mt = makeTraverser(
-#         matrix, 
-#         Coordinate(Matrix.getLastRow(matrix), Matrix.getLastCol(matrix)),
-#         {
-#             "beforeFirstVisit": beforeFirstVisitCallback
-#         }
-#     )
-
-
-#     visitedCells = mt.stateManager.state["movesFromTo"]
-
-#     assertStartMustExist(visitedCells)
-#     assertEndMustExist(visitedCells)
-
-#     middleCells = visitedCells[1:-1]
-
-#     for i in range(1, len(middleCells)):
-#         cell = middleCells[i]
-#         assertOnCellInfo(cell)
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
 
     
 
-# def test_path_no_exists():
 
-#     matrix = [
-#         ["E",  9,  9,  8,  7,  6],
-#         [ 1,  11, 12,  5, 13,  5],
-#         [ 2,  11, 15,  4, 11,  4],
-#         [ 3,  10, 16,  3,  7,  3],
-#         [ 4,   9,  9,  8,  2,  2],
-#         [ 7,   8,  4,  9,  1,  1],
-#         [ 6,   5,  3,  2,  1, "S"]
-#     ]
+def test_many_neighbors_with_incremental_values_and_swapped_start():
 
-#     def beforeFirstVisitCallback(mt: MatrixTraverser, 
-#                              prevCoordinate: Coordinate, 
-#                              currCoordinate: Coordinate,
-#                              prevMove: Move):
-#         if currCoordinate.isStart:
-#             print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-#         else:
-#             print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
+    matrix = [
+        ["E", 22, 21,  3,  4,   5],
+        [  1, 20,  2,  4, 13,  12],
+        [  2, 19, 15, 14, 11,   7],
+        [  3, 18, 16, 10,  7,   8],
+        [  4, 17,  9,  8,  6,   9],
+        [  7,  8,  4,  9, 11,   2],
+        [  6,  5,  3,  2,  1, "S"]
+    ]
 
 
-#     mt = makeTraverser(
-#         matrix, 
-#         Coordinate(Matrix.getLastRow(matrix), Matrix.getLastCol(matrix)),
-#         {
-#             "beforeFirstVisit": beforeFirstVisitCallback
-#         }
-#     )
+    startCoord = Coordinate(
+        Matrix.getLastRow(matrix),
+        Matrix.getLastCol(matrix)
+    )
 
+    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
 
-#     visitedCells = mt.stateManager.state["movesFromTo"]
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
 
-#     assertStartMustExist(visitedCells)
-#     assertEndMustNotExist(visitedCells)
+    middleCells = dataToTest.movesHistory[1:-1]
 
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
 
-
-
-# def test_start_from_center():
-
-#     matrix = [
-#         [  2,  22,   4,    3,     4,    5,  8],
-#         [  1,  20,   5,    2,     13,   12,  2],
-#         [  8,  7,    6,    1,     11,   7,  9],
-#         [  3,  18,   3,    "S",    7,   8,  10],
-#         [  4,  "E",  9,     1,     6,   9,  11],
-#         [  7,   8,   4,     2,    11,   2,  12],
-#         [  6,   5,   3,     2,     1,   5,  12],
-#     ]
-
-#     def beforeFirstVisitCallback(mt: MatrixTraverser, 
-#                              prevCoordinate: Coordinate, 
-#                              currCoordinate: Coordinate,
-#                              prevMove: Move):
-#         if currCoordinate.isStart:
-#             print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-#         else:
-#             print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-
-
-#     mt = makeTraverser(
-#         matrix, 
-#         Coordinate(Matrix.getMiddleRow(matrix), Matrix.getMiddleCol(matrix)),
-#         {
-#             "beforeFirstVisit": beforeFirstVisitCallback
-#         }
-#     )
-
-
-#     visitedCells = mt.stateManager.state["movesFromTo"]
-
-#     assertStartMustExist(visitedCells)
-#     assertEndMustExist(visitedCells)
     
-#     middleCells = visitedCells[1:-1]
 
-#     for i in range(1, len(middleCells)):
-#         cell = middleCells[i]
-#         assertOnCellInfo(cell)
+def test_path_no_exists():
+
+    matrix = [
+        ["E",  9,  9,  8,  7,  6],
+        [ 1,  11, 12,  5, 13,  5],
+        [ 2,  11, 15,  4, 11,  4],
+        [ 3,  10, 16,  3,  7,  3],
+        [ 4,   9,  9,  8,  2,  2],
+        [ 7,   8,  4,  9,  1,  1],
+        [ 6,   5,  3,  2,  1, "S"]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getLastRow(matrix),
+        Matrix.getLastCol(matrix)
+    )
+
+    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustNotExist(dataToTest.movesHistory)
+
+
+
+
+def test_start_from_center():
+
+    matrix = [
+        [  2,  22,   4,    3,     4,    5,  8],
+        [  1,  20,   5,    2,     13,   12,  2],
+        [  8,  7,    6,    1,     11,   7,  9],
+        [  3,  18,   3,    "S",    7,   8,  10],
+        [  4,  "E",  9,     1,     6,   9,  11],
+        [  7,   8,   4,     2,    11,   2,  12],
+        [  6,   5,   3,     2,     1,   5,  12],
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getMiddleRow(matrix),
+        Matrix.getMiddleCol(matrix)
+    )
+
+    dataToTest = makeAndRunMazeTraverser(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustExist(dataToTest.movesHistory)
+
+    middleCells = dataToTest.movesHistory[1:-1]
+
+    for i in range(1, len(middleCells)):
+        cell = middleCells[i]
+        assertOnCellInfo(cell)
+
