@@ -80,6 +80,19 @@ class MazeTraverser(MatrixTraverser):
         """
         Run the maze.
         """
+
+        # startNameOnInstantiation = self.startName
+        # startNameOnRun = Matrix.getAtCoordinate(self.matrix, startCoord)
+
+        # # add exception: if start coordinate value
+        # # does not match the user-provided or default
+        # # start name, throw exception
+        # if startNameOnInstantiation != startNameOnRun:
+        #     raise Exception("error during run of maze traverser."
+        #                     +f" mismatch between the initial start name of the maze,"
+        #                     +f"({startNameOnInstantiation}) and the value at the provided start"
+        #                     +f" coordinate ({startNameOnRun})")
+
         self.traverseMatrix(startCoord)
 
 
