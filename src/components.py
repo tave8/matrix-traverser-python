@@ -78,6 +78,17 @@ class MatrixTree:
         """
         Find a matrix tree node where the value of the cell
         is the same as the input.
+
+        Because adding the ancestor happens BEFORE
+        the recursive call, the ancestor list will effectively already 
+        be ordered from ROOT node to MOST DIRECT ANCESTOR node,
+        which is simply the PARENT node of the target node.
+
+        Example:
+        1. The target node has value "E"
+        2. The ancestors, from the root, are: S -> 1 -> 2 -> 3 (that means, after 3 we have E)
+        3. The ancestor list will therefore contain 
+        exactly the nodes S -> 1 -> 2 -> 3
         """
 
         nodeFound: MatrixTree | None = None
