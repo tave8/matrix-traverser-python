@@ -6,16 +6,6 @@ from enum import Enum
 from typing import Any
 
 
-class __MatrixTreeBeforeRoot:
-    """
-    This class is only used internally, and represents
-    the "root" of a matrix tree. 
-    It only has one child, the root. 
-    """
-    def __init__(self, root: MatrixTree) -> None:
-        self.root = root
-        
-
 
 class MatrixTree:
     """
@@ -71,14 +61,23 @@ class MatrixTree:
 
     #     return ancestors
 
+    # @staticmethod
+    # def findOneWhereValue(targetValue: Any,
+    #                       matrix: list[list]) -> tuple[MatrixTree | None, list[MatrixTree]]:
+    #     return MatrixTree
+
+
     @staticmethod
-    def findOneWhereValue(startNode: MatrixTree,  
-                            targetValue: Any,
-                            matrix: list[list]) -> tuple[MatrixTree | None, list[MatrixTree]]:
+    def findOneWhereValueStartingFrom(startNode: MatrixTree,  
+                                    targetValue: Any,
+                                    matrix: list[list]) -> tuple[MatrixTree | None, list[MatrixTree]]:
         """
         Find a matrix tree node where the value of the cell
-        is the same as the input.
+        is the same as the input, starting from an arbitrary node.
+        That means, you can start from the root (matrix tree)
+        if you wish so, or you can start from anywhere else in the tree.
 
+        Here are some notes about the internal workings.
         Because adding the ancestor happens BEFORE
         the recursive call, the ancestor list will effectively already 
         be ordered from ROOT node to MOST DIRECT ANCESTOR node,
@@ -145,6 +144,8 @@ class MatrixTree:
                 
                 if maybeTargetNode:
                     actualNodeFound = maybeTargetNode
+                    # we've found the target node at any depth
+                    # of this child, so we can exit the loop
                     break
             
             # if we have not found the target node
@@ -167,7 +168,8 @@ class MatrixTree:
         
         # END RECURSIVE FUNCTION *******************************
         
-
+        # this call will give you back the target node,
+        # if it existed, or none, if it didn't
         nodeFound = find(startNode)
 
         return (nodeFound, ancestors)
@@ -227,14 +229,14 @@ class Matrix:
         visitedMatrix[coord.getRow()][coord.getCol()] = 1
 
 
-    @staticmethod
-    def isAMatrix(matrix: list[list]) -> bool:
-        """
-        Is this a matrix? The matrix must have
-        the exact same number of rows and columns.
-        """
-        # FIX 
-        return False
+    # @staticmethod
+    # def isAMatrix(matrix: list[list]) -> bool:
+    #     """
+    #     Is this a matrix? The matrix must have
+    #     the exact same number of rows and columns.
+    #     """
+    #     # FIX 
+    #     return False
 
 
     @staticmethod

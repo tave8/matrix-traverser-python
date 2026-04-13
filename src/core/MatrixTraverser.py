@@ -39,27 +39,6 @@ class MatrixTraverser:
         StateManager._setStartCoordinate(self, startCoord)
         beforeStartCoord = Coordinate.generateIsBeforeStartCoord()
 
-        # create the root of the matrix tree
-        # rootNode = MatrixTree(
-        #     parent=None,
-        #     currCoord=startCoord,
-        #     prevCoord=beforeStartCoord,
-        #     prevMove=Move._BEFORE_START,
-        #     isBeforeRoot=True
-        # )
-        
-        # # must manually set the matrix tree root
-        # # we must do so, because the matrixTree that was set
-        # # on instantiation, was just a dummy node 
-        # self.matrixTree = rootNode
-
-        # # make sure no node is dummy. we must manually set
-        # # the matrixTree before calling this method
-        # if self.matrixTree.isDummy:
-        #     raise Exception("before traversing the matrix, the dummy matrix tree was detected; instead, "
-        #                     +"the 'matrixTree' attribute of this MatrixTraverser instance should be manually set"
-        #                     +"before traversing the matrix")
-
         self.__traverse(
             currCoord=startCoord,
             prevCoord=beforeStartCoord,
