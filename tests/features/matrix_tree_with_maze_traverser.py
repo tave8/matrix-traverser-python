@@ -2,10 +2,10 @@ from src.components import Coordinate, MatrixTree, Matrix
 from src.implementations.incremental_path import makeIncrementalPathMaze
 
 incrementalPathMaze = makeIncrementalPathMaze([
-   ["S", 0,  0,  0],
-   [0,   1,  0,  0],
-   [0,   0,  2,  0],
-   [0,   0,  0,  "E"]
+   ["S", 1,  2,  3],
+   [1,   1,  6,  7],
+   [2,   5,  3,  8],
+   [3,   4,  4,  "E"]
 ])
 
 incrementalPathMaze.run(
@@ -27,8 +27,11 @@ incrementalPathMaze.run(
 
 (nodeFound, ancestors) = MatrixTree.findOneWhereValue(incrementalPathMaze.matrixTree, "E", incrementalPathMaze.matrix)
 
-print( 
-    Matrix.getAtCoordinate(incrementalPathMaze.matrix, nodeFound.currCoord) if nodeFound else None
-)
+# print( 
+#     Matrix.getAtCoordinate(incrementalPathMaze.matrix, nodeFound.currCoord) if nodeFound else None
+# )
 
-# print(ancestors)
+for ancestor in ancestors:
+    cellValue = Matrix.getAtCoordinate(incrementalPathMaze.matrix, ancestor.currCoord)
+    msg = f"value: {cellValue}, {ancestor.prevCoord} | {ancestor.currCoord}"
+    print(msg)

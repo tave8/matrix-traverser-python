@@ -40,30 +40,31 @@ class MatrixTraverser:
         beforeStartCoord = Coordinate.generateIsBeforeStartCoord()
 
         # create the root of the matrix tree
-        rootNode = MatrixTree(
-            parent=None,
-            currCoord=startCoord,
-            prevCoord=beforeStartCoord,
-            prevMove=Move._BEFORE_START
-        )
+        # rootNode = MatrixTree(
+        #     parent=None,
+        #     currCoord=startCoord,
+        #     prevCoord=beforeStartCoord,
+        #     prevMove=Move._BEFORE_START,
+        #     isBeforeRoot=True
+        # )
         
-        # must manually set the matrix tree root
-        # we must do so, because the matrixTree that was set
-        # on instantiation, was just a dummy node 
-        self.matrixTree = rootNode
+        # # must manually set the matrix tree root
+        # # we must do so, because the matrixTree that was set
+        # # on instantiation, was just a dummy node 
+        # self.matrixTree = rootNode
 
-        # make sure no node is dummy. we must manually set
-        # the matrixTree before calling this method
-        if self.matrixTree.isDummy:
-            raise Exception("before traversing the matrix, the dummy matrix tree was detected; instead, "
-                            +"the 'matrixTree' attribute of this MatrixTraverser instance should be manually set"
-                            +"before traversing the matrix")
+        # # make sure no node is dummy. we must manually set
+        # # the matrixTree before calling this method
+        # if self.matrixTree.isDummy:
+        #     raise Exception("before traversing the matrix, the dummy matrix tree was detected; instead, "
+        #                     +"the 'matrixTree' attribute of this MatrixTraverser instance should be manually set"
+        #                     +"before traversing the matrix")
 
         self.__traverse(
             currCoord=startCoord,
             prevCoord=beforeStartCoord,
             prevMove=Move._BEFORE_START,
-            parentNode=rootNode
+            parentNode=None
         ) 
     
 
@@ -71,7 +72,7 @@ class MatrixTraverser:
                   currCoord: Coordinate, 
                   prevCoord: Coordinate, 
                   prevMove: Move,
-                  parentNode: MatrixTree
+                  parentNode: MatrixTree | None
                   ) -> None:
         """
         The core algorithm: Traverses the matrix.
@@ -154,14 +155,49 @@ class MatrixTraverser:
         # ****** END: OPERATIONS BEFORE CELL IS MARKED AS VISITED
         # *******************************************+++
 
-        currNode = MatrixTree(
+
+        # ********************************************
+        # ****** START: MATRIX TREE OPERATIONS ******** 
+
+        # *** STEP 1: initialize root if not exists
+        # if there's no parent node, it means 
+        # we are at the current node wanting to be root
+        if parentNode is None:
+            # set the matrix tree
+            self.matrixTree = MatrixTree(
+                parent=None,
+                currCoord=currCoord,
+                prevCoord=prevCoord,
+                prevMove=Move._BEFORE_START,
+                isRoot=True
+            )
+        
+        # *** STEP 2: create current node or pick the root as current node
+        # if we are at the current node being the root,
+        # then at STEP 1 we have created the root itself.
+        # now in STEP 2 we say, "if we are at the root,
+        # the current node is the root, otherwise we are
+        # at whatever other current node"
+        currNode = self.matrixTree if parentNode is None else MatrixTree(
             parent=parentNode,
             currCoord=currCoord,
-            prevCoord=currCoord,
+            prevCoord=prevCoord,
             prevMove=prevMove
-        )    
+        )
 
-        parentNode.children.append(currNode)
+        # *** STEP 3: append the child to the parent
+        # if the parent node does not exist, 
+        # it means we are currently at the root,
+        # and at the root, we simply set the matrix tree to be 
+        # the root node itself.
+        # if we are not at the root, and so a parent node exists,
+        # then we append it to the list of children, and this is 
+        # actually the standard operation
+        if parentNode is not None:
+            parentNode.children.append(currNode)
+        
+        # ****** END: MATRIX TREE OPERATIONS ******** 
+        # ********************************************
 
 
         # print(Matrix.getAtCoordinate(self.matrix, currNode.currCoord), currNode.currCoord)
@@ -176,14 +212,6 @@ class MatrixTraverser:
             if nextMove == Move.UP:
                 # up
                 if CallbackManager.canMoveTo(self, currCoord.up(), prevCoord, currCoord, prevMove):
-                    
-                    # currNode = MatrixTree(
-                    #     parent=parentNode,
-                    #     currCoord=currCoord.up(),
-                    #     prevCoord=currCoord,
-                    #     prevMove=Move.UP
-                    # )    
-
                     # CALLBACK IDEA: beforeMove
                     self.__traverse(currCoord.up(), currCoord, Move.UP, currNode)
                     # CALLBACK IDEA: afterMove

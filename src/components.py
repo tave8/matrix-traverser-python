@@ -6,6 +6,16 @@ from enum import Enum
 from typing import Any
 
 
+class __MatrixTreeBeforeRoot:
+    """
+    This class is only used internally, and represents
+    the "root" of a matrix tree. 
+    It only has one child, the root. 
+    """
+    def __init__(self, root: MatrixTree) -> None:
+        self.root = root
+        
+
 
 class MatrixTree:
     """
@@ -18,18 +28,19 @@ class MatrixTree:
                  currCoord: Coordinate,
                  prevCoord: Coordinate,
                  prevMove: Move,
+                 isRoot=False,
                  isDummy=False) -> None:
         """
         Matrix Tree.
         """
 
         self.parent = parent
+        self.isRoot = isRoot
+
         self.children: list[MatrixTree] = [] 
         self.currCoord = currCoord
         self.prevCoord = prevCoord
         self.prevMove: Move = prevMove
-        # if the parent is none, we assume that's the root
-        self.isRoot = parent is None 
         # is this a dummy tree? a dummy tree is used exclusively
         # for initialization reasons and shall be replaced, literally
         # overwritten, when the user runs the traversal algorithm
@@ -73,51 +84,77 @@ class MatrixTree:
         # collect the ancestors of the node found
         ancestors: list[MatrixTree] = []
 
+        # START RECURSIVE FUNCTION *******************************
+
         def find(currNode: MatrixTree | None) -> MatrixTree | None:
+            # POSSIBLE RETURN 1 (None -> it's the base case = the parent is a leaf node)
             if currNode is None:
                 return None
             
             # we found the target node
             if Matrix.getAtCoordinate(matrix, currNode.currCoord) == targetValue:
+                # POSSIBLE RETURN 2
                 # we found the target node,
                 # therefore the caller will now get this node
                 # at its return value
                 return currNode 
             
+            # the current node is the direct ancestor
+            # of its children
             ancestors.append(currNode)
 
             # **********************************
             # print(Matrix.getAtCoordinate(matrix, currNode.currCoord)) 
-            # if currNode.currCoord
             # iterate through the children
             # using depth-first traversal
-            
-            # nodeWasFound = False 
+
+            # we assume that the node was not found
+            # if the node is found as any child 
+            # at any depth below this current node,
+            # we update it
             actualNodeFound = None
-            maybeTargetNodes = []
             
+            # was the target node found at any child
+            # (therefore, at any depth)
+            # of the current node? (recursive step)
+            # if yes, we stop the search immediately,
+            # which translates to exiting the loop
             for child in currNode.children:
+                # to understand the return value of this
+                # recursive call, look at the return values 
+                # of this recursive function itself. 
+                # here the possible returns:
+                #  POSSIBLE RETURN   |          REASON
+                # --------------------------------------- 
+                #     None                  
+                #     node
+                #     node or None
+
                 maybeTargetNode = find(child)
                 
-                # maybeTargetNodes.append(maybeTargetNode)
                 if maybeTargetNode:
                     actualNodeFound = maybeTargetNode
                     break
-        
-            # # a node was truly found (maybeTargetNode exists)
-            # # and the flag was false: we've actually found the node
-            # # and flagged it as found
-            # if maybeTargetNode:
-            #     actualNodeFound = child
-            #     if not nodeWasFound:
-            #         nodeWasFound = True  
-
-            # if nodeWasFound:
-            #     ancestors.pop()
+            
+            # if we have not found the target node
+            # as any child at any depth of the current node,
+            # we remove the current node itself
+            # the result is that in the ancestors list what will remain
+            # are the ancestors of the target node,
+            # if the target node was found 
+            if actualNodeFound is None:
+                ancestors.pop()
             
             # **********************************
 
+            # POSSIBLE RETURN 3: None or node
+            # at the current node, if any node was found 
+            # at any depth in the children,
+            # and therefore returned from the recursive calls,
+            # it will be returned to the caller of this function
             return actualNodeFound
+        
+        # END RECURSIVE FUNCTION *******************************
         
 
         nodeFound = find(startNode)
