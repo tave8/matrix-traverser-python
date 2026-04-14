@@ -25,7 +25,7 @@ def test_matrix_tree_correct_path_exists():
     )
 
 
-    (nodeFound, ancestors) = MatrixTree.findOneWhereValueStartingFrom(incrementalPathMaze.matrixTree, "E", incrementalPathMaze.matrix)
+    (nodeFound, ancestors) = MatrixTree.findOneByValueFrom(incrementalPathMaze.matrixTree, "E", incrementalPathMaze.matrix)
 
     # print( 
     #     Matrix.getAtCoordinate(incrementalPathMaze.matrix, nodeFound.currCoord) if nodeFound else None

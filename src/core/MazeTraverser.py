@@ -139,6 +139,9 @@ class MazeTraverser(MatrixTraverser):
                                                               prevCoord, 
                                                               currCoord, 
                                                               prevMove)            
+            # EDGE CASE
+            # S  3
+            # 1  2 
 
             # the cells around S might try to go to S, but they must not
             # because of how the engine works and the nature of its recursive calls,

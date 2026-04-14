@@ -36,39 +36,48 @@ class MatrixTree:
         # overwritten, when the user runs the traversal algorithm
         self.isDummy = isDummy
 
+    
+    # @staticmethod
+    # def findKAncestorsOf(startNode: MatrixTree, k: int) -> list[MatrixTree]:
+    #     """
+    #     Given a node, find UP TO K ancestors.
+    #     Why "up to" k? Because it's not guaranteed that exactly
+    #     k ancestors will be found.
+    #     """
         
-    # def findAncestorsOf(self, startNode: MatrixTree) -> list[MatrixTree]:
-    #     """
-    #     Given a node, finds its ancestors.
-    #     """
-                    
-    #     ancestors = []
+    #     if not isinstance(k, int):
+    #         raise Exception(f"the number of ancestors k must be an integer, got {type(k)} instead")
 
-    #     def traverse(node: MatrixTree | None) -> None:
-    #         # base case: it's the root 
-    #         if node is None:
-    #             return 
-    #         if node.isDummy:
-    #             raise Exception("a dummy node has no meaning and cannot exist in the matrix tree")
-    #         print(node)
+    #     if k <= -2:
+    #         raise Exception(f"don't know how to interpret value {k} for k number of ancestors")
 
-            
-    #         # recursive call
-    #         traverse(node.parent)
+    #     # -1 means, all ancestors
 
+    #     wantAllAncestors = False if k >= 0 else True 
+    #     count = k
+    #     ancestorsReversed = []
 
-    #     traverse(startNode)
+    #     currParent = startNode.parent 
 
-    #     return ancestors
+    #     while count > 0 and currParent is not None:
+    #         ancestorsReversed.append(currParent)
+    #         currParent = currParent.parent
+    #         count -= 1 
+
+    #     return list(reversed(ancestorsReversed))
+        
+
 
     # @staticmethod
-    # def findOneWhereValue(targetValue: Any,
-    #                       matrix: list[list]) -> tuple[MatrixTree | None, list[MatrixTree]]:
-    #     return MatrixTree
+    # def findAncestorsOf(startNode: MatrixTree) -> list[MatrixTree]:
+    #     """
+    #     Finds all ancestors of the start node.
+    #     """
+    #     return MatrixTree.findKAncestorsOf(startNode, -1)
 
 
     @staticmethod
-    def findOneWhereValueStartingFrom(startNode: MatrixTree,  
+    def findOneByValueFrom(startNode: MatrixTree,  
                                     targetValue: Any,
                                     matrix: list[list]) -> tuple[MatrixTree | None, list[MatrixTree]]:
         """

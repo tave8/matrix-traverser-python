@@ -1,6 +1,6 @@
-from src.components import Matrix, Coordinate, Move
-from tests.examples.prework.incremental_path import makeAndRunIncrementalPathMaze
-from tests.examples.assertions.incremental_path import *
+from src.components import Matrix
+from tests.examples.incremental_path.prep.helpers import makeAndRunIncrementalPathMaze
+from tests.examples.incremental_path.prep.assertions import *
 
 
 def test_one_row_one_col_matrix():
@@ -39,6 +39,27 @@ def test_only_start_and_end():
     assert len(dataToTest.movesHistory) == 1
     assertStartMustExist(dataToTest.movesHistory)
     assertEndMustNotExist(dataToTest.movesHistory)
+
+
+
+
+def test_loop():
+
+    matrix = [
+        ["S", 3],
+        [1,   2]
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunIncrementalPathMaze(matrix, startCoord)
+
+    assertStartMustExist(dataToTest.movesHistory)
+    assertEndMustNotExist(dataToTest.movesHistory)
+
 
 
 

@@ -1,3 +1,8 @@
+Matrix Traverser is a configurable, extensible, DFS-based matrix traversal engine (DFS = depth-first search).
+
+
+
+
 # Examples
 
 From the most straightforward problems, to the more complex.
