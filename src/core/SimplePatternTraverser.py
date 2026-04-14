@@ -3,19 +3,18 @@ Pattern Traverser, built on top of the Matrix Traverser Engine.
 """
 from typing import List
 
-from core.MazeTraverser import MazeTraverser
-
 
 from inspect import isfunction
 from collections.abc import Callable
-from src.core.MatrixTraverser import MatrixTraverser, StateManager
+from src.core.MatrixTraverser import MatrixTraverser
 from src.components import Coordinate, Matrix, Move
 from src.exceptions.ExpectedUserCallbackError import ExpectedUserCallbackError
 
 
 class SimplePatternTraverser(MatrixTraverser):
     """
-
+    Simple Pattern Traverser.
+    Traverses a simple line.
     """
 
     def __init__(self,
@@ -40,8 +39,8 @@ class SimplePatternTraverser(MatrixTraverser):
         self._setCallbackManager(simplePatternCallbackMap)
 
         # ********************END *************************
-
         self.getNextMovesCallback = getNextMovesCallback
+
 
 
     def run(self, startCoord: Coordinate) -> None:
@@ -60,6 +59,9 @@ class SimplePatternTraverser(MatrixTraverser):
                                   prevCoord: Coordinate,
                                   currCoord: Coordinate,
                                   prevMove: Move) -> List[Move]:
+
+            # here you can define custom "next moves" logic
+            # before, after, or based on the user-provided next moves
 
             # user-defined next moves.
             return patternTraverser.getNextMovesCallback(patternTraverser,

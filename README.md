@@ -61,6 +61,27 @@ for p in sys.path:
 ```
 
 
+## Mark root directory as sources root 
+
+You must make sure that your IDE does not imports the same module from different paths.
+
+A strategy to prevent this, is to fully qualify your imports. 
+
+For example, I had a bug where:
+
+```python
+from components import Move
+```
+
+was different from 
+
+```python
+from src.components import Move
+```
+
+So the correct one is the latter (fully qualified import).
+
+
 # Object hierarchy
 
 ![Object hierarchy](/assets/object_hierarchy.png)
