@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from src.helpers import FunctionHelper
 from src.components import Coordinate, Move, Moves, Matrix, MatrixTree
 from src.exceptions.DuringUserCallbackError import DuringUserCallbackError
@@ -9,10 +10,15 @@ class MatrixTraverser:
     """
 
     def __init__(self, 
-                 matrix: list[list], 
-                 callbackMap: dict = {}, 
-                 userState: dict = {}):
+                 matrix: list[list],
+                 callbackMap=None,
+                 userState=None):
         
+        if callbackMap is None:
+            callbackMap = {}
+        if userState is None:
+            userState = {}
+
         self.matrix = matrix
         self.visited = Matrix.generateVisitedMatrixFrom(matrix)
         self.stateManager = StateManager(userState)
@@ -184,50 +190,52 @@ class MatrixTraverser:
         # GET THE MOVES OF THIS CELL
         nextMoves = CallbackManager.getNextMoves(self, prevCoord, currCoord, prevMove)
 
+        # print(Matrix.getAtCoordinate(self.matrix, currNode.coord), Matrix.getAtCoordinate(self.matrix, currCoord))
+
         # MOVE THROUGH THE MOVES
         # move in the order that was specified
         for nextMove in nextMoves:
 
             if nextMove == Move.UP:
                 # up
-                if CallbackManager.canMoveTo(self, currCoord.up(), prevCoord, currCoord, prevMove):
+                if CallbackManager.canMoveTo(self, currCoord.up(), prevCoord, currCoord, prevMove, currNode):
                     # CALLBACK IDEA: beforeMove
                     self.__traverse(currCoord.up(), currCoord, Move.UP, currNode)
                     # CALLBACK IDEA: afterMove
 
             elif nextMove == Move.DIAGONAL_UP_RIGHT:
                 # diagonal up right
-                if CallbackManager.canMoveTo(self, currCoord.diagonalUpRight(), prevCoord, currCoord, prevMove):
+                if CallbackManager.canMoveTo(self, currCoord.diagonalUpRight(), prevCoord, currCoord, prevMove, currNode):
                     self.__traverse(currCoord.diagonalUpRight(), currCoord, Move.DIAGONAL_UP_RIGHT, currNode)
 
             elif nextMove == Move.RIGHT:
                 # right
-                if CallbackManager.canMoveTo(self, currCoord.right(), prevCoord, currCoord, prevMove):
+                if CallbackManager.canMoveTo(self, currCoord.right(), prevCoord, currCoord, prevMove, currNode):
                     self.__traverse(currCoord.right(), currCoord, Move.RIGHT, currNode)
 
             elif nextMove == Move.DIAGONAL_DOWN_RIGHT:
                 # diagonal down right
-                if CallbackManager.canMoveTo(self, currCoord.diagonalDownRight(), prevCoord, currCoord, prevMove):
+                if CallbackManager.canMoveTo(self, currCoord.diagonalDownRight(), prevCoord, currCoord, prevMove, currNode):
                     self.__traverse(currCoord.diagonalDownRight(), currCoord, Move.DIAGONAL_DOWN_RIGHT, currNode)
 
             elif nextMove == Move.DOWN:
                 # down
-                if CallbackManager.canMoveTo(self, currCoord.down(), prevCoord, currCoord, prevMove):
+                if CallbackManager.canMoveTo(self, currCoord.down(), prevCoord, currCoord, prevMove, currNode):
                     self.__traverse(currCoord.down(), currCoord, Move.DOWN, currNode)
 
             elif nextMove == Move.DIAGONAL_DOWN_LEFT:
                 # diagonal down left
-                if CallbackManager.canMoveTo(self, currCoord.diagonalDownLeft(), prevCoord, currCoord, prevMove):
+                if CallbackManager.canMoveTo(self, currCoord.diagonalDownLeft(), prevCoord, currCoord, prevMove, currNode):
                     self.__traverse(currCoord.diagonalDownLeft(), currCoord, Move.DIAGONAL_DOWN_LEFT, currNode)
 
             elif nextMove == Move.LEFT:
                 # left
-                if CallbackManager.canMoveTo(self, currCoord.left(), prevCoord, currCoord, prevMove):
+                if CallbackManager.canMoveTo(self, currCoord.left(), prevCoord, currCoord, prevMove, currNode):
                     self.__traverse(currCoord.left(), currCoord, Move.LEFT, currNode)
 
             elif nextMove == Move.DIAGONAL_UP_LEFT:
                 # diagonal up left 
-                if CallbackManager.canMoveTo(self, currCoord.diagonalUpLeft(), prevCoord, currCoord, prevMove):
+                if CallbackManager.canMoveTo(self, currCoord.diagonalUpLeft(), prevCoord, currCoord, prevMove, currNode):
                     self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT, currNode)
 
 
@@ -303,7 +311,8 @@ class CallbackManager:
                 desiredCoordinate: Coordinate, 
                 prevCoordinate: Coordinate, 
                 currCoordinate: Coordinate,
-                prevMove: Move) -> bool:
+                prevMove: Move,
+                currNode: MatrixTree) -> bool:
         """
         Before moving in a direction, the core traversal 
         algorithm will ask if it can move in a direction.
@@ -334,14 +343,20 @@ class CallbackManager:
 
         # run the user-defined callback, if exists
         if FunctionHelper.mapHasFunction("canMoveTo", mt.callbackManager.callbackMap):
-            canMoveToCallback = mt.callbackManager.callbackMap["canMoveTo"]
+            # this callback can be any user-defined callback,
+            # or even one defined from a problem-specific traversal engine,
+            # for example the Maze Traverser
+            canMoveToCallback: Callable[[MatrixTraverser, Coordinate, Coordinate, Coordinate, Move, MatrixTree], bool] = (
+                mt.callbackManager.callbackMap["canMoveTo"]
+            )
 
-            try: 
-                userWantsMove: bool | None = canMoveToCallback(mt, 
+            try:
+                userWantsMove: bool | None = canMoveToCallback(mt,
                                                                 desiredCoordinate, 
                                                                 prevCoordinate, 
                                                                 currCoordinate,
-                                                                prevMove)
+                                                                prevMove,
+                                                                currNode)
             except Exception as e:
                 raise DuringUserCallbackError(canMoveToCallback) from e
 

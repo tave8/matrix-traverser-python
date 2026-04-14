@@ -11,7 +11,7 @@ Properties:
 - the end might not exist
 """
 
-from src.components import Coordinate, Move, Matrix
+from src.components import Coordinate, Move, Matrix, MatrixTree
 from src.core.MazeTraverser import MazeTraverser
 
 
@@ -66,7 +66,8 @@ def _canMoveTo(mt: MazeTraverser,
                 desiredCoord: Coordinate, 
                 prevCoord: Coordinate, 
                 currCoord: Coordinate,
-                prevMove: Move) -> bool:
+                prevMove: Move,
+                currNode: MatrixTree) -> bool:
             
         nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord) # type: ignore
         currNum = Matrix.getAtCoordinate(mt.matrix, currCoord) # type: ignore
@@ -81,7 +82,8 @@ def _canMoveToOnStart(mt: MazeTraverser,
                     desiredCoord: Coordinate, 
                     prevCoord: Coordinate, 
                     currCoord: Coordinate,
-                    prevMove: Move) -> bool:
+                    prevMove: Move,
+                    currNode: MatrixTree) -> bool:
         
     return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == 1
 

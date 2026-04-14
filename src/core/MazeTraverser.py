@@ -6,7 +6,7 @@ Maze Traverser, built on top of the Matrix Traverser Engine.
 from inspect import isfunction
 from collections.abc import Callable
 from src.core.MatrixTraverser import MatrixTraverser, StateManager
-from src.components import Coordinate, Matrix, Move
+from src.components import Coordinate, Matrix, Move, MatrixTree
 from src.exceptions.ExpectedUserCallbackError import ExpectedUserCallbackError
 
 
@@ -21,8 +21,8 @@ class MazeTraverser(MatrixTraverser):
 
     def __init__(self, 
                  matrix: list[list], 
-                 canMoveToCallback: Callable[[MazeTraverser, Coordinate, Coordinate, Coordinate, Move], bool],
-                 canMoveToOnStartCallback: Callable[[MazeTraverser, Coordinate, Coordinate, Coordinate, Move], bool],
+                 canMoveToCallback: Callable[[MazeTraverser, Coordinate, Coordinate, Coordinate, Move, MatrixTree], bool],
+                 canMoveToOnStartCallback: Callable[[MazeTraverser, Coordinate, Coordinate, Coordinate, Move, MatrixTree], bool],
                  userState: dict = {},
                  startName = "S",
                  endName = "E") -> None:
@@ -81,23 +81,23 @@ class MazeTraverser(MatrixTraverser):
         Run the maze.
         """
 
-        # startNameOnInstantiation = self.startName
-        # startNameOnRun = Matrix.getAtCoordinate(self.matrix, startCoord)
+        startNameOnInstantiation = self.startName
+        startNameOnRun = Matrix.getAtCoordinate(self.matrix, startCoord)
 
-        # # add exception: if start coordinate value
-        # # does not match the user-provided or default
-        # # start name, throw exception
-        # if startNameOnInstantiation != startNameOnRun:
-        #     raise Exception("error during run of maze traverser."
-        #                     +f" mismatch between the initial start name of the maze,"
-        #                     +f"({startNameOnInstantiation}) and the value at the provided start"
-        #                     +f" coordinate ({startNameOnRun})")
+        # add exception: if start coordinate value
+        # does not match the user-provided or default
+        # start name, throw exception
+        if startNameOnInstantiation != startNameOnRun:
+            raise Exception("error during run of maze traverser."
+                            +f" mismatch between the initial start name of the maze "
+                            +f"({startNameOnInstantiation}) and the value at the provided start"
+                            +f" coordinate ({startNameOnRun})")
 
         self.traverseMatrix(startCoord)
 
 
     @staticmethod
-    def _canMoveTo(mazeTraverser: MazeTraverser) -> Callable[[MatrixTraverser, Coordinate, Coordinate, Coordinate, Move], bool]:
+    def _canMoveTo(mazeTraverser: MazeTraverser) -> Callable[[MatrixTraverser, Coordinate, Coordinate, Coordinate, Move, MatrixTree], bool]:
         """
         This is the Maze Traverser internal callback that gets called
         directly by the Matrix Traverser engine, and includes the 
@@ -124,7 +124,8 @@ class MazeTraverser(MatrixTraverser):
                                 desiredCoord: Coordinate, 
                                 prevCoord: Coordinate, 
                                 currCoord: Coordinate,
-                                prevMove: Move) -> bool:
+                                prevMove: Move,
+                                currNode: MatrixTree) -> bool:
             """
             Finally, this is the actual callback that the Matrix Traversal Engine
             will call directly. Therefore its signature must match exactly what the
@@ -138,10 +139,13 @@ class MazeTraverser(MatrixTraverser):
                                                               desiredCoord, 
                                                               prevCoord, 
                                                               currCoord, 
-                                                              prevMove)            
-            # EDGE CASE
+                                                              prevMove,
+                                                              currNode)
+            # EDGE CASE (example)
+            # when 3 asks whether it can go to S
+            # or even 2 if it can go to S?
             # S  3
-            # 1  2 
+            # 1  2
 
             # the cells around S might try to go to S, but they must not
             # because of how the engine works and the nature of its recursive calls,
@@ -170,7 +174,8 @@ class MazeTraverser(MatrixTraverser):
                                                     desiredCoord, 
                                                     prevCoord, 
                                                     currCoord, 
-                                                    prevMove)
+                                                    prevMove,
+                                                    currNode)
         
         return _canMoveToWrapper 
 

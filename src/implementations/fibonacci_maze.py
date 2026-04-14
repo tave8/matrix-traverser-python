@@ -57,15 +57,35 @@ def _canMoveTo(mt: MazeTraverser,
                desiredCoord: Coordinate,
                prevCoord: Coordinate,
                currCoord: Coordinate,
-               prevMove: Move) -> bool:
-    # nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord)  # type: ignore
-    # currNum = Matrix.getAtCoordinate(mt.matrix, currCoord)  # type: ignore
+               prevMove: Move,
+               currNode: MatrixTree) -> bool:
+    nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord)  # type: ignore
+    currNum = Matrix.getAtCoordinate(mt.matrix, currCoord)  # type: ignore
 
-    # FIX
+    # why do i use the k ancestors logic instead
+    # of simply accessing the previous coordinate?
+    # simply to experiment with a more powerful and
+    # generic tool, which is the "k ancestors of"
+    ancestors = MatrixTree.findKAncestorsOf(currNode, 1)
 
+    prevNum = 0
+    for ancestor in ancestors:
+        # all ancestors except root
+        if not ancestor.coord.isStart:
+            prevNum += Matrix.getAtCoordinate(mt.matrix, ancestor.coord)
+
+    # this is the fibonacci sequence
     # this cell can move to the desired/next coordinate
     # only if this condition is met
-    return nextNum == prevNum + prevPrevNum  # type: ignore
+    cond = nextNum == currNum + prevNum # type: ignore
+    if cond:
+        # print(Matrix.getAtCoordinate(mt.matrix, currCoord), Matrix.getAtCoordinate(mt.matrix, currNode.coord), nextNum)
+        # print(ancestors)
+        return True
+
+    return False
+
+
 
 
 # callback specific for this maze problem
@@ -73,7 +93,8 @@ def _canMoveToOnStart(mt: MazeTraverser,
                       desiredCoord: Coordinate,
                       prevCoord: Coordinate,
                       currCoord: Coordinate,
-                      prevMove: Move) -> bool:
+                      prevMove: Move,
+                      currNode: MatrixTree) -> bool:
 
     return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == 1
 

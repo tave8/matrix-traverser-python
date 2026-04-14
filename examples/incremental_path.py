@@ -12,5 +12,5 @@ incrementalPathMaze.run(Coordinate(
     3,0
 ))
 
-for cellInfo in incrementalPathMaze.getMovesHistory():
-    print(cellInfo)
+# for cellInfo in incrementalPathMaze.getMovesHistory():
+#     print(cellInfo)
