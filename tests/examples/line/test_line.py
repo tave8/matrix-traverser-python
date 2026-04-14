@@ -17,6 +17,8 @@ def test_down():
         [7, 8, 9],
     ]
 
+    # IMPLEMENT TREELIB TO VISUALIZE THE MATRIX TREE
+
     targetValue = 7
     move = Move.DOWN
 
@@ -40,6 +42,8 @@ def test_down():
     assert Matrix.getAtCoordinate(matrix, ancestors[0].coord) == 1
     # the second ancestor is 4
     assert Matrix.getAtCoordinate(matrix, ancestors[1].coord) == 4
+
+
 
 
 

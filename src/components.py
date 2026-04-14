@@ -37,43 +37,82 @@ class MatrixTree:
         self.isDummy = isDummy
 
     
-    # @staticmethod
-    # def findKAncestorsOf(startNode: MatrixTree, k: int) -> list[MatrixTree]:
-    #     """
-    #     Given a node, find UP TO K ancestors.
-    #     Why "up to" k? Because it's not guaranteed that exactly
-    #     k ancestors will be found.
-    #     """
+    @staticmethod
+    def findKAncestorsOf(startNode: MatrixTree, k: int) -> list[MatrixTree]:
+        """
+        Given a node, find up to K ancestors of the given node.
+        Why up to k? Because it's not guaranteed that exactly
+        k ancestors will be found.
+
+        The ancestors order will be from most distant to most direct.
+        The most direct ancestor is simply the parent of the given node.
+        The most distant ancestor is the k-th ancestor,
+        if such a k-th ancestor exists.
+
+        ```
+
+        Example:
+            start node = 5
+
+            k = 3
+
+            actual tree path (ignoring other nodes):
+
+                root -> 1 -> 2 -> 3 -> 4 -> 5 -> 6
+                             ^              ^
+                             |              |
+                        3rd ancestor     start node
+
+            result list = 2 -> 3 -> 4
+
+        ```
+
+        Note:
+        -  k = -1 has a special meaning of "find all ancestors".
+        """
         
-    #     if not isinstance(k, int):
-    #         raise Exception(f"the number of ancestors k must be an integer, got {type(k)} instead")
+        if not isinstance(k, int):
+            raise Exception(f"the number of ancestors k must be an integer, got {type(k)} instead")
 
-    #     if k <= -2:
-    #         raise Exception(f"don't know how to interpret value {k} for k number of ancestors")
+        if k <= -2:
+            raise Exception(f"don't know how to interpret value {k} for k number of ancestors")
 
-    #     # -1 means, all ancestors
+        # -1 means, find all ancestors
+        if k == -1:
+            ancestorsReversed = []
+            currParent = startNode.parent
 
-    #     wantAllAncestors = False if k >= 0 else True 
-    #     count = k
-    #     ancestorsReversed = []
+            while currParent is not None:
+                ancestorsReversed.append(currParent)
+                currParent = currParent.parent
 
-    #     currParent = startNode.parent 
+            return list(reversed(ancestorsReversed))
 
-    #     while count > 0 and currParent is not None:
-    #         ancestorsReversed.append(currParent)
-    #         currParent = currParent.parent
-    #         count -= 1 
 
-    #     return list(reversed(ancestorsReversed))
+        if k < 0:
+            raise Exception("internal error. it was assumed that k (number of ancestors) was >= 0")
+
+
+        # from now on, we are certain that k >= 0
+        count = k
+        ancestorsReversed = []
+        currParent = startNode.parent
+
+        while count > 0 and currParent is not None:
+            ancestorsReversed.append(currParent)
+            currParent = currParent.parent
+            count -= 1
+
+        return list(reversed(ancestorsReversed))
         
 
 
-    # @staticmethod
-    # def findAncestorsOf(startNode: MatrixTree) -> list[MatrixTree]:
-    #     """
-    #     Finds all ancestors of the start node.
-    #     """
-    #     return MatrixTree.findKAncestorsOf(startNode, -1)
+    @staticmethod
+    def findAllAncestorsOf(startNode: MatrixTree) -> list[MatrixTree]:
+        """
+        Finds all ancestors of the given node.
+        """
+        return MatrixTree.findKAncestorsOf(startNode, -1)
 
 
     @staticmethod
