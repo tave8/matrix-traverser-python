@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab489cc9-96d3-484c-b3e9-55ba3031c248" name="Changes" comment="start Pattern Traverser" />
+    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="start Pattern Traverser">
+      <change beforePath="$PROJECT_DIR$/.idea/matrix-traverser-python.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/matrix-traverser-python.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -142,8 +147,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.helpers" />
       <item itemvalue="Python.Example: Incremental Path" />
+      <item itemvalue="Python.helpers" />
       <item itemvalue="Python tests.Test: Incremental Path" />
     </list>
     <recent_temporary>
@@ -163,7 +168,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ab489cc9-96d3-484c-b3e9-55ba3031c248" name="Changes" comment="" />
+      <changelist id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="start Pattern Traverser" />
       <created>1776158215752</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -171,6 +176,9 @@
       <workItem from="1776158218333" duration="290000" />
       <workItem from="1776161168323" duration="903000" />
       <workItem from="1776174914421" duration="492000" />
+      <workItem from="1776175645548" duration="80000" />
+      <workItem from="1776175749826" duration="30000" />
+      <workItem from="1776175805640" duration="41000" />
     </task>
     <task id="LOCAL-00001" summary="reorganize folders">
       <option name="closed" value="true" />
