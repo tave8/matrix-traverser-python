@@ -1,65 +1,43 @@
-"""
-Traverse the matrix in spiral.
-"""
 
-from core.MatrixTraverser import Matrix, MatrixTraverser, Coordinate, Move
+from src.components import Coordinate, Matrix, Move, MatrixTree
+from src.implementations.spiral import makeSpiralPattern
 
 
-matrix = [
-    [1,    2,    3,   4,   5],
-    [16,   17,   18,  19,  6],
-    [15,   24,   25,  20,  7],
-    [14,   23,   22,  21,  8],
-    [13,   12,   11,  10,  9]
-]
+spiralPattern = makeSpiralPattern([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+])
 
-state = {
-    "values": []
-}
-
-
-def beforeFirstVisitCallback(mt: MatrixTraverser, 
-                             prevCoordinate: Coordinate, 
-                             currCoordinate: Coordinate,
-                             prevMove: Move):
-    if currCoordinate.isStart:
-        print(f"START: {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-    else:
-        print(f"FROM {Matrix.getAtCoordinate(mt.matrix, prevCoordinate)} TO {Matrix.getAtCoordinate(mt.matrix, currCoordinate)} ({prevMove.name})")
-
-
-
-def getNextMovesCallback(mt: MatrixTraverser, 
-                         prevCoordinate: Coordinate, 
-                         currCoordinate: Coordinate,
-                         prevMove: Move):
-
-   # previous move: next moves 
-   moves = {
-        Move._BEFORE_START: [Move.RIGHT],
-        Move.DOWN: [Move.DOWN, Move.LEFT],
-        Move.RIGHT: [Move.RIGHT, Move.DOWN],
-        Move.LEFT: [Move.LEFT, Move.UP],
-        Move.UP: [Move.UP, Move.RIGHT]
-    }
-   
-   return moves[prevMove]
-   
-
-
-callbackMap = {
-    "getNextMoves": getNextMovesCallback,
-    "beforeFirstVisit": beforeFirstVisitCallback,
-}
-
-
-
-matrixTraverser = MatrixTraverser(
-    matrix, 
-    callbackMap,
-    state
+spiralPattern.run(
+    Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol(),
+    )
 )
 
-matrixTraverser.traverseMatrix(
-    Coordinate.generateIsStartCoord(0, 0)
+
+
+targetValue = 5
+
+(nodeFound, ancestorsFromValue) = MatrixTree.findOneByValueFrom(
+    spiralPattern.matrixTree,
+    targetValue,
+    spiralPattern.matrix
 )
+
+if isinstance(nodeFound, MatrixTree):
+    print("NODE FOUND!")
+    print("PATH:")
+    for i in range(len(ancestorsFromValue)):
+
+        ancestor = ancestorsFromValue[i]
+
+        print(
+            Matrix.getAtCoordinate(
+                spiralPattern.matrix,
+                ancestor.coord
+            )
+        )
+else:
+    print("NODE NOT FOUND!")
