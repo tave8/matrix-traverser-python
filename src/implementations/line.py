@@ -4,13 +4,13 @@ Traverse in a line.
 
 from typing import List
 
-from src.core.SimplePatternTraverser import SimplePatternTraverser
+from src.core.PatternTraverser import PatternTraverser
 from src.components import Coordinate, Move
 
 
-def makeLinePattern(matrix: list[list], onlyDirection: Move) -> SimplePatternTraverser:
+def makeLinePattern(matrix: List[List], onlyDirection: Move) -> PatternTraverser:
 
-    patternTraverser = SimplePatternTraverser(
+    patternTraverser = PatternTraverser(
         matrix,
         getNextMovesCallback=_getNextMovesWrapper(onlyDirection),
     )
@@ -23,7 +23,7 @@ def _getNextMovesWrapper(onlyDirection: Move):
 
     # CLOSURE FUNCTION
     # callback specific for this pattern problem
-    def _getNextMoves(st: SimplePatternTraverser,
+    def _getNextMoves(st: PatternTraverser,
                        prevCoord: Coordinate,
                        currCoord: Coordinate,
                        prevMove: Move) -> List[Move]:

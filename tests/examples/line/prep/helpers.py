@@ -1,11 +1,11 @@
 from src.components import Coordinate, Move
 from src.implementations.line import makeLinePattern
-from src.core.SimplePatternTraverser import SimplePatternTraverser
+from src.core.PatternTraverser import PatternTraverser
 
 
 class DataToTest:
     def __init__(self,
-                 patternTraverser: SimplePatternTraverser) -> None:
+                 patternTraverser: PatternTraverser) -> None:
 
         self.patternTraverser = patternTraverser
 

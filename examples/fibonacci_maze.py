@@ -19,25 +19,29 @@ startCoord = Coordinate(0, 0)
 
 fibonacciMaze.run(startCoord)
 
+targetValue = "E"
+
 (nodeFound, ancestorsFromValue) = MatrixTree.findOneByValueFrom(
     fibonacciMaze.matrixTree,
-    "E",
+    targetValue,
     fibonacciMaze.matrix
 )
 
 if isinstance(nodeFound, MatrixTree):
     print("NODE FOUND!")
+    print("PATH:")
+    for i in range(len(ancestorsFromValue)):
 
-print("PATH:")
-for i in range(len(ancestorsFromValue)):
+        ancestor = ancestorsFromValue[i]
 
-    ancestor = ancestorsFromValue[i]
-
-    print(
-        Matrix.getAtCoordinate(
-            fibonacciMaze.matrix,
-            ancestor.coord
+        print(
+            Matrix.getAtCoordinate(
+                fibonacciMaze.matrix,
+                ancestor.coord
+            )
         )
-    )
+else:
+    print("NODE NOT FOUND!")
+
 
 

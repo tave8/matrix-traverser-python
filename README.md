@@ -1,6 +1,7 @@
 Matrix Traverser is a configurable, extensible, DFS-based matrix traversal engine (DFS = depth-first search).
 
 
+![Matrix -> Matrix Tree](/assets/matrix_tree.png)
 
 
 # Examples

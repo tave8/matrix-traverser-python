@@ -11,7 +11,7 @@ from src.components import Coordinate, Matrix, Move
 from src.exceptions.ExpectedUserCallbackError import ExpectedUserCallbackError
 
 
-class SimplePatternTraverser(MatrixTraverser):
+class PatternTraverser(MatrixTraverser):
     """
     Simple Pattern Traverser.
     Traverses a simple line.
@@ -19,10 +19,13 @@ class SimplePatternTraverser(MatrixTraverser):
 
     def __init__(self,
                  matrix: list[list],
-                 getNextMovesCallback: Callable[[SimplePatternTraverser, Coordinate, Coordinate, Move], List[Move]],
-                 userState: dict = {}) -> None:
+                 getNextMovesCallback: Callable[[PatternTraverser, Coordinate, Coordinate, Move], List[Move]],
+                 userState=None) -> None:
 
         # callback must be a function
+        if userState is None:
+            userState = {}
+
         if not isfunction(getNextMovesCallback):
             raise ExpectedUserCallbackError(getNextMovesCallback)
 
@@ -35,7 +38,7 @@ class SimplePatternTraverser(MatrixTraverser):
             userState
         )
 
-        simplePatternCallbackMap = SimplePatternTraverser._getSimplePatternCallbackMap(self)
+        simplePatternCallbackMap = PatternTraverser._getSimplePatternCallbackMap(self)
         self._setCallbackManager(simplePatternCallbackMap)
 
         # ********************END *************************
@@ -51,7 +54,7 @@ class SimplePatternTraverser(MatrixTraverser):
 
 
     @staticmethod
-    def _getNextMoves(patternTraverser: SimplePatternTraverser) -> Callable[[SimplePatternTraverser, Coordinate, Coordinate, Move], List[Move]]:
+    def _getNextMoves(patternTraverser: PatternTraverser) -> Callable[[PatternTraverser, Coordinate, Coordinate, Move], List[Move]]:
 
         # CLOSURE FUNCTION: this will be run directly
         # by the Matrix Traversal Engine
@@ -74,9 +77,9 @@ class SimplePatternTraverser(MatrixTraverser):
 
 
     @staticmethod
-    def _getSimplePatternCallbackMap(patternTraverser: SimplePatternTraverser) -> dict[str, Callable]:
+    def _getSimplePatternCallbackMap(patternTraverser: PatternTraverser) -> dict[str, Callable]:
 
         return {
-            "getNextMoves": SimplePatternTraverser._getNextMoves(patternTraverser)
+            "getNextMoves": PatternTraverser._getNextMoves(patternTraverser)
         }
 
