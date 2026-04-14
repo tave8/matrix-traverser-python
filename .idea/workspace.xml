@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="test line &amp; find k ancestors: 2 tests passed">
+    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="test passed: find k ancestors &amp; find all ancestors &amp; ancestors of node by value">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/object_hierarchy.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/object_hierarchy.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/components.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/implementations/fibonacci_maze.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/implementations/fibonacci_maze.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/examples/line/test_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/examples/line/test_line.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/features/matrix_tree/find_k_ancestors/find_k_ancestors.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/features/matrix_tree/find_k_ancestors/find_k_ancestors.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +88,7 @@
       <recent name="C:\Users\giuse\Desktop\projects\matrix-traverser-python\tests\examples\incremental_path\prep" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.find_k_ancestors.test_ancestors_of_node_by_value_same_k_ancestors">
+  <component name="RunManager" selected="Python tests.Python tests in test_line.py">
     <configuration name="find_k_ancestors" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
@@ -201,10 +195,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.find_k_ancestors.test_ancestors_of_node_by_value_same_k_ancestors" />
-        <item itemvalue="Python.find_k_ancestors" />
         <item itemvalue="Python tests.Python tests in test_line.py" />
         <item itemvalue="Python tests.Python tests in test_incremental_path.py" />
+        <item itemvalue="Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.find_k_ancestors.test_ancestors_of_node_by_value_same_k_ancestors" />
+        <item itemvalue="Python.find_k_ancestors" />
         <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_diagonal_up_left" />
       </list>
     </recent_temporary>
@@ -231,7 +225,7 @@
       <workItem from="1776175805640" duration="41000" />
       <workItem from="1776175861536" duration="2998000" />
       <workItem from="1776182246786" duration="2138000" />
-      <workItem from="1776184484444" duration="9294000" />
+      <workItem from="1776184484444" duration="10487000" />
     </task>
     <task id="LOCAL-00001" summary="reorganize folders">
       <option name="closed" value="true" />
@@ -289,7 +283,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776189492178</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="test passed: find k ancestors &amp; find all ancestors &amp; ancestors of node by value">
+      <option name="closed" value="true" />
+      <created>1776194567802</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1776194567802</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,12 +315,13 @@
     <MESSAGE value="simple pattern traverser: diagonal up left done" />
     <MESSAGE value="implementation: line done" />
     <MESSAGE value="test line &amp; find k ancestors: 2 tests passed" />
-    <option name="LAST_COMMIT_MESSAGE" value="test line &amp; find k ancestors: 2 tests passed" />
+    <MESSAGE value="test passed: find k ancestors &amp; find all ancestors &amp; ancestors of node by value" />
+    <option name="LAST_COMMIT_MESSAGE" value="test passed: find k ancestors &amp; find all ancestors &amp; ancestors of node by value" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line__1_.coverage" NAME="line (1) Coverage Results" MODIFIED="1776178339945" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line.coverage" NAME="line Coverage Results" MODIFIED="1776185135324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776194492732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776194659055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$find_k_ancestors.coverage" NAME="find_k_ancestors Coverage Results" MODIFIED="1776193268099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/features/matrix_tree/find_k_ancestors" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path.coverage" NAME="Example: Incremental Path Coverage Results" MODIFIED="1776161377285" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$diagonal.coverage" NAME="diagonal Coverage Results" MODIFIED="1776177987536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />

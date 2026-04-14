@@ -1,49 +1,46 @@
 """
 Fibonacci Maze.
 
-Find the path where each must be
-
-Properties:
-- ...
 """
 
-from src.components import Coordinate, Move, Matrix
+from src.components import Coordinate, Move, Matrix, MatrixTree
 from src.core.MazeTraverser import MazeTraverser
 
 
-def makeIncrementalPathMaze(matrix: list[list]) -> MazeTraverser:
+def makeFibonacciMaze(matrix: list[list]) -> MazeTraverser:
     """
-    Makes the Incremental Path Maze, an implementation of the
-    Maze Traverser.
+    Make the Fibonacci Maze.
 
-    Search whether a path from start to end exists, with any
-    number of candidate paths for each cell, where the next value
-    must be the previous value + 1.
+    Find the path where each cell value must be
+    the sum of the previous two cells,
+    with multiple candidate paths at each cell.
+
 
     # Example
 
     ```
-    S - 1   5    3
-          \\  /  |
-    1   1   2    4
+    S - 1    5    2
+          \\   /  |
+    34  21   1    3
                /
-    7   6   5    6
+    21  13   5    55
           /
-    7   6   5    6
+    13  8   21    34
         |
-    8   7 - 8    3
+    21  13 - 21   3
                \\
-    8   5   2    E
+    55  34   2    E
     ```
 
     # Rules
-    - start value is "S"
-    - end value is "E"
-    - all values except start and end must be number types
-    - from the start, the next value is exactly 1
-    - at start, if no adjacent 1 is found, the algorithm terminates
-    - start and end must have at least a number in between, and if that number is only one number,
-        it will have to be 1
+    - Start is S
+    - The next value from start is 1
+    - For every other cell after 1, whose number of ancestors is less than 2,
+      the missing ancestor is simply calculated as 0. In practice,
+      this should only occur to the next number of 1, which must be another 1.
+      Therefore, after two 1's, we are certain that cells will have
+      2 ancestors.
+
     """
 
     mazeTraverser = MazeTraverser(
@@ -61,12 +58,14 @@ def _canMoveTo(mt: MazeTraverser,
                prevCoord: Coordinate,
                currCoord: Coordinate,
                prevMove: Move) -> bool:
-    nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord)  # type: ignore
-    currNum = Matrix.getAtCoordinate(mt.matrix, currCoord)  # type: ignore
+    # nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord)  # type: ignore
+    # currNum = Matrix.getAtCoordinate(mt.matrix, currCoord)  # type: ignore
+
+    # FIX
 
     # this cell can move to the desired/next coordinate
     # only if this condition is met
-    return nextNum == currNum + 1  # type: ignore
+    return nextNum == prevNum + prevPrevNum  # type: ignore
 
 
 # callback specific for this maze problem
@@ -75,5 +74,6 @@ def _canMoveToOnStart(mt: MazeTraverser,
                       prevCoord: Coordinate,
                       currCoord: Coordinate,
                       prevMove: Move) -> bool:
+
     return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == 1
 
