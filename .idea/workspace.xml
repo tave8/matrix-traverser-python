@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="implementation: line done">
-      <change afterPath="$PROJECT_DIR$/tests/examples/line/prep/assertions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/examples/line/prep/helpers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/examples/line/test_line.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/features/matrix_tree/find_one_by_value/prep/assertions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/features/matrix_tree/find_one_by_value/prep/helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/line.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/line.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/components.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MatrixTraverser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MatrixTraverser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/features/matrix_tree/find_one_by_value/test_find_one_by_value.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/features/matrix_tree/find_one_by_value/test_find_one_by_value.py" afterDir="false" />
+    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="test line &amp; find k ancestors: 2 tests passed">
+      <change beforePath="$PROJECT_DIR$/tests/examples/line/test_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/examples/line/test_line.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +48,7 @@
     "Python tests.Python tests for tests.examples.line.test_line.test_up.executor": "Run",
     "Python tests.Python tests for tests.examples.test_incremental_path.test_one_row_one_col_matrix.executor": "Run",
     "Python tests.Python tests in test_incremental_path.py.executor": "Run",
+    "Python tests.Python tests in test_line.py.executor": "Run",
     "Python tests.Test - Incremental Path.executor": "Run",
     "Python tests.Test: Incremental Path.executor": "Run",
     "Python.Example: Incremental Path.executor": "Run",
@@ -92,7 +83,7 @@
       <recent name="C:\Users\giuse\Desktop\projects\matrix-traverser-python\tests\examples\incremental_path\prep" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for tests.examples.line.test_line.test_up">
+  <component name="RunManager" selected="Python tests.Python tests for tests.examples.line.test_line.test_diagonal_up_left">
     <configuration name="Python tests for tests.examples.line.test_line.test_diagonal_down_right" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
@@ -111,7 +102,7 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.examples.line.test_line.test_down" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.examples.line.test_line.test_diagonal_up_left" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -125,7 +116,7 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.examples.line.test_line.test_down&quot;" />
+      <option name="_new_target" value="&quot;tests.examples.line.test_line.test_diagonal_up_left&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -165,7 +156,7 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Test: Incremental Path" type="tests" factoryName="Autodetect" temporary="true">
+    <configuration name="Python tests in test_line.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -179,24 +170,24 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/examples/incremental_path/test_incremental_path.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/examples/line/test_line.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_diagonal_down_right" />
-      <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_down" />
+      <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_diagonal_up_left" />
       <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_right" />
       <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_up" />
-      <item itemvalue="Python tests.Test: Incremental Path" />
+      <item itemvalue="Python tests.Python tests in test_line.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_diagonal_up_left" />
+        <item itemvalue="Python tests.Python tests in test_line.py" />
+        <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_right" />
         <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_up" />
         <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_diagonal_down_right" />
-        <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_down" />
-        <item itemvalue="Python tests.Python tests for tests.examples.line.test_line.test_right" />
-        <item itemvalue="Python tests.Test: Incremental Path" />
       </list>
     </recent_temporary>
   </component>
@@ -222,7 +213,7 @@
       <workItem from="1776175805640" duration="41000" />
       <workItem from="1776175861536" duration="2998000" />
       <workItem from="1776182246786" duration="2138000" />
-      <workItem from="1776184484444" duration="3257000" />
+      <workItem from="1776184484444" duration="4229000" />
     </task>
     <task id="LOCAL-00001" summary="reorganize folders">
       <option name="closed" value="true" />
@@ -264,7 +255,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776184339213</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="test line &amp; find k ancestors: 2 tests passed">
+      <option name="closed" value="true" />
+      <created>1776187761725</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1776187761726</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,12 +286,13 @@
     <MESSAGE value="add pycharm config files" />
     <MESSAGE value="simple pattern traverser: diagonal up left done" />
     <MESSAGE value="implementation: line done" />
-    <option name="LAST_COMMIT_MESSAGE" value="implementation: line done" />
+    <MESSAGE value="test line &amp; find k ancestors: 2 tests passed" />
+    <option name="LAST_COMMIT_MESSAGE" value="test line &amp; find k ancestors: 2 tests passed" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line__1_.coverage" NAME="line (1) Coverage Results" MODIFIED="1776178339945" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line.coverage" NAME="line Coverage Results" MODIFIED="1776185135324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776187737379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776189238410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path.coverage" NAME="Example: Incremental Path Coverage Results" MODIFIED="1776161377285" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$diagonal.coverage" NAME="diagonal Coverage Results" MODIFIED="1776177987536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
   </component>
