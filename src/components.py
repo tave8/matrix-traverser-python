@@ -15,8 +15,8 @@ class MatrixTree:
     
     def __init__(self, 
                  parent: MatrixTree | None,
-                 currCoord: Coordinate,
-                 prevCoord: Coordinate,
+                 coord: Coordinate,
+                 # prevCoord: Coordinate,
                  prevMove: Move,
                  isRoot=False,
                  isDummy=False) -> None:
@@ -28,8 +28,8 @@ class MatrixTree:
         self.isRoot = isRoot
 
         self.children: list[MatrixTree] = [] 
-        self.currCoord = currCoord
-        self.prevCoord = prevCoord
+        self.coord = coord
+        # self.prevCoord = prevCoord
         self.prevMove: Move = prevMove
         # is this a dummy tree? a dummy tree is used exclusively
         # for initialization reasons and shall be replaced, literally
@@ -111,7 +111,7 @@ class MatrixTree:
                 return None
             
             # we found the target node
-            if Matrix.getAtCoordinate(matrix, currNode.currCoord) == targetValue:
+            if Matrix.getAtCoordinate(matrix, currNode.coord) == targetValue:
                 # POSSIBLE RETURN 2
                 # we found the target node,
                 # therefore the caller will now get this node
@@ -123,7 +123,6 @@ class MatrixTree:
             ancestors.append(currNode)
 
             # **********************************
-            # print(Matrix.getAtCoordinate(matrix, currNode.currCoord)) 
             # iterate through the children
             # using depth-first traversal
 
@@ -197,7 +196,7 @@ class MatrixTree:
         return MatrixTree(
             None, 
             Coordinate(-1, -1), 
-            Coordinate(-1, -1), 
+            # Coordinate(-1, -1),
             prevMove=Move._BEFORE_START,
             isDummy=True
         )

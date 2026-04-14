@@ -145,8 +145,8 @@ class MatrixTraverser:
             # set the matrix tree
             self.matrixTree = MatrixTree(
                 parent=None,
-                currCoord=currCoord,
-                prevCoord=prevCoord,
+                coord=currCoord,
+                # prevCoord=prevCoord,
                 prevMove=Move._BEFORE_START,
                 isRoot=True
             )
@@ -159,8 +159,8 @@ class MatrixTraverser:
         # at whatever other current node"
         currNode = self.matrixTree if parentNode is None else MatrixTree(
             parent=parentNode,
-            currCoord=currCoord,
-            prevCoord=prevCoord,
+            coord=currCoord,
+            # prevCoord=prevCoord,
             prevMove=prevMove
         )
 
