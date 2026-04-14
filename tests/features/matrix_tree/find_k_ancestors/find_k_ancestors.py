@@ -1,5 +1,5 @@
 from src.components import Coordinate, Matrix, MatrixTree
-from src.implementations.incremental_path import makeIncrementalPathMaze
+from src.implementations.incremental_path_maze import makeIncrementalPathMaze
 
 
 def test_ancestors_of_node_by_value_same_k_ancestors():

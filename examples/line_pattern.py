@@ -1,6 +1,6 @@
 
 from src.components import Coordinate, Matrix, Move
-from src.implementations.line import makeLinePattern
+from src.implementations.line_pattern import makeLinePattern
 
 
 linePattern = makeLinePattern([

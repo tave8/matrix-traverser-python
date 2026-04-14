@@ -1,5 +1,5 @@
 """
-PROBLEM: Traverse the matrix in a line.
+PROBLEM: Traverse the matrix in a line_pattern.
 
 
 """

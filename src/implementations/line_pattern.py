@@ -1,5 +1,5 @@
 """
-Traverse in a line.
+Traverse in a line_pattern.
 """
 
 from typing import List

@@ -1,15 +1,15 @@
 
 from src.components import Coordinate, Matrix, Move, MatrixTree
-from src.implementations.zigzag import makeZigzagPattern
+from src.implementations.snake_pattern import makeSnakePattern
 
 
-zigzagPattern = makeZigzagPattern([
+snakePattern = makeSnakePattern([
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9],
 ])
 
-zigzagPattern.run(
+snakePattern.run(
     Coordinate(
         Matrix.getFirstRow(),
         Matrix.getFirstCol(),
@@ -21,9 +21,9 @@ zigzagPattern.run(
 targetValue = 9
 
 (nodeFound, ancestorsFromValue) = MatrixTree.findOneByValueFrom(
-    zigzagPattern.matrixTree,
+    snakePattern.matrixTree,
     targetValue,
-    zigzagPattern.matrix
+    snakePattern.matrix
 )
 
 if isinstance(nodeFound, MatrixTree):
@@ -35,7 +35,7 @@ if isinstance(nodeFound, MatrixTree):
 
         print(
             Matrix.getAtCoordinate(
-                zigzagPattern.matrix,
+                snakePattern.matrix,
                 ancestor.coord
             )
         )

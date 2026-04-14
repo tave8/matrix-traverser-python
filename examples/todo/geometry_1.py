@@ -1,5 +1,5 @@
 """
-PROBLEM: Traverse the matrix in a custom line.
+PROBLEM: Traverse the matrix in a custom line_pattern.
 
 (must update drawing)
     < -------- ^

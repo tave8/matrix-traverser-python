@@ -1,5 +1,5 @@
 from src.components import Coordinate, MatrixTree, Matrix
-from src.implementations.incremental_path import makeIncrementalPathMaze
+from src.implementations.incremental_path_maze import makeIncrementalPathMaze
 
 
 

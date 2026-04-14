@@ -1,6 +1,6 @@
 from src.components import Matrix
-from tests.examples.incremental_path.prep.helpers import makeAndRunIncrementalPathMaze
-from tests.examples.incremental_path.prep.assertions import *
+from tests.examples.incremental_path_maze.prep.helpers import makeAndRunIncrementalPathMaze
+from tests.examples.incremental_path_maze.prep.assertions import *
 
 
 def test_one_row_one_col_matrix():

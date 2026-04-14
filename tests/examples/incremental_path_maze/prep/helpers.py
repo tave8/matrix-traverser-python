@@ -1,5 +1,5 @@
 from src.components import Coordinate, Matrix, Move
-from src.implementations.incremental_path import makeIncrementalPathMaze 
+from src.implementations.incremental_path_maze import makeIncrementalPathMaze
 from src.core.MazeTraverser import MazeTraverser
 
 

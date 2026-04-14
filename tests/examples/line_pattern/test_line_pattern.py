@@ -1,7 +1,7 @@
 
 from src.components import Matrix, Move, Coordinate, MatrixTree
-from tests.examples.line.prep.helpers import makeAndRunLinePattern
-from tests.examples.line.prep.assertions import *
+from tests.examples.line_pattern.prep.helpers import makeAndRunLinePattern
+from tests.examples.line_pattern.prep.assertions import *
 
 
 def test_down():

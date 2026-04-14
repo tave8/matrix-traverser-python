@@ -1,5 +1,5 @@
 from src.components import Coordinate, Move
-from src.implementations.line import makeLinePattern
+from src.implementations.line_pattern import makeLinePattern
 from src.core.PatternTraverser import PatternTraverser
 
 

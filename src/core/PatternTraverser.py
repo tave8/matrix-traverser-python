@@ -14,7 +14,7 @@ from src.exceptions.ExpectedUserCallbackError import ExpectedUserCallbackError
 class PatternTraverser(MatrixTraverser):
     """
     Simple Pattern Traverser.
-    Traverses a simple line.
+    Traverses a simple line_pattern.
     """
 
     def __init__(self,
