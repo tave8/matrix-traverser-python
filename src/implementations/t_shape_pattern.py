@@ -1,22 +1,24 @@
 """
 Traverse in a T shape.
 
+   1
 ------------------->
         |
-        |
+        |   2
         |
         |
         v
 """
-
+from collections.abc import Callable
 from typing import List
 
-from components import Matrix
+from components import Matrix, MatrixTree
 from src.core.PatternTraverser import PatternTraverser
 from src.components import Coordinate, Move
 
 
-def makeTShapePattern(matrix: List[List]) -> PatternTraverser:
+def makeTShapePattern(matrix: List[List],
+                      afterAllFutureMoves: Callable[[PatternTraverser, MatrixTree], None] = None) -> PatternTraverser:
     """
     Traverse in a T shape.
     The matrix must have an odd number of columns;
@@ -30,6 +32,7 @@ def makeTShapePattern(matrix: List[List]) -> PatternTraverser:
     patternTraverser = PatternTraverser(
         matrix,
         getNextMovesCallback=_getNextMovesWrapper(),
+        afterAllFutureMoves=afterAllFutureMoves
     )
 
     return patternTraverser
