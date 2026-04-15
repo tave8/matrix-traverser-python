@@ -8,9 +8,7 @@ incrementalPathMaze = makeIncrementalPathMaze([
     ["S",  1,  1,  1],
 ])
 
-incrementalPathMaze.run(Coordinate(
-    3,0
-))
+incrementalPathMaze.run(Coordinate(3,0))
 
 # for cellInfo in incrementalPathMaze.getMovesHistory():
 #     print(cellInfo)

@@ -239,7 +239,12 @@ class MatrixTraverser:
                     self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT, currNode)
 
 
-        # CALLBACK IDEA: afterAllMoves
+        # This is the moment where ALL the recursions and operations
+        # of the successors of the current node have been exhausted.
+        # This is exactly the moment where we trigger the relevant callback
+        # that handles exactly that timing.
+        CallbackManager.afterAllFutureMoves(self, currNode)
+
 
 
     def getMovesHistory(self) -> list[dict]:
@@ -456,8 +461,57 @@ class CallbackManager:
         return Moves.getDefaultMoves()
 
 
+    @staticmethod
+    def afterAllFutureMoves(mt: MatrixTraverser,
+                            currNode: MatrixTree) -> None:
+        """
+        After all the moves of the future nodes of the current node
+        will have completed their moves, the Engine will trigger this callback.
 
-    # def canVisit(self, 
+        How is this achieved? Because in the Engine, the call
+        of this callback is positioned AFTER the traversal recursive call,
+        it means that we won't be calling this callback before all of
+        those recursive calls will have been completed.
+
+        In other words, as long as any "successor" node/cell
+        of the current node/cell has more traversals to run,
+        we will continue with these until there are no more left.
+
+        In practice, the current node passed to this callback,
+        and therefore also the timing at which this callback gets called,
+        will allow the user to perform operations based on future moves
+        of ANY successor of the given node/cell,
+        ONLY IF EVERY path of the successor nodes of the current node
+        has been exhausted.
+
+        In short, the current node passed to this callback can know
+        the history of the future and can therefore do/undo stuff.
+
+        This callback will get triggered the moment AFTER ALL
+        the future paths of the successor nodes
+        of the current node will have been exhausted,
+        and the afterAllFutureMoves of those successor nodes
+        will also have been completed.
+
+        """
+
+        # run the user-defined callback, if exists
+        if FunctionHelper.mapHasFunction("afterAllFutureMoves", mt.callbackManager.callbackMap):
+
+            afterAllFutureMovesCallback: Callable[[MatrixTraverser, MatrixTree], bool] = mt.callbackManager.callbackMap["afterAllFutureMoves"]
+
+            try:
+
+                afterAllFutureMovesCallback(mt, currNode)
+
+            except Exception as e:
+                raise DuringUserCallbackError(afterAllFutureMovesCallback) from e
+
+
+
+
+
+    # def canVisit(self,
     #             prevCoordinate: Coordinate, 
     #             currCoordinate: Coordinate,
     #             prevMove: Move) -> bool:
