@@ -57,8 +57,7 @@ class MatrixTraverser:
                   currCoord: Coordinate, 
                   prevCoord: Coordinate, 
                   prevMove: Move,
-                  parentNode: MatrixTree | None
-                  ) -> None:
+                  parentNode: MatrixTree | None) -> None:
         """
         The core algorithm: Traverses the matrix.
         """
@@ -152,7 +151,6 @@ class MatrixTraverser:
             self.matrixTree = MatrixTree(
                 parent=None,
                 coord=currCoord,
-                # prevCoord=prevCoord,
                 prevMove=Move._BEFORE_START,
                 isRoot=True
             )
@@ -166,7 +164,6 @@ class MatrixTraverser:
         currNode = self.matrixTree if parentNode is None else MatrixTree(
             parent=parentNode,
             coord=currCoord,
-            # prevCoord=prevCoord,
             prevMove=prevMove
         )
 

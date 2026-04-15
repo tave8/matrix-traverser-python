@@ -1,5 +1,44 @@
 from src.components import Coordinate, Matrix, MatrixTree
 from src.implementations.incremental_path_maze import makeIncrementalPathMaze
+from src.implementations.zigzag_pattern import makeZigzagPattern
+from tests.features.matrix_tree.find_k_ancestors.prep.helpers import makeAndRunTShapePattern
+
+
+def test_on_t_shape():
+
+    matrix = [
+        [ 1,    2,  3],
+        [ 4,    4,  6],
+        [ 7,    5,  3],
+        [ 6,    6,  3],
+        [ 5,    7,  3],
+        [ 9,    8,  3],
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    dataToTest = makeAndRunTShapePattern(matrix, startCoord)
+
+    (nodeFound, ancestorsFromValue) = MatrixTree.findOneByValueFrom(
+       dataToTest.patternTraverser.matrixTree,
+        8,
+        matrix
+    )
+
+    ancestorsFromFound = MatrixTree.findAllAncestorsOf(nodeFound)
+
+    ancestorsFromFoundUpToK = MatrixTree.findKAncestorsOf(nodeFound, 5)
+
+    assert len(ancestorsFromValue) == 6
+    assert len(ancestorsFromFound) == 6
+    assert len(ancestorsFromFoundUpToK) == 5
+
+
+
+
 
 
 def test_ancestors_of_node_by_value_same_k_ancestors():
@@ -67,4 +106,43 @@ def test_ancestors_of_node_by_value_same_k_ancestors():
     # for ancestor in ancestorsFromFoundUpToK:
     #     ancestorValue = Matrix.getAtCoordinate(matrix, ancestor.coord)
     #     print(ancestorValue)
+
+
+
+def test_on_zigzag():
+
+    matrix = [
+        [ 1,    2,   6],
+        [ 3,    5,   7],
+        [ 4,    8,  12],
+        [ 9,   11,  13],
+        [10,   14,  17],
+        [15,   16,  18],
+    ]
+
+    startCoord = Coordinate(
+        Matrix.getFirstRow(),
+        Matrix.getFirstCol()
+    )
+
+    zigzag = makeZigzagPattern(matrix)
+
+    zigzag.run(startCoord)
+
+    # find the ancestors of a node, given the value of the node
+    # this will give us back its ancestors as well
+    (nodeFound, ancestorsFromValue) = MatrixTree.findOneByValueFrom(
+       zigzag.matrixTree,
+        18,
+        matrix
+    )
+
+    ancestorsFromFound = MatrixTree.findAllAncestorsOf(nodeFound)
+    ancestorsFromFoundUpToK = MatrixTree.findKAncestorsOf(nodeFound, 16)
+
+    assert len(ancestorsFromFoundUpToK) == 16
+    assert len(ancestorsFromValue) == 17
+    assert len(ancestorsFromFound) == len(ancestorsFromValue)
+    assert ancestorsFromFoundUpToK[0] == ancestorsFromValue[1]
+
 
