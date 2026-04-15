@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="remove 2 params from getNextMoves callback">
+      <change afterPath="$PROJECT_DIR$/examples/breadth_first_search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MatrixTraverser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MatrixTraverser.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,76 +51,77 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Notification.DisplayName-DoNotAsk-vcs.commit.finished&quot;: &quot;8 files committed&quot;,
-    &quot;Notification.DoNotAsk-vcs.commit.finished&quot;: &quot;true&quot;,
-    &quot;Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_many_candidates_path_exists_1.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_many_candidates_path_exists_2.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_one_path_exists.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_path_no_exists.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_small_path_exists_1.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_small_path_exists_2.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_small_path_no_exists_1.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.line.test_line.test_diagonal_down_right.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.line.test_line.test_diagonal_up_left.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.line.test_line.test_down.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.line.test_line.test_right.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.line.test_line.test_up.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.t_shape_pattern.test_t_shape_pattern.test_simple.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.t_shape_pattern.test_t_shape_pattern.test_simple_pass.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.examples.test_incremental_path.test_one_row_one_col_matrix.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.find_k_ancestors.test_ancestors_of_node_by_value_same_k_ancestors.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_t_shape.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_zigzag.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_fibonacci_maze.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_find_k_ancestors.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_find_one_by_value.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_incremental_path.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_incremental_path_maze.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_line.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_line_pattern.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_t_shape_pattern.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Test - Incremental Path.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Test: Incremental Path.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Example: Incremental Path.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Example: incremental_path.executor&quot;: &quot;Run&quot;,
-    &quot;Python.diagonal.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fibonacci_maze (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.fibonacci_maze.executor&quot;: &quot;Run&quot;,
-    &quot;Python.find_k_ancestors.executor&quot;: &quot;Run&quot;,
-    &quot;Python.incremental_path.executor&quot;: &quot;Run&quot;,
-    &quot;Python.incremental_path_maze (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.incremental_path_maze.executor&quot;: &quot;Run&quot;,
-    &quot;Python.line (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.line.executor&quot;: &quot;Run&quot;,
-    &quot;Python.line_pattern.executor&quot;: &quot;Run&quot;,
-    &quot;Python.snake_pattern.executor&quot;: &quot;Run&quot;,
-    &quot;Python.spiral.executor&quot;: &quot;Run&quot;,
-    &quot;Python.spiral_pattern.executor&quot;: &quot;Run&quot;,
-    &quot;Python.t_shape_pattern.executor&quot;: &quot;Run&quot;,
-    &quot;Python.t_shape_pattern_after_future_moves.executor&quot;: &quot;Run&quot;,
-    &quot;Python.zigzag.executor&quot;: &quot;Run&quot;,
-    &quot;Python.zigzag_pattern.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;10-simplify-callback-params&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/giuse/Desktop/projects/matrix-traverser-python/examples&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.import&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Notification.DisplayName-DoNotAsk-vcs.commit.finished": "8 files committed",
+    "Notification.DoNotAsk-vcs.commit.finished": "true",
+    "Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_many_candidates_path_exists_1.executor": "Run",
+    "Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_many_candidates_path_exists_2.executor": "Run",
+    "Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_one_path_exists.executor": "Run",
+    "Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_path_no_exists.executor": "Run",
+    "Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_small_path_exists_1.executor": "Run",
+    "Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_small_path_exists_2.executor": "Run",
+    "Python tests.Python tests for tests.examples.fibonacci_maze.test_fibonacci_maze.test_small_path_no_exists_1.executor": "Run",
+    "Python tests.Python tests for tests.examples.line.test_line.test_diagonal_down_right.executor": "Run",
+    "Python tests.Python tests for tests.examples.line.test_line.test_diagonal_up_left.executor": "Run",
+    "Python tests.Python tests for tests.examples.line.test_line.test_down.executor": "Run",
+    "Python tests.Python tests for tests.examples.line.test_line.test_right.executor": "Run",
+    "Python tests.Python tests for tests.examples.line.test_line.test_up.executor": "Run",
+    "Python tests.Python tests for tests.examples.t_shape_pattern.test_t_shape_pattern.test_simple.executor": "Run",
+    "Python tests.Python tests for tests.examples.t_shape_pattern.test_t_shape_pattern.test_simple_pass.executor": "Run",
+    "Python tests.Python tests for tests.examples.test_incremental_path.test_one_row_one_col_matrix.executor": "Run",
+    "Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.find_k_ancestors.test_ancestors_of_node_by_value_same_k_ancestors.executor": "Run",
+    "Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_t_shape.executor": "Run",
+    "Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_zigzag.executor": "Run",
+    "Python tests.Python tests in test_fibonacci_maze.py.executor": "Run",
+    "Python tests.Python tests in test_find_k_ancestors.py.executor": "Run",
+    "Python tests.Python tests in test_find_one_by_value.py.executor": "Run",
+    "Python tests.Python tests in test_incremental_path.py.executor": "Run",
+    "Python tests.Python tests in test_incremental_path_maze.py.executor": "Run",
+    "Python tests.Python tests in test_line.py.executor": "Run",
+    "Python tests.Python tests in test_line_pattern.py.executor": "Run",
+    "Python tests.Python tests in test_t_shape_pattern.py.executor": "Run",
+    "Python tests.Test - Incremental Path.executor": "Run",
+    "Python tests.Test: Incremental Path.executor": "Run",
+    "Python.Example: Incremental Path.executor": "Run",
+    "Python.Example: incremental_path.executor": "Run",
+    "Python.breadth_first_search.executor": "Run",
+    "Python.diagonal.executor": "Run",
+    "Python.fibonacci_maze (1).executor": "Run",
+    "Python.fibonacci_maze.executor": "Run",
+    "Python.find_k_ancestors.executor": "Run",
+    "Python.incremental_path.executor": "Run",
+    "Python.incremental_path_maze (1).executor": "Run",
+    "Python.incremental_path_maze.executor": "Run",
+    "Python.line (1).executor": "Run",
+    "Python.line.executor": "Run",
+    "Python.line_pattern.executor": "Run",
+    "Python.snake_pattern.executor": "Run",
+    "Python.spiral.executor": "Run",
+    "Python.spiral_pattern.executor": "Run",
+    "Python.t_shape_pattern.executor": "Run",
+    "Python.t_shape_pattern_after_future_moves.executor": "Run",
+    "Python.zigzag.executor": "Run",
+    "Python.zigzag_pattern.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "11-breadth-first-search",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/giuse/Desktop/projects/matrix-traverser-python/examples",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.import",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\giuse\Desktop\projects\matrix-traverser-python\examples" />
@@ -131,7 +134,32 @@
       <recent name="C:\Users\giuse\Desktop\projects\matrix-traverser-python\tests\examples\incremental_path\prep" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in test_find_one_by_value.py">
+  <component name="RunManager" selected="Python.breadth_first_search">
+    <configuration name="breadth_first_search" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="matrix-traverser-python" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/breadth_first_search.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests in test_find_k_ancestors.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
@@ -165,24 +193,6 @@
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/features/matrix_tree/find_one_by_value/test_find_one_by_value.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in test_incremental_path_maze.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="matrix-traverser-python" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="DEBUG_JUST_MY_CODE" value="false" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/examples/incremental_path_maze/test_incremental_path_maze.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -223,19 +233,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.breadth_first_search" />
       <item itemvalue="Python tests.Python tests in test_find_k_ancestors.py" />
       <item itemvalue="Python tests.Python tests in test_find_one_by_value.py" />
       <item itemvalue="Python tests.Python tests in test_line_pattern.py" />
       <item itemvalue="Python tests.Python tests in test_t_shape_pattern.py" />
-      <item itemvalue="Python tests.Python tests in test_incremental_path_maze.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.breadth_first_search" />
         <item itemvalue="Python tests.Python tests in test_find_one_by_value.py" />
         <item itemvalue="Python tests.Python tests in test_find_k_ancestors.py" />
         <item itemvalue="Python tests.Python tests in test_t_shape_pattern.py" />
         <item itemvalue="Python tests.Python tests in test_line_pattern.py" />
-        <item itemvalue="Python tests.Python tests in test_incremental_path_maze.py" />
       </list>
     </recent_temporary>
   </component>
@@ -491,6 +501,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path_maze.coverage" NAME="incremental_path_maze Coverage Results" MODIFIED="1776282936060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path_maze__1_.coverage" NAME="incremental_path_maze (1) Coverage Results" MODIFIED="1776282949106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$breadth_first_search.coverage" NAME="breadth_first_search Coverage Results" MODIFIED="1776287395361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$fibonacci_maze__1_.coverage" NAME="fibonacci_maze (1) Coverage Results" MODIFIED="1776282863756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line_pattern.coverage" NAME="line_pattern Coverage Results" MODIFIED="1776283733484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$zigzag.coverage" NAME="zigzag Coverage Results" MODIFIED="1776205805224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />

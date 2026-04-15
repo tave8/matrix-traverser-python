@@ -1,4 +1,6 @@
 from collections.abc import Callable
+from typing import List
+
 from src.helpers import FunctionHelper
 from src.components import Coordinate, Move, Moves, Matrix, MatrixTree
 from src.exceptions.DuringUserCallbackError import DuringUserCallbackError
@@ -150,6 +152,8 @@ class MatrixTraverser:
             # set the matrix tree
             self.matrixTree = MatrixTree(
                 parent=None,
+                # if the parent is none, the current coordinate
+                # is simply the start coordinate
                 coord=currCoord,
                 prevMove=Move._BEFORE_START,
                 isRoot=True
@@ -241,6 +245,100 @@ class MatrixTraverser:
         # This is exactly the moment where we trigger the relevant callback
         # that handles exactly that timing.
         CallbackManager.afterAllFutureMoves(self, currNode)
+
+
+
+    def traverse_BFS(self, startCoord: Coordinate) -> List[MatrixTree]:
+        """
+        Traverse the matrix using Breadth-first Search,
+        and builds a new Matrix Tree.
+
+        For testing, I will create a new visited matrix.
+        """
+
+        if not Matrix.isInsideMatrix(self.matrix, startCoord):
+            raise Exception("the provided start coord is outside the matrix")
+
+        nodes = []
+
+        visited = Matrix.generateVisitedMatrixFrom(self.matrix)
+
+        root = MatrixTree(
+            parent=None,
+            coord=startCoord,
+            prevMove=Move._BEFORE_START,
+            isRoot=True
+        )
+
+        # first element: oldest -> first to remove
+        # last element: newest
+        queue: list[MatrixTree] = [root]
+
+        # as long as there are nodes in the queue
+        while len(queue) > 0:
+            # because it's a queue, pop the first element
+            currNode = queue.pop(0)
+
+            # if this node was visited, we skip it
+            if Matrix.isVisited(visited, currNode.coord):
+                continue
+
+            nodes.append(currNode)
+
+            nextMoves = CallbackManager.getNextMoves(self, currNode)
+
+            for nextMove in nextMoves:
+
+                if nextMove == Move.UP:
+                    # up
+                    if CallbackManager.canMoveTo(self, currNode, currNode.coord.up()):
+                        queue.append(MatrixTree(
+                            parent=currNode,
+                            coord=currNode.coord.up(),
+                            prevMove=Move.UP
+                        ))
+                        # self.__traverse(currCoord.up(), currCoord, Move.UP, currNode)
+
+                # elif nextMove == Move.DIAGONAL_UP_RIGHT:
+                #     # diagonal up right
+                #     if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalUpRight()):
+                #         self.__traverse(currCoord.diagonalUpRight(), currCoord, Move.DIAGONAL_UP_RIGHT, currNode)
+                #
+                elif nextMove == Move.RIGHT:
+                    # right
+                    if CallbackManager.canMoveTo(self, currNode, currNode.coord.right()):
+                        queue.append(MatrixTree(
+                            parent=currNode,
+                            coord=currNode.coord.right(),
+                            prevMove=Move.RIGHT
+                        ))
+
+                # elif nextMove == Move.DIAGONAL_DOWN_RIGHT:
+                #     # diagonal down right
+                #     if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalDownRight()):
+                #         self.__traverse(currCoord.diagonalDownRight(), currCoord, Move.DIAGONAL_DOWN_RIGHT, currNode)
+                #
+                # elif nextMove == Move.DOWN:
+                #     # down
+                #     if CallbackManager.canMoveTo(self, currNode, currCoord.down()):
+                #         self.__traverse(currCoord.down(), currCoord, Move.DOWN, currNode)
+                #
+                # elif nextMove == Move.DIAGONAL_DOWN_LEFT:
+                #     # diagonal down left
+                #     if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalDownLeft()):
+                #         self.__traverse(currCoord.diagonalDownLeft(), currCoord, Move.DIAGONAL_DOWN_LEFT, currNode)
+                #
+                # elif nextMove == Move.LEFT:
+                #     # left
+                #     if CallbackManager.canMoveTo(self, currNode, currCoord.left()):
+                #         self.__traverse(currCoord.left(), currCoord, Move.LEFT, currNode)
+                #
+                # elif nextMove == Move.DIAGONAL_UP_LEFT:
+                #     # diagonal up left
+                #     if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalUpLeft()):
+                #         self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT, currNode)
+
+        return nodes
 
 
 
