@@ -21,9 +21,9 @@ class MazeTraverser(MatrixTraverser):
 
     def __init__(self, 
                  matrix: list[list], 
-                 canMoveToCallback: Callable[[MazeTraverser, Coordinate, Coordinate, Coordinate, Move, MatrixTree], bool],
-                 canMoveToOnStartCallback: Callable[[MazeTraverser, Coordinate, Coordinate, Coordinate, Move, MatrixTree], bool],
-                 userState: dict = {},
+                 canMoveToCallback: Callable[[MazeTraverser, MatrixTree, Coordinate], bool],
+                 canMoveToOnStartCallback: Callable[[MazeTraverser, MatrixTree, Coordinate], bool],
+                 userState=None,
                  startName = "S",
                  endName = "E") -> None:
         """
@@ -36,6 +36,9 @@ class MazeTraverser(MatrixTraverser):
         """
         
         # callback must be a function
+        if userState is None:
+            userState = {}
+
         if not isfunction(canMoveToCallback):
             raise ExpectedUserCallbackError(canMoveToCallback)
 
@@ -69,8 +72,8 @@ class MazeTraverser(MatrixTraverser):
         # user-defined, maze-specific callback
         # in this callback, the user will define the exact logic
         # of how they want their maze logic to play out
-        self.canMoveToCallback = canMoveToCallback
-        self.canMoveToOnStartCallback = canMoveToOnStartCallback
+        self.canMoveToCallback_User = canMoveToCallback
+        self.canMoveToOnStartCallback_User = canMoveToOnStartCallback
 
         self.startName = startName
         self.endName = endName
@@ -97,7 +100,7 @@ class MazeTraverser(MatrixTraverser):
 
 
     @staticmethod
-    def _canMoveTo(mazeTraverser: MazeTraverser) -> Callable[[MatrixTraverser, Coordinate, Coordinate, Coordinate, Move, MatrixTree], bool]:
+    def _canMoveTo(mazeTraverser: MazeTraverser) -> Callable[[MatrixTraverser, MatrixTree, Coordinate], bool]:
         """
         This is the Maze Traverser internal callback that gets called
         directly by the Matrix Traverser engine, and includes the 
@@ -120,12 +123,9 @@ class MazeTraverser(MatrixTraverser):
 
         # CLOSURE FUNCTION: this will be run directly 
         # by the Matrix Traversal Engine
-        def _canMoveToWrapper(_matrixTraverser: MatrixTraverser, 
-                                desiredCoord: Coordinate, 
-                                prevCoord: Coordinate, 
-                                currCoord: Coordinate,
-                                prevMove: Move,
-                                currNode: MatrixTree) -> bool:
+        def canMoveTo_ForEngine(_matrixTraverser: MatrixTraverser,
+                                currNode: MatrixTree,
+                                desiredCoord: Coordinate) -> bool:
             """
             Finally, this is the actual callback that the Matrix Traversal Engine
             will call directly. Therefore its signature must match exactly what the
@@ -133,14 +133,11 @@ class MazeTraverser(MatrixTraverser):
             """
 
             # at the very start, the user defines where to move
-            if currCoord.isStart:
+            if currNode.coord.isStart:
 
-                return mazeTraverser.canMoveToOnStartCallback(mazeTraverser, 
-                                                              desiredCoord, 
-                                                              prevCoord, 
-                                                              currCoord, 
-                                                              prevMove,
-                                                              currNode)
+                return mazeTraverser.canMoveToOnStartCallback_User(mazeTraverser,
+                                                                  currNode,
+                                                                  desiredCoord)
             # EDGE CASE (example)
             # when 3 asks whether it can go to S
             # or even 2 if it can go to S?
@@ -160,7 +157,7 @@ class MazeTraverser(MatrixTraverser):
             
             # if the curr coordinate is the end itself,
             # end the algorithm
-            if Matrix.getAtCoordinate(mazeTraverser.matrix, currCoord) == mazeTraverser.endName:
+            if Matrix.getAtCoordinate(mazeTraverser.matrix, currNode.coord) == mazeTraverser.endName:
                 # end the algorithm at 
                 StateManager.setWasEnded(mazeTraverser, True)
                 return False
@@ -170,14 +167,11 @@ class MazeTraverser(MatrixTraverser):
             # magic happens. the previous steps
             # in this callback where just boilerplate code to handle
             # start, end and edge cases
-            return mazeTraverser.canMoveToCallback(mazeTraverser, 
-                                                    desiredCoord, 
-                                                    prevCoord, 
-                                                    currCoord, 
-                                                    prevMove,
-                                                    currNode)
+            return mazeTraverser.canMoveToCallback_User(mazeTraverser,
+                                                        currNode,
+                                                        desiredCoord)
         
-        return _canMoveToWrapper 
+        return canMoveTo_ForEngine
 
     
     @staticmethod

@@ -54,13 +54,11 @@ def makeFibonacciMaze(matrix: list[list]) -> MazeTraverser:
 
 # callback specific for this maze problem
 def _canMoveTo(mt: MazeTraverser,
-               desiredCoord: Coordinate,
-               prevCoord: Coordinate,
-               currCoord: Coordinate,
-               prevMove: Move,
-               currNode: MatrixTree) -> bool:
-    nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord)  # type: ignore
-    currNum = Matrix.getAtCoordinate(mt.matrix, currCoord)  # type: ignore
+               currNode: MatrixTree,
+               desiredCoord: Coordinate) -> bool:
+
+    nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord)
+    currNum = Matrix.getAtCoordinate(mt.matrix, currNode.coord)
 
     # why do i use the k ancestors logic instead
     # of simply accessing the previous coordinate?
@@ -90,11 +88,8 @@ def _canMoveTo(mt: MazeTraverser,
 
 # callback specific for this maze problem
 def _canMoveToOnStart(mt: MazeTraverser,
-                      desiredCoord: Coordinate,
-                      prevCoord: Coordinate,
-                      currCoord: Coordinate,
-                      prevMove: Move,
-                      currNode: MatrixTree) -> bool:
+                      currNode: MatrixTree,
+                      desiredCoord: Coordinate) -> bool:
 
     return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == 1
 

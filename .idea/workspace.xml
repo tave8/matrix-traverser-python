@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="afterAllFutureMovesCallback: works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/incremental_path_maze.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/incremental_path_maze.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MatrixTraverser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MatrixTraverser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MazeTraverser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MazeTraverser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/implementations/fibonacci_maze.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/implementations/fibonacci_maze.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/implementations/incremental_path_maze.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/implementations/incremental_path_maze.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,9 +89,12 @@
     "Python.Example: Incremental Path.executor": "Run",
     "Python.Example: incremental_path.executor": "Run",
     "Python.diagonal.executor": "Run",
+    "Python.fibonacci_maze (1).executor": "Run",
     "Python.fibonacci_maze.executor": "Run",
     "Python.find_k_ancestors.executor": "Run",
     "Python.incremental_path.executor": "Run",
+    "Python.incremental_path_maze (1).executor": "Run",
+    "Python.incremental_path_maze.executor": "Run",
     "Python.line (1).executor": "Run",
     "Python.line.executor": "Run",
     "Python.snake_pattern.executor": "Run",
@@ -100,7 +108,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "9-matrix-tree",
+    "git-widget-placeholder": "10-simplify-callback-params",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/giuse/Desktop/projects/matrix-traverser-python/examples",
     "node.js.detected.package.eslint": "true",
@@ -124,8 +132,8 @@
       <recent name="C:\Users\giuse\Desktop\projects\matrix-traverser-python\tests\examples\incremental_path\prep" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.t_shape_pattern_after_future_moves">
-    <configuration name="t_shape_pattern_after_future_moves" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in test_incremental_path_maze.py">
+    <configuration name="fibonacci_maze (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -141,7 +149,7 @@
       <option name="DEBUG_JUST_MY_CODE" value="false" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/t_shape_pattern_after_future_moves.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/fibonacci_maze.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -150,25 +158,57 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_zigzag" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="incremental_path_maze (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="DEBUG_JUST_MY_CODE" value="false" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_zigzag&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/incremental_path_maze.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in test_find_k_ancestors.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="incremental_path_maze" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="matrix-traverser-python" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/implementations" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/implementations/incremental_path_maze.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_fibonacci_maze.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -182,11 +222,11 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/features/matrix_tree/find_k_ancestors/test_find_k_ancestors.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/examples/fibonacci_maze/test_fibonacci_maze.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in test_line_pattern.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in test_incremental_path_maze.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -200,42 +240,24 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/examples/line_pattern/test_line_pattern.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in test_t_shape_pattern.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="matrix-traverser-python" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="DEBUG_JUST_MY_CODE" value="false" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="RUN_TOOL" value="" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/examples/t_shape_pattern/test_t_shape_pattern.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/examples/incremental_path_maze/test_incremental_path_maze.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.t_shape_pattern_after_future_moves" />
-      <item itemvalue="Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_zigzag" />
-      <item itemvalue="Python tests.Python tests in test_find_k_ancestors.py" />
-      <item itemvalue="Python tests.Python tests in test_t_shape_pattern.py" />
-      <item itemvalue="Python tests.Python tests in test_line_pattern.py" />
+      <item itemvalue="Python.fibonacci_maze (1)" />
+      <item itemvalue="Python.incremental_path_maze" />
+      <item itemvalue="Python.incremental_path_maze (1)" />
+      <item itemvalue="Python tests.Python tests in test_fibonacci_maze.py" />
+      <item itemvalue="Python tests.Python tests in test_incremental_path_maze.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.t_shape_pattern_after_future_moves" />
-        <item itemvalue="Python tests.Python tests in test_find_k_ancestors.py" />
-        <item itemvalue="Python tests.Python tests in test_t_shape_pattern.py" />
-        <item itemvalue="Python tests.Python tests in test_line_pattern.py" />
-        <item itemvalue="Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_zigzag" />
+        <item itemvalue="Python tests.Python tests in test_incremental_path_maze.py" />
+        <item itemvalue="Python tests.Python tests in test_fibonacci_maze.py" />
+        <item itemvalue="Python.incremental_path_maze (1)" />
+        <item itemvalue="Python.incremental_path_maze" />
+        <item itemvalue="Python.fibonacci_maze (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -417,7 +439,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776278132377</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="afterAllFutureMovesCallback: works">
+      <option name="closed" value="true" />
+      <created>1776281748448</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1776281748448</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -463,11 +493,14 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path_maze.coverage" NAME="incremental_path_maze Coverage Results" MODIFIED="1776282936060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path_maze__1_.coverage" NAME="incremental_path_maze (1) Coverage Results" MODIFIED="1776282949106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$fibonacci_maze__1_.coverage" NAME="fibonacci_maze (1) Coverage Results" MODIFIED="1776282863756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$zigzag.coverage" NAME="zigzag Coverage Results" MODIFIED="1776205805224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$fibonacci_maze.coverage" NAME="fibonacci_maze Coverage Results" MODIFIED="1776204643479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$fibonacci_maze.coverage" NAME="fibonacci_maze Coverage Results" MODIFIED="1776282761118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line__1_.coverage" NAME="line (1) Coverage Results" MODIFIED="1776178339945" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$spiral.coverage" NAME="spiral Coverage Results" MODIFIED="1776205626103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776277393287" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776282976339" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$t_shape_pattern_after_future_moves.coverage" NAME="t_shape_pattern_after_future_moves Coverage Results" MODIFIED="1776278400286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$snake_pattern.coverage" NAME="snake_pattern Coverage Results" MODIFIED="1776206340135" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$t_shape_pattern.coverage" NAME="t_shape_pattern Coverage Results" MODIFIED="1776273082210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />

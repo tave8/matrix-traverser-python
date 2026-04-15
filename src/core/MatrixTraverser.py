@@ -195,44 +195,44 @@ class MatrixTraverser:
 
             if nextMove == Move.UP:
                 # up
-                if CallbackManager.canMoveTo(self, currCoord.up(), prevCoord, currCoord, prevMove, currNode):
+                if CallbackManager.canMoveTo(self, currNode, currCoord.up()):
                     # CALLBACK IDEA: beforeMove
                     self.__traverse(currCoord.up(), currCoord, Move.UP, currNode)
                     # CALLBACK IDEA: afterMove
 
             elif nextMove == Move.DIAGONAL_UP_RIGHT:
                 # diagonal up right
-                if CallbackManager.canMoveTo(self, currCoord.diagonalUpRight(), prevCoord, currCoord, prevMove, currNode):
+                if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalUpRight()):
                     self.__traverse(currCoord.diagonalUpRight(), currCoord, Move.DIAGONAL_UP_RIGHT, currNode)
 
             elif nextMove == Move.RIGHT:
                 # right
-                if CallbackManager.canMoveTo(self, currCoord.right(), prevCoord, currCoord, prevMove, currNode):
+                if CallbackManager.canMoveTo(self, currNode, currCoord.right()):
                     self.__traverse(currCoord.right(), currCoord, Move.RIGHT, currNode)
 
             elif nextMove == Move.DIAGONAL_DOWN_RIGHT:
                 # diagonal down right
-                if CallbackManager.canMoveTo(self, currCoord.diagonalDownRight(), prevCoord, currCoord, prevMove, currNode):
+                if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalDownRight()):
                     self.__traverse(currCoord.diagonalDownRight(), currCoord, Move.DIAGONAL_DOWN_RIGHT, currNode)
 
             elif nextMove == Move.DOWN:
                 # down
-                if CallbackManager.canMoveTo(self, currCoord.down(), prevCoord, currCoord, prevMove, currNode):
+                if CallbackManager.canMoveTo(self, currNode, currCoord.down()):
                     self.__traverse(currCoord.down(), currCoord, Move.DOWN, currNode)
 
             elif nextMove == Move.DIAGONAL_DOWN_LEFT:
                 # diagonal down left
-                if CallbackManager.canMoveTo(self, currCoord.diagonalDownLeft(), prevCoord, currCoord, prevMove, currNode):
+                if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalDownLeft()):
                     self.__traverse(currCoord.diagonalDownLeft(), currCoord, Move.DIAGONAL_DOWN_LEFT, currNode)
 
             elif nextMove == Move.LEFT:
                 # left
-                if CallbackManager.canMoveTo(self, currCoord.left(), prevCoord, currCoord, prevMove, currNode):
+                if CallbackManager.canMoveTo(self, currNode, currCoord.left()):
                     self.__traverse(currCoord.left(), currCoord, Move.LEFT, currNode)
 
             elif nextMove == Move.DIAGONAL_UP_LEFT:
                 # diagonal up left 
-                if CallbackManager.canMoveTo(self, currCoord.diagonalUpLeft(), prevCoord, currCoord, prevMove, currNode):
+                if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalUpLeft()):
                     self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT, currNode)
 
 
@@ -309,12 +309,9 @@ class CallbackManager:
         self.callbackMap = callbackMap
 
     @staticmethod
-    def canMoveTo(mt: MatrixTraverser, 
-                desiredCoordinate: Coordinate, 
-                prevCoordinate: Coordinate, 
-                currCoordinate: Coordinate,
-                prevMove: Move,
-                currNode: MatrixTree) -> bool:
+    def canMoveTo(mt: MatrixTraverser,
+                  currNode: MatrixTree,
+                  desiredCoord: Coordinate) -> bool:
         """
         Before moving in a direction, the core traversal 
         algorithm will ask if it can move in a direction.
@@ -338,7 +335,7 @@ class CallbackManager:
         # chances are, it won't be of much use and for sure
         # the cell will not be able to move there
         # however this behavior can be customized
-        if not Matrix.isInsideMatrix(mt.matrix, desiredCoordinate):
+        if not Matrix.isInsideMatrix(mt.matrix, desiredCoord):
             # ..custom behavior when the current cell is asking if it can move 
             # to a coordinate that is not in the matrix..
             return False
@@ -348,17 +345,13 @@ class CallbackManager:
             # this callback can be any user-defined callback,
             # or even one defined from a problem-specific traversal engine,
             # for example the Maze Traverser
-            canMoveToCallback: Callable[[MatrixTraverser, Coordinate, Coordinate, Coordinate, Move, MatrixTree], bool] = (
+            canMoveToCallback: Callable[[MatrixTraverser, MatrixTree, Coordinate], bool] = (
                 mt.callbackManager.callbackMap["canMoveTo"]
             )
 
             try:
-                userWantsMove: bool | None = canMoveToCallback(mt,
-                                                                desiredCoordinate, 
-                                                                prevCoordinate, 
-                                                                currCoordinate,
-                                                                prevMove,
-                                                                currNode)
+                userWantsMove: bool | None = canMoveToCallback(mt, currNode, desiredCoord)
+
             except Exception as e:
                 raise DuringUserCallbackError(canMoveToCallback) from e
 

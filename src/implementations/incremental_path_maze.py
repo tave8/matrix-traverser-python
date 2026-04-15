@@ -63,14 +63,11 @@ def makeIncrementalPathMaze(matrix: list[list]) -> MazeTraverser:
 
 # callback specific for this maze problem
 def _canMoveTo(mt: MazeTraverser, 
-                desiredCoord: Coordinate, 
-                prevCoord: Coordinate, 
-                currCoord: Coordinate,
-                prevMove: Move,
-                currNode: MatrixTree) -> bool:
+                currNode: MatrixTree,
+                desiredCoord: Coordinate) -> bool:
             
-        nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord) # type: ignore
-        currNum = Matrix.getAtCoordinate(mt.matrix, currCoord) # type: ignore
+        nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord)
+        currNum = Matrix.getAtCoordinate(mt.matrix, currNode.coord)
 
         # this cell can move to the desired/next coordinate 
         # only if this condition is met
@@ -79,11 +76,8 @@ def _canMoveTo(mt: MazeTraverser,
 
 # callback specific for this maze problem
 def _canMoveToOnStart(mt: MazeTraverser, 
-                    desiredCoord: Coordinate, 
-                    prevCoord: Coordinate, 
-                    currCoord: Coordinate,
-                    prevMove: Move,
-                    currNode: MatrixTree) -> bool:
+                        currNode: MatrixTree,
+                        desiredCoord: Coordinate) -> bool:
         
     return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == 1
 
