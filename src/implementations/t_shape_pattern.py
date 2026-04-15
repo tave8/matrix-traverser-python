@@ -9,12 +9,12 @@ Traverse in a T shape.
         |
         v
 """
+
 from collections.abc import Callable
 from typing import List
 
-from components import Matrix, MatrixTree
 from src.core.PatternTraverser import PatternTraverser
-from src.components import Coordinate, Move
+from src.components import Coordinate, Move, MatrixTree, Matrix
 
 
 def makeTShapePattern(matrix: List[List],
@@ -43,15 +43,12 @@ def _getNextMovesWrapper():
 
     # CLOSURE FUNCTION
     # callback specific for this pattern problem
-    def _getNextMoves(pt: PatternTraverser,
-                       prevCoord: Coordinate,
-                       currCoord: Coordinate,
-                       prevMove: Move) -> List[Move]:
+    def _getNextMoves(pt: PatternTraverser, currNode: MatrixTree) -> List[Move]:
 
         # if this is the cell right
         # at the intersection in the T shape
         # this cell must move first right, and then down
-        if currCoord.isFirstRow() and currCoord.isMiddleCol(pt.matrix):
+        if currNode.coord.isFirstRow() and currNode.coord.isMiddleCol(pt.matrix):
             return [
                 Move.RIGHT,
                 Move.DOWN
@@ -59,13 +56,13 @@ def _getNextMovesWrapper():
 
         # if this is the cell in a column in the middle,
         # it can only move down
-        if currCoord.isMiddleCol(pt.matrix):
+        if currNode.coord.isMiddleCol(pt.matrix):
             return [
                 Move.DOWN
             ]
 
         # if this is the first row, you can only move right
-        if currCoord.isFirstRow():
+        if currNode.coord.isFirstRow():
             return [
                 Move.RIGHT
             ]

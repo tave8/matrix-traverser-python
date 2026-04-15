@@ -185,7 +185,7 @@ class MatrixTraverser:
         # print(Matrix.getAtCoordinate(self.matrix, currNode.currCoord), currNode.currCoord)
 
         # GET THE MOVES OF THIS CELL
-        nextMoves = CallbackManager.getNextMoves(self, prevCoord, currCoord, prevMove)
+        nextMoves = CallbackManager.getNextMoves(self, currNode)
 
         # print(Matrix.getAtCoordinate(self.matrix, currNode.coord), Matrix.getAtCoordinate(self.matrix, currCoord))
 
@@ -411,9 +411,7 @@ class CallbackManager:
 
     @staticmethod
     def getNextMoves(mt: MatrixTraverser, 
-                     prevCoordinate: Coordinate, 
-                     currCoordinate: Coordinate, 
-                     prevMove: Move) -> list[Move]:
+                     currNode: MatrixTree) -> list[Move]:
         """
         Get next moves for a cell.
         Order of the moves matters: The cell will try to move through the 
@@ -431,10 +429,19 @@ class CallbackManager:
 
         # run the user-defined callback, if exists
         if FunctionHelper.mapHasFunction("getNextMoves", mt.callbackManager.callbackMap):
-            nextMoves: list[Move] | None = mt.callbackManager.callbackMap["getNextMoves"](mt, 
-                                                                                        prevCoordinate, 
-                                                                                        currCoordinate, 
-                                                                                        prevMove)
+
+            getNextMovesCallback: Callable[[MatrixTraverser, MatrixTree], list[Move]] = mt.callbackManager.callbackMap["getNextMoves"]
+
+            nextMoves: list[Move] | None = []
+
+            try:
+
+                nextMoves = getNextMovesCallback(mt, currNode)
+
+            except Exception as e:
+                raise DuringUserCallbackError(getNextMovesCallback) from e
+
+
             # if the user did not return, it means 
             # it's happy with the default moves
             if nextMoves is None:

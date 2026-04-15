@@ -1,5 +1,5 @@
 
-from src.components import Coordinate, Matrix, Move
+from src.components import Coordinate, Matrix, Move, MatrixTree
 from src.implementations.line_pattern import makeLinePattern
 
 
@@ -16,14 +16,14 @@ linePattern.run(
     )
 )
 
-# for cellInfo in linePattern.getMovesHistory():
-#     print(cellInfo)
+for cellInfo in linePattern.getMovesHistory():
+    print(cellInfo)
 
 
-# print(
-#     MatrixTree.findOneByValueFrom(
-#         linePattern.matrixTree,
-#         7,
-#         linePattern.matrix
-#     )
-# )
+print(
+    MatrixTree.findOneByValueFrom(
+        linePattern.matrixTree,
+        7,
+        linePattern.matrix
+    )
+)

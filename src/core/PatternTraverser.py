@@ -18,7 +18,7 @@ class PatternTraverser(MatrixTraverser):
 
     def __init__(self,
                  matrix: list[list],
-                 getNextMovesCallback: Callable[[PatternTraverser, Coordinate, Coordinate, Move], List[Move]],
+                 getNextMovesCallback: Callable[[PatternTraverser, MatrixTree], List[Move]],
                  afterAllFutureMoves: Callable[[PatternTraverser, MatrixTree], None] = None,
                  userState=None) -> None:
 
@@ -47,8 +47,8 @@ class PatternTraverser(MatrixTraverser):
         self._setCallbackManager(patternCallbackMap)
 
         # ********************END *************************
-        self.getNextMovesCallback = getNextMovesCallback
-        self.afterAllFutureMoves = afterAllFutureMoves
+        self.getNextMovesCallback_User = getNextMovesCallback
+        self.afterAllFutureMoves_User = afterAllFutureMoves
 
 
 
@@ -60,26 +60,21 @@ class PatternTraverser(MatrixTraverser):
 
 
     @staticmethod
-    def _getNextMoves(patternTraverser: PatternTraverser) -> Callable[[PatternTraverser, Coordinate, Coordinate, Move], List[Move]]:
+    def _getNextMoves(patternTraverser: PatternTraverser) -> Callable[[PatternTraverser, MatrixTree], List[Move]]:
 
         # CLOSURE FUNCTION: this will be run directly
         # by the Matrix Traversal Engine
-        def _getNextMovesWrapper(_matrixTraverser: MatrixTraverser,
-                                  prevCoord: Coordinate,
-                                  currCoord: Coordinate,
-                                  prevMove: Move) -> List[Move]:
+        def getNextMoves_ForEngine(_matrixTraverser: MatrixTraverser,
+                                  currCoord: MatrixTree) -> List[Move]:
 
             # here you can define custom "next moves" logic
             # before, after, or based on the user-provided next moves
 
             # user-defined next moves.
-            return patternTraverser.getNextMovesCallback(patternTraverser,
-                                                         prevCoord,
-                                                         currCoord,
-                                                         prevMove)
+            return patternTraverser.getNextMovesCallback_User(patternTraverser, currCoord)
 
 
-        return _getNextMovesWrapper
+        return getNextMoves_ForEngine
 
 
     @staticmethod
@@ -87,22 +82,22 @@ class PatternTraverser(MatrixTraverser):
 
         # CLOSURE FUNCTION: this will be run directly
         # by the Matrix Traversal Engine
-        def _afterAllFutureMovesWrapper(_matrixTraverser: MatrixTraverser,
-                                        currNode: MatrixTree) -> None:
+        def afterAllFutureMoves_ForEngine(_matrixTraverser: MatrixTraverser,
+                                          currNode: MatrixTree) -> None:
 
-            if patternTraverser.afterAllFutureMoves is not None:
+            if patternTraverser.afterAllFutureMoves_User is not None:
                 # if this callback is not none, then it must be a function,
                 # it cannot be anything else
-                if not isfunction(patternTraverser.afterAllFutureMoves):
+                if not isfunction(patternTraverser.afterAllFutureMoves_User):
                     raise ExpectedUserCallbackError(f"optional getNextMovesCallback callback must be either "
-                                                    + f"None or a function, got {type(patternTraverser.afterAllFutureMoves)} instead.")
+                                                    + f"None or a function, got {type(patternTraverser.afterAllFutureMoves_User)} instead.")
 
 
                 # run the user-defined  afterAllFutureMoves callback,
                 # now that we are certain it exists
-                patternTraverser.afterAllFutureMoves(patternTraverser, currNode)
+                patternTraverser.afterAllFutureMoves_User(patternTraverser, currNode)
 
-        return _afterAllFutureMovesWrapper
+        return afterAllFutureMoves_ForEngine
 
 
     @staticmethod

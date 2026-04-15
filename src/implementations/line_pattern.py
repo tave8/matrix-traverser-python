@@ -5,7 +5,7 @@ Traverse in a line_pattern.
 from typing import List
 
 from src.core.PatternTraverser import PatternTraverser
-from src.components import Coordinate, Move
+from src.components import Coordinate, Move, MatrixTree
 
 
 def makeLinePattern(matrix: List[List], onlyDirection: Move) -> PatternTraverser:
@@ -23,10 +23,7 @@ def _getNextMovesWrapper(onlyDirection: Move):
 
     # CLOSURE FUNCTION
     # callback specific for this pattern problem
-    def _getNextMoves(st: PatternTraverser,
-                       prevCoord: Coordinate,
-                       currCoord: Coordinate,
-                       prevMove: Move) -> List[Move]:
+    def _getNextMoves(st: PatternTraverser, currNode: MatrixTree) -> List[Move]:
 
 
         movesMap = {
@@ -47,7 +44,7 @@ def _getNextMovesWrapper(onlyDirection: Move):
 
         # the next moves of this cell are
         # its corresponding list values
-        return movesMap[prevMove]
+        return movesMap[currNode.prevMove]
 
 
     return _getNextMoves
