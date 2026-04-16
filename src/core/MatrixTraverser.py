@@ -224,7 +224,7 @@ class MatrixTraverser:
             # note: at this line, currNode.coord == currCoord
             desiredMoveCoord = Coordinate.ofMove(currNode.coord, desiredMove)
 
-            if CallbackManager.canMoveTo(self, currNode, desiredMoveCoord):
+            if CallbackManager.canMoveTo(self, currNode, desiredMoveCoord, desiredMove):
 
                 self.__traverse_DFS(desiredMoveCoord, currCoord, desiredMove, currNode)
 
@@ -282,7 +282,7 @@ class MatrixTraverser:
 
                 desiredMoveCooord = Coordinate.ofMove(currNode.coord, desiredMove)
 
-                if CallbackManager.canMoveTo(self, currNode, desiredMoveCooord):
+                if CallbackManager.canMoveTo(self, currNode, desiredMoveCooord, desiredMove):
 
                     # multiple nodes at the same level might try to add the same child simultaneously
                     # a node at the same level might have already added
@@ -333,7 +333,8 @@ class CallbackManager:
     @staticmethod
     def canMoveTo(mt: MatrixTraverser,
                   currNode: MatrixTree,
-                  desiredCoord: Coordinate) -> bool:
+                  desiredCoord: Coordinate,
+                  desiredMove: Move) -> bool:
         """
         Before moving in a direction, the core traversal 
         algorithm will ask if it can move in a direction.
@@ -367,12 +368,12 @@ class CallbackManager:
             # this callback can be any user-defined callback,
             # or even one defined from a problem-specific traversal engine,
             # for example the Maze Traverser
-            canMoveToCallback: Callable[[MatrixTraverser, MatrixTree, Coordinate], bool] = (
+            canMoveToCallback: Callable[[MatrixTraverser, MatrixTree, Coordinate, Move], bool] = (
                 mt.callbackManager.callbackMap["canMoveTo"]
             )
 
             try:
-                userWantsMove: bool | None = canMoveToCallback(mt, currNode, desiredCoord)
+                userWantsMove: bool | None = canMoveToCallback(mt, currNode, desiredCoord, desiredMove)
 
             except Exception as e:
                 raise DuringUserCallbackError(canMoveToCallback) from e

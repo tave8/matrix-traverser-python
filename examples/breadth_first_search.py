@@ -13,6 +13,7 @@ def canMoveTo(mt: MatrixTraverser,
               currNode: MatrixTree,
               desiredCoord: Coordinate) -> bool:
 
+
     print(currNode)
     return True
 

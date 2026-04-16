@@ -21,8 +21,8 @@ class MazeTraverser(MatrixTraverser):
 
     def __init__(self, 
                  matrix: list[list], 
-                 canMoveToCallback: Callable[[MazeTraverser, MatrixTree, Coordinate], bool],
-                 canMoveToOnStartCallback: Callable[[MazeTraverser, MatrixTree, Coordinate], bool],
+                 canMoveToCallback: Callable[[MazeTraverser, MatrixTree, Coordinate, Move], bool],
+                 canMoveToOnStartCallback: Callable[[MazeTraverser, MatrixTree, Coordinate, Move], bool],
                  userState=None,
                  startName = "S",
                  endName = "E") -> None:
@@ -100,7 +100,7 @@ class MazeTraverser(MatrixTraverser):
 
 
     @staticmethod
-    def _canMoveTo(mazeTraverser: MazeTraverser) -> Callable[[MatrixTraverser, MatrixTree, Coordinate], bool]:
+    def _canMoveTo(mazeTraverser: MazeTraverser) -> Callable[[MatrixTraverser, MatrixTree, Coordinate, Move], bool]:
         """
         This is the Maze Traverser internal callback that gets called
         directly by the Matrix Traverser engine, and includes the 
@@ -125,7 +125,8 @@ class MazeTraverser(MatrixTraverser):
         # by the Matrix Traversal Engine
         def canMoveTo_ForEngine(_matrixTraverser: MatrixTraverser,
                                 currNode: MatrixTree,
-                                desiredCoord: Coordinate) -> bool:
+                                desiredCoord: Coordinate,
+                                desiredMove: Move) -> bool:
             """
             Finally, this is the actual callback that the Matrix Traversal Engine
             will call directly. Therefore its signature must match exactly what the
@@ -136,8 +137,9 @@ class MazeTraverser(MatrixTraverser):
             if currNode.coord.isStart:
 
                 return mazeTraverser.canMoveToOnStartCallback_User(mazeTraverser,
-                                                                  currNode,
-                                                                  desiredCoord)
+                                                                   currNode,
+                                                                   desiredCoord,
+                                                                   desiredMove)
             # EDGE CASE (example)
             # when 3 asks whether it can go to S
             # or even 2 if it can go to S?
@@ -169,7 +171,8 @@ class MazeTraverser(MatrixTraverser):
             # start, end and edge cases
             return mazeTraverser.canMoveToCallback_User(mazeTraverser,
                                                         currNode,
-                                                        desiredCoord)
+                                                        desiredCoord,
+                                                        desiredMove)
         
         return canMoveTo_ForEngine
 

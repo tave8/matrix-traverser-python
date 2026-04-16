@@ -55,7 +55,8 @@ def makeFibonacciMaze(matrix: list[list]) -> MazeTraverser:
 # callback specific for this maze problem
 def _canMoveTo(mt: MazeTraverser,
                currNode: MatrixTree,
-               desiredCoord: Coordinate) -> bool:
+               desiredCoord: Coordinate,
+               desiredMove: Move) -> bool:
 
     nextNum = Matrix.getAtCoordinate(mt.matrix, desiredCoord)
     currNum = Matrix.getAtCoordinate(mt.matrix, currNode.coord)
@@ -89,7 +90,8 @@ def _canMoveTo(mt: MazeTraverser,
 # callback specific for this maze problem
 def _canMoveToOnStart(mt: MazeTraverser,
                       currNode: MatrixTree,
-                      desiredCoord: Coordinate) -> bool:
+                      desiredCoord: Coordinate,
+                      desiredMove: Move) -> bool:
 
     return Matrix.getAtCoordinate(mt.matrix, desiredCoord) == 1
 
