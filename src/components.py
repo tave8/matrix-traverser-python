@@ -557,7 +557,6 @@ class Coordinate:
         self.isBeforeStart = isBeforeStart
 
 
-    # given a move, return a new coordinate
     @staticmethod
     def ofMove(currCoord: Coordinate, move: Move) -> Coordinate:
         """

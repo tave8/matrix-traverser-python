@@ -18,7 +18,7 @@ matrixTraverser = MatrixTraverser(matrix)
 #     cellValue = Matrix.getAtCoordinate(matrix, node.coord)
 #     print(cellValue)
 
-targetValue = 7
+targetValue = 4
 (nodeFound, ancestors) = MatrixTree.findOneByValueFrom(root, targetValue, matrix)
 
 print()
@@ -55,7 +55,7 @@ for ancestor in ancestors:
 
 
 
-targetValue = 8
+targetValue = 13
 (nodeFound, ancestors) = MatrixTree.findOneByValueFrom(root, targetValue, matrix)
 
 print()
