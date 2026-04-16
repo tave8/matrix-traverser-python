@@ -3,6 +3,43 @@ from inspect import isfunction
 from treelib import Tree
 
 
+class Ensure:
+
+    @staticmethod
+    def matrixTraverserHasOnlyAllowedCallbacks(callbackMap: dict) -> None:
+        """
+        Ensures that the matrix traverser
+        only has allowed callbacks.
+        This prevents the users
+        (which can be subtypes like Maze Traverser or
+        human beings themselves)
+        from typying/passing callbacks that don't exist,
+        at the same time while being convinced that it exists.
+        (silent error = callbacks not triggering, for example)
+        """
+
+        if not isinstance(callbackMap, dict):
+            raise Exception("the given map is not a dictionary")
+
+        allowedCallbackNames = [
+            "canMoveTo",
+            "getNextMoves",
+            "afterAllFutureMoves"
+        ]
+
+        for callbackName, callback in callbackMap.items():
+            if callbackName not in allowedCallbackNames:
+                raise Exception(f"in callback map, the key '{callbackName}' "
+                                +f"is not allowed or has not been mapped "
+                                +"to allowed callback names.")
+
+            if not isfunction(callback):
+                raise Exception(f"in callback map, for the key '{callbackName}' "
+                                +f"the value should be a function."
+                                +f"got {type(callback)} instead.")
+
+
+
 class MatrixTreeVisualizer:
     pass
 

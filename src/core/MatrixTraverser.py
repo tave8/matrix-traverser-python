@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from typing import List, Tuple
 
-from src.helpers import FunctionHelper
+from src.helpers import FunctionHelper, Ensure
 from src.components import Coordinate, Move, Moves, Matrix, MatrixTree
 from src.exceptions.DuringUserCallbackError import DuringUserCallbackError
 
@@ -21,6 +21,11 @@ class MatrixTraverser:
         if userState is None:
             userState = {}
 
+        # check that there's no field in the callback map
+        # that doesn't exist in the allowed callbacks
+
+        Ensure.matrixTraverserHasOnlyAllowedCallbacks(callbackMap)
+
         self.matrix = matrix
         self.visited = Matrix.generateVisitedMatrixFrom(matrix)
         self.stateManager = StateManager(userState)
@@ -36,12 +41,15 @@ class MatrixTraverser:
         from a callback map. Careful: this manual setting 
         should be only for proven reasons. 
         """
+        Ensure.matrixTraverserHasOnlyAllowedCallbacks(callbackMap)
+
         self.callbackManager = CallbackManager(callbackMap)
 
 
     def traverseMatrix(self, startCoord: Coordinate) -> None:
         """
-        Main user-facing method to run the matrix traversal algorithm. 
+        Main user-facing method to run the matrix traversal algorithm.
+        Uses Depth-first Search.
         """
 
         StateManager._setStartCoordinate(self, startCoord)
@@ -52,7 +60,19 @@ class MatrixTraverser:
             prevCoord=beforeStartCoord,
             prevMove=Move._BEFORE_START,
             parentNode=None
-        ) 
+        )
+
+
+    def traverseMatrixBFS(self, startCoord: Coordinate) -> None:
+        """
+        Main user-facing method to run the matrix traversal algorithm.
+        Uses Breadth-first Search.
+        """
+
+        StateManager._setStartCoordinate(self, startCoord)
+
+        self.__traverse_BFS(startCoord)
+
     
 
     def __traverse_DFS(self,
@@ -214,8 +234,7 @@ class MatrixTraverser:
         CallbackManager.afterAllFutureMoves(self, currNode)
 
 
-
-    def traverse_BFS(self, startCoord: Coordinate) -> Tuple[List[MatrixTree], MatrixTree]:
+    def __traverse_BFS(self, startCoord: Coordinate) -> None:
         """
         Traverse the matrix using Breadth-first Search,
         and builds a new Matrix Tree.
@@ -226,20 +245,22 @@ class MatrixTraverser:
         if not Matrix.isInsideMatrix(self.matrix, startCoord):
             raise Exception("the provided start coord is outside the matrix")
 
-        nodes = []
+        # nodes = []
 
         queueMatrix = Matrix.generateAddedToBFSQueueMatrixFrom(self.matrix)
 
-        root = MatrixTree(
+        self.matrixTree = MatrixTree(
             parent=None,
             coord=startCoord,
             prevMove=Move._BEFORE_START,
             isRoot=True
         )
 
+        root = self.matrixTree
+
         # first element: oldest -> first to remove
         # last element: newest
-        queue: list[MatrixTree] = [root]
+        queue: List[MatrixTree] = [root]
 
         # we've just added the root node,
         # so we mark it as added to the BFS queue
@@ -251,7 +272,7 @@ class MatrixTraverser:
             # because it's a queue, pop the first element
             currNode = queue.pop(0)
 
-            nodes.append(currNode)
+            # nodes.append(currNode)
 
             desiredMoves = CallbackManager.getNextMoves(self, currNode)
 
@@ -280,7 +301,7 @@ class MatrixTraverser:
                         Matrix.markAsAddedToBFSQueue(queueMatrix, desiredMoveCooord)
 
 
-        return (nodes, root)
+        # return (nodes, root)
 
 
 
