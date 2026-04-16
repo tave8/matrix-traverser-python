@@ -9,11 +9,20 @@ matrix = [
 ]
 
 
+def canMoveTo(mt: MatrixTraverser,
+              currNode: MatrixTree,
+              desiredCoord: Coordinate) -> bool:
+
+    print(currNode)
+    return True
 
 
 startCoord = Coordinate(Matrix.getFirstRow(), Matrix.getFirstCol())
 
-matrixTraverser = MatrixTraverser(matrix)
+matrixTraverser = MatrixTraverser(matrix, {
+    "canMoveTo": canMoveTo,
+    # "sds": canMoveTo
+})
 
 matrixTraverser.traverseMatrixBFS(startCoord)
 

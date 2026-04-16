@@ -1,4 +1,6 @@
 from inspect import isfunction
+from typing import List
+
 # library
 from treelib import Tree
 
@@ -21,23 +23,32 @@ class Ensure:
         if not isinstance(callbackMap, dict):
             raise Exception("the given map is not a dictionary")
 
-        allowedCallbackNames = [
-            "canMoveTo",
-            "getNextMoves",
-            "afterAllFutureMoves"
-        ]
+        allowedCallbackNames = Ensure.getAllowedCallbackNames()
 
         for callbackName, callback in callbackMap.items():
             if callbackName not in allowedCallbackNames:
                 raise Exception(f"in callback map, the key '{callbackName}' "
                                 +f"is not allowed or has not been mapped "
-                                +"to allowed callback names.")
+                                +"to allowed callback names. allowed callback names: "
+                                +Ensure.getAllowedCallbackNamesAsStr())
 
             if not isfunction(callback):
                 raise Exception(f"in callback map, for the key '{callbackName}' "
                                 +f"the value should be a function."
                                 +f"got {type(callback)} instead.")
 
+    @staticmethod
+    def getAllowedCallbackNames() -> List[str]:
+        return [
+            "canMoveTo",
+            "getNextMoves",
+            "afterAllFutureMoves"
+        ]
+
+
+    @staticmethod
+    def getAllowedCallbackNamesAsStr() -> str:
+        return ", ".join(Ensure.getAllowedCallbackNames())
 
 
 class MatrixTreeVisualizer:

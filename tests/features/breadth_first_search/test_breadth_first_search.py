@@ -2,6 +2,7 @@ from src.components import Coordinate, Matrix, MatrixTree
 from src.core.MatrixTraverser import MatrixTraverser
 
 
+# def test_
 
 matrix = [
     [1, 2, 3, 4],

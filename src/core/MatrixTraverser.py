@@ -37,6 +37,8 @@ class MatrixTraverser:
 
     def _setCallbackManager(self, callbackMap: dict):
         """
+        NOTE: Only subtypes should use this method internally.
+
         Set the Callback Manager instance manually,
         from a callback map. Careful: this manual setting 
         should be only for proven reasons. 
