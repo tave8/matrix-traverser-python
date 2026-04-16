@@ -3,8 +3,7 @@ The building blocks.
 """
 
 from enum import Enum
-from typing import Any
-
+from typing import Any, Tuple, List, Dict
 
 
 class MatrixTree:
@@ -220,6 +219,47 @@ class MatrixTree:
         nodeFound = find(startNode)
 
         return (nodeFound, ancestors)
+
+
+    @staticmethod
+    def countNodesFrom(startNode: MatrixTree) -> Tuple[int, List[Dict]]:
+        """
+        Count how many nodes are found,
+        starting from a given node.
+
+        returns:
+            [how many nodes, list of dict]
+
+        list of dict: {
+            node: MatrixTree
+            count: int
+        }
+        """
+
+        nodeStats = []
+
+        def howMany(currNode: MatrixTree) -> int:
+            if currNode is None:
+                return 0
+            count = 1
+            for child in currNode.children:
+                count += howMany(child)
+            nodeStats.append({
+                "node": currNode,
+                "count": count
+            })
+            return count
+
+        totalCount = howMany(startNode)
+
+        # we must reverse the nodeStats list
+        # because the traversal starts from the
+        # "the leaf node upwards"
+        # (post-order traversal?)
+        return totalCount, list(reversed(nodeStats))
+
+
+
 
 
     # def find 

@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="add canMovesTo parameter: desired move">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/breadth_first_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/breadth_first_search.py" afterDir="false" />
+    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="add first test for Breadth-first Search: lower diagonal area">
+      <change afterPath="$PROJECT_DIR$/tests/features/matrix_tree/count_nodes/test_count_nodes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/components.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/features/breadth_first_search/test_breadth_first_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/features/breadth_first_search/test_breadth_first_search.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +72,7 @@
     "Python tests.Python tests for tests.examples.t_shape_pattern.test_t_shape_pattern.test_simple_pass.executor": "Run",
     "Python tests.Python tests for tests.examples.test_incremental_path.test_one_row_one_col_matrix.executor": "Run",
     "Python tests.Python tests for tests.features.breadth_first_search.test_breadth_first_search.test_lower_diagonal.executor": "Run",
+    "Python tests.Python tests for tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_line.executor": "Run",
     "Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.find_k_ancestors.test_ancestors_of_node_by_value_same_k_ancestors.executor": "Run",
     "Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_t_shape.executor": "Run",
     "Python tests.Python tests for tests.features.matrix_tree.find_k_ancestors.test_find_k_ancestors.test_on_zigzag.executor": "Run",
@@ -140,7 +139,7 @@
       <recent name="C:\Users\giuse\Desktop\projects\matrix-traverser-python\tests\examples\incremental_path\prep" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Run ALL tests">
+  <component name="RunManager" selected="Python tests.Python tests for tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_t_shape">
     <configuration name="breadth_first_search" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
@@ -181,6 +180,42 @@
       <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;tests.features.breadth_first_search.test_breadth_first_search.test_lower_diagonal&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_line" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="matrix-traverser-python" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_line&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_t_shape" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="matrix-traverser-python" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_t_shape&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -227,10 +262,14 @@
       <item itemvalue="Python.breadth_first_search" />
       <item itemvalue="Python tests.Run ALL tests" />
       <item itemvalue="Python tests.Python tests for tests.features.breadth_first_search.test_breadth_first_search.test_lower_diagonal" />
+      <item itemvalue="Python tests.Python tests for tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_line" />
+      <item itemvalue="Python tests.Python tests for tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_t_shape" />
       <item itemvalue="Python tests.Python tests in test_breadth_first_search.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_t_shape" />
+        <item itemvalue="Python tests.Python tests for tests.features.matrix_tree.count_nodes.test_count_nodes.test_count_nodes_in_line" />
         <item itemvalue="Python tests.Python tests in test_breadth_first_search.py" />
         <item itemvalue="Python tests.Python tests for tests.features.breadth_first_search.test_breadth_first_search.test_lower_diagonal" />
         <item itemvalue="Python.breadth_first_search" />
@@ -508,7 +547,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776364611221</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="add first test for Breadth-first Search: lower diagonal area">
+      <option name="closed" value="true" />
+      <created>1776366596367</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1776366596367</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -526,7 +573,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add pycharm config files" />
     <MESSAGE value="simple pattern traverser: diagonal up left done" />
     <MESSAGE value="implementation: line done" />
     <MESSAGE value="test line &amp; find k ancestors: 2 tests passed" />
@@ -551,7 +597,8 @@
     <MESSAGE value="ensure callback names are valid and are functions" />
     <MESSAGE value="ensure callback names are valid: list allowed callback names" />
     <MESSAGE value="add canMovesTo parameter: desired move" />
-    <option name="LAST_COMMIT_MESSAGE" value="add canMovesTo parameter: desired move" />
+    <MESSAGE value="add first test for Breadth-first Search: lower diagonal area" />
+    <option name="LAST_COMMIT_MESSAGE" value="add first test for Breadth-first Search: lower diagonal area" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -571,8 +618,8 @@
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line__1_.coverage" NAME="line (1) Coverage Results" MODIFIED="1776178339945" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$spiral.coverage" NAME="spiral Coverage Results" MODIFIED="1776205626103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$MatrixTraverser.coverage" NAME="MatrixTraverser Coverage Results" MODIFIED="1776360318636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776366546831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$Run_ALL_tests.coverage" NAME="Run ALL tests Coverage Results" MODIFIED="1776366551667" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776369027976" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$t_shape_pattern_after_future_moves.coverage" NAME="t_shape_pattern_after_future_moves Coverage Results" MODIFIED="1776278400286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$snake_pattern.coverage" NAME="snake_pattern Coverage Results" MODIFIED="1776283811784" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$t_shape_pattern.coverage" NAME="t_shape_pattern Coverage Results" MODIFIED="1776283929079" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
