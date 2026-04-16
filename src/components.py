@@ -559,10 +559,31 @@ class Coordinate:
 
     # given a move, return a new coordinate
     @staticmethod
-    def fromMove(currCoord: Coordinate, move: Move) -> Coordinate:
+    def ofMove(currCoord: Coordinate, move: Move) -> Coordinate:
         """
-        Returns a new coordinate, based on the given coordinate
-        and the given move.
+        Returns a new coordinate based on the given
+        coordinate and the move of that given coordinate.
+
+        Example 1:
+            currCoord: Coordinate[0, 0]
+            move: RIGHT
+
+            -> Coordinate[0, 1]
+
+
+        Example 2:
+            currCoord: Coordinate[5, 3]
+            move: UP
+
+            -> Coordinate[4, 3]
+
+
+        Example 3:
+            currCoord: Coordinate[2, 1]
+            move: DIAGONAL DOWN LEFT
+
+            -> Coordinate[3, 0]
+
         """
 
         if move == Move.UP:

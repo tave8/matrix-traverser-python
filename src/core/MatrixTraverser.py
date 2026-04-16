@@ -189,55 +189,21 @@ class MatrixTraverser:
         # print(Matrix.getAtCoordinate(self.matrix, currNode.currCoord), currNode.currCoord)
 
         # GET THE MOVES OF THIS CELL
-        nextMoves = CallbackManager.getNextMoves(self, currNode)
+        desiredMoves = CallbackManager.getNextMoves(self, currNode)
 
         # print(Matrix.getAtCoordinate(self.matrix, currNode.coord), Matrix.getAtCoordinate(self.matrix, currCoord))
 
         # MOVE THROUGH THE MOVES
         # move in the order that was specified
-        for nextMove in nextMoves:
+        for desiredMove in desiredMoves:
 
-            if nextMove == Move.UP:
-                # up
-                if CallbackManager.canMoveTo(self, currNode, currCoord.up()):
-                    # CALLBACK IDEA: beforeMove
-                    self.__traverse(currCoord.up(), currCoord, Move.UP, currNode)
-                    # CALLBACK IDEA: afterMove
+            # get the coordinate of the next move
+            # note: at this line, currNode.coord == currCoord
+            desiredMoveCoord = Coordinate.ofMove(currNode.coord, desiredMove)
 
-            elif nextMove == Move.DIAGONAL_UP_RIGHT:
-                # diagonal up right
-                if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalUpRight()):
-                    self.__traverse(currCoord.diagonalUpRight(), currCoord, Move.DIAGONAL_UP_RIGHT, currNode)
+            if CallbackManager.canMoveTo(self, currNode, desiredMoveCoord):
 
-            elif nextMove == Move.RIGHT:
-                # right
-                if CallbackManager.canMoveTo(self, currNode, currCoord.right()):
-                    self.__traverse(currCoord.right(), currCoord, Move.RIGHT, currNode)
-
-            elif nextMove == Move.DIAGONAL_DOWN_RIGHT:
-                # diagonal down right
-                if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalDownRight()):
-                    self.__traverse(currCoord.diagonalDownRight(), currCoord, Move.DIAGONAL_DOWN_RIGHT, currNode)
-
-            elif nextMove == Move.DOWN:
-                # down
-                if CallbackManager.canMoveTo(self, currNode, currCoord.down()):
-                    self.__traverse(currCoord.down(), currCoord, Move.DOWN, currNode)
-
-            elif nextMove == Move.DIAGONAL_DOWN_LEFT:
-                # diagonal down left
-                if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalDownLeft()):
-                    self.__traverse(currCoord.diagonalDownLeft(), currCoord, Move.DIAGONAL_DOWN_LEFT, currNode)
-
-            elif nextMove == Move.LEFT:
-                # left
-                if CallbackManager.canMoveTo(self, currNode, currCoord.left()):
-                    self.__traverse(currCoord.left(), currCoord, Move.LEFT, currNode)
-
-            elif nextMove == Move.DIAGONAL_UP_LEFT:
-                # diagonal up left 
-                if CallbackManager.canMoveTo(self, currNode, currCoord.diagonalUpLeft()):
-                    self.__traverse(currCoord.diagonalUpLeft(), currCoord, Move.DIAGONAL_UP_LEFT, currNode)
+                self.__traverse(desiredMoveCoord, currCoord, desiredMove, currNode)
 
 
         # This is the moment where ALL the recursions and operations
