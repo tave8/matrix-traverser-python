@@ -221,33 +221,30 @@ class MatrixTree:
         return (nodeFound, ancestors)
 
 
+
     @staticmethod
-    def countNodesFrom(startNode: MatrixTree) -> Tuple[int, List[Dict]]:
+    def countNodesAt(startNode: MatrixTree) -> int:
         """
         Count how many nodes are found,
-        starting from a given node.
-
-        returns:
-            [how many nodes, list of dict]
-
-        list of dict: {
-            node: MatrixTree
-            count: int
-        }
+        starting from a given node, INCLUDING the given node.
+        That's why we say count nodes AT
         """
 
-        nodeStats = []
+        # nodeStats = []
 
         def howMany(currNode: MatrixTree) -> int:
             if currNode is None:
                 return 0
+            # the current node counts as 1 node
             count = 1
             for child in currNode.children:
                 count += howMany(child)
-            nodeStats.append({
-                "node": currNode,
-                "count": count
-            })
+            # after you've traversed all nodes
+            # of the current node
+            # nodeStats.append({
+            #     "node": currNode,
+            #     "count": count
+            # })
             return count
 
         totalCount = howMany(startNode)
@@ -256,7 +253,7 @@ class MatrixTree:
         # because the traversal starts from the
         # "the leaf node upwards"
         # (post-order traversal?)
-        return totalCount, list(reversed(nodeStats))
+        return totalCount
 
 
 
