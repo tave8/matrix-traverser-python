@@ -261,7 +261,7 @@ class MatrixTraverser:
 
         nodes = []
 
-        visited = Matrix.generateVisitedMatrixFrom(self.matrix)
+        addedToQueue = Matrix.generateAddedToBFSQueueMatrixFrom(self.matrix)
 
         root = MatrixTree(
             parent=None,
@@ -277,6 +277,9 @@ class MatrixTraverser:
         #  because I should not even add a child node to the queue,
         #  if it's already been visited?
 
+        # if this node was visited, we skip it
+        if not Matrix.isAddedToBFSQueue(addedToQueue, root.coord):
+            Matrix.markAsAddedToBFSQueue(addedToQueue, root.coord)
 
         # first element: oldest -> first to remove
         # last element: newest
@@ -287,10 +290,6 @@ class MatrixTraverser:
             # because it's a queue, pop the first element
             currNode = queue.pop(0)
 
-            # if this node was visited, we skip it
-            if not Matrix.isVisited(visited, currNode.coord):
-                Matrix.markAsVisited(visited, currNode.coord)
-
             nodes.append(currNode)
 
             nextMoves = CallbackManager.getNextMoves(self, currNode)
@@ -298,19 +297,23 @@ class MatrixTraverser:
 
             for nextMove in nextMoves:
 
+                # nextMoveCoord = Coordinate.fromMove(currNode.coord, nextMove)
+
 
                 if nextMove == Move.UP:
                     # up
-                    if CallbackManager.canMoveTo(self, currNode, currNode.coord.up()):
-                        if not Matrix.isVisited(visited, currNode.coord.up()):
+                    coordUp = currNode.coord.up()
+
+                    if CallbackManager.canMoveTo(self, currNode, coordUp):
+                        if not Matrix.isAddedToBFSQueue(addedToQueue, coordUp):
                             childNode = MatrixTree(
                                 parent=currNode,
-                                coord=currNode.coord.up(),
+                                coord=coordUp,
                                 prevMove=Move.UP
                             )
                             queue.append(childNode)
                             currNode.children.append(childNode)
-                            Matrix.markAsVisited(visited, currNode.coord.up())
+                            Matrix.markAsAddedToBFSQueue(addedToQueue, coordUp)
                         # print(f"CURR: {Matrix.getAtCoordinate(self.matrix, currNode.coord)}, "
                         #       +f"NEXT: {Matrix.getAtCoordinate(self.matrix, childNode.coord)}")
 
@@ -329,24 +332,24 @@ class MatrixTraverser:
                 #             currNode.children.append(childNode)
 
 
-                # elif nextMove == Move.RIGHT:
-                #     # right
-                #     if CallbackManager.canMoveTo(self, currNode, currNode.coord.right()):
-                #         if not Matrix.isVisited(visited, currNode.coord.right()):
-                #             childNode = MatrixTree(
-                #                 parent=currNode,
-                #                 coord=currNode.coord.right(),
-                #                 prevMove=Move.RIGHT
-                #             )
-                #             queue.append(childNode)
-                #             currNode.children.append(childNode)
-                #             Matrix.markAsVisited(visited, currNode.coord.right())
+                elif nextMove == Move.RIGHT:
+                    # right
+                    if CallbackManager.canMoveTo(self, currNode, currNode.coord.right()):
+                        if not Matrix.isAddedToBFSQueue(addedToQueue, currNode.coord.right()):
+                            childNode = MatrixTree(
+                                parent=currNode,
+                                coord=currNode.coord.right(),
+                                prevMove=Move.RIGHT
+                            )
+                            queue.append(childNode)
+                            currNode.children.append(childNode)
+                            Matrix.markAsAddedToBFSQueue(addedToQueue, currNode.coord.right())
 
                 #
                 elif nextMove == Move.DIAGONAL_DOWN_RIGHT:
                     # diagonal down right
                     if CallbackManager.canMoveTo(self, currNode, currNode.coord.diagonalDownRight()):
-                        if not Matrix.isVisited(visited, currNode.coord.diagonalDownRight()):
+                        if not Matrix.isAddedToBFSQueue(addedToQueue, currNode.coord.diagonalDownRight()):
                             childNode = MatrixTree(
                                 parent=currNode,
                                 coord=currNode.coord.diagonalDownRight(),
@@ -354,7 +357,7 @@ class MatrixTraverser:
                             )
                             queue.append(childNode)
                             currNode.children.append(childNode)
-                            Matrix.markAsVisited(visited, currNode.coord.diagonalDownRight())
+                            Matrix.markAsAddedToBFSQueue(addedToQueue, currNode.coord.diagonalDownRight())
 
 
                 # elif nextMove == Move.DOWN:

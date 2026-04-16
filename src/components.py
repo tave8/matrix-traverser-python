@@ -250,6 +250,8 @@ class MatrixTree:
 
 class Matrix:
 
+    # IS VISITED ***********************
+
     @staticmethod
     def isVisited(visitedMatrix: list[list[int]], 
                   coord: Coordinate) -> bool:
@@ -275,6 +277,37 @@ class Matrix:
         
         visitedMatrix[coord.getRow()][coord.getCol()] = 1
 
+
+    # ADDED TO BFS QUEUE *******************
+
+    @staticmethod
+    def isAddedToBFSQueue(queueMatrix: list[list[int]],
+                          coord: Coordinate) -> bool:
+        """
+        Checks if the cell at the given coordinate
+        has been added to the BFS queue or not.
+        """
+        # check that given row and col exist in matrix?
+        return queueMatrix[coord.getRow()][coord.getCol()] == 1
+
+
+    @staticmethod
+    def markAsAddedToBFSQueue(queueMatrix: list[list[int]],
+                              coord: Coordinate) -> None:
+        """
+        Mark the cell at the given coordinates as added
+        to the BFS (breadth-first search) queue.
+        """
+        val = queueMatrix[coord.getRow()][coord.getCol()]
+
+        if val != 0:
+            raise Exception(f"cell value had to be 0 when adding "
+                            + f"cell/node to the BFS queue "
+                            +f"for the first time, got {val} instead."
+                            +f"this might mean that this cell/node was"
+                            +f"already added to the BFS queue?")
+
+        queueMatrix[coord.getRow()][coord.getCol()] = 1
 
     # @staticmethod
     # def isAMatrix(matrix: list[list]) -> bool:
@@ -462,6 +495,15 @@ class Matrix:
         """
         return Matrix.generate0MatrixFrom(matrix)
 
+    @staticmethod
+    def generateAddedToBFSQueueMatrixFrom(matrix: list[list]) -> list[list[int]]:
+        """
+        Generate a "added to BFS queue" matrix
+        to mark the cells as added to the queue or not.
+        Useful when working with BFS (breadth-first search).
+        """
+        return Matrix.generate0MatrixFrom(matrix)
+
 
     @staticmethod
     def generate0MatrixFrom(matrix: list[list]) -> list[list[int]]:
@@ -513,6 +555,35 @@ class Coordinate:
         self.col = col
         self.isStart = isStart
         self.isBeforeStart = isBeforeStart
+
+
+    # given a move, return a new coordinate
+    @staticmethod
+    def fromMove(currCoord: Coordinate, move: Move) -> Coordinate:
+        """
+        Returns a new coordinate, based on the given coordinate
+        and the given move.
+        """
+
+        if move == Move.UP:
+            return currCoord.up()
+        if move == Move.DIAGONAL_UP_RIGHT:
+            return currCoord.diagonalUpRight()
+        if move == Move.RIGHT:
+            return currCoord.right()
+        if move == Move.DIAGONAL_DOWN_RIGHT:
+            return currCoord.diagonalDownRight()
+        if move == Move.DOWN:
+            return currCoord.down()
+        if move == Move.DIAGONAL_DOWN_LEFT:
+            return currCoord.diagonalDownLeft()
+        if move == Move.LEFT:
+            return currCoord.left()
+        if move == Move.DIAGONAL_UP_LEFT:
+            return currCoord.diagonalUpLeft()
+
+        raise Exception(f"the move {move} was not mapped. "
+                        +"are you sure it exists and that it was correctly mapped?")
 
 
     def hasSameCoordinate(self, otherCoord: Coordinate) -> bool:

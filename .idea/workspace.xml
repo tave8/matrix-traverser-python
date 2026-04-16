@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="BFS (breadth-first search): right direction works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/breadth_first_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/breadth_first_search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/components.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/MatrixTraverser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MatrixTraverser.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -274,6 +274,9 @@
       <workItem from="1776184484444" duration="16393000" />
       <workItem from="1776207920410" duration="93000" />
       <workItem from="1776269592225" duration="10009000" />
+      <workItem from="1776322652239" duration="18000" />
+      <workItem from="1776326321470" duration="873000" />
+      <workItem from="1776330646076" duration="815000" />
     </task>
     <task id="LOCAL-00001" summary="reorganize folders">
       <option name="closed" value="true" />
@@ -459,7 +462,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776287420967</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="BFS (breadth-first search): right direction works">
+      <option name="closed" value="true" />
+      <created>1776294431572</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1776294431572</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -510,7 +521,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path_maze.coverage" NAME="incremental_path_maze Coverage Results" MODIFIED="1776282936060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path_maze__1_.coverage" NAME="incremental_path_maze (1) Coverage Results" MODIFIED="1776282949106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$breadth_first_search.coverage" NAME="breadth_first_search Coverage Results" MODIFIED="1776294287592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$breadth_first_search.coverage" NAME="breadth_first_search Coverage Results" MODIFIED="1776326823295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$fibonacci_maze__1_.coverage" NAME="fibonacci_maze (1) Coverage Results" MODIFIED="1776282863756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line_pattern.coverage" NAME="line_pattern Coverage Results" MODIFIED="1776283733484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$zigzag.coverage" NAME="zigzag Coverage Results" MODIFIED="1776205805224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
