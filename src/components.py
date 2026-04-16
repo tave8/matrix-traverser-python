@@ -522,30 +522,6 @@ class Matrix:
 
 
 
-class Moves:
-    def __init__(self) -> None:
-        pass
-    
-    @staticmethod
-    def getDefaultMoves() -> list[Move]:
-        return [
-            Move.UP,
-            Move.DIAGONAL_UP_RIGHT,
-            Move.RIGHT,
-            Move.DIAGONAL_DOWN_RIGHT,
-            Move.DOWN,
-            Move.DIAGONAL_DOWN_LEFT, 
-            Move.LEFT,
-            Move.DIAGONAL_UP_LEFT
-        ]
-
-    @staticmethod
-    def getAllMoves() -> list[Move]:
-        return [move for move in Move]
-
-
-
-
 class Coordinate:
     """
     A cell coordinate, so row and column.
@@ -837,6 +813,35 @@ class Coordinate:
         
         flag_str = f", {', '.join(flags)}" if flags else ""
         return f"[Coordinate: [{self.row}, {self.col}]{flag_str}]"
+
+
+class Moves:
+    def __init__(self) -> None:
+        pass
+
+    @staticmethod
+    def getDefaultMoves() -> list[Move]:
+        return [
+            Move.UP,
+            Move.DIAGONAL_UP_RIGHT,
+            Move.RIGHT,
+            Move.DIAGONAL_DOWN_RIGHT,
+            Move.DOWN,
+            Move.DIAGONAL_DOWN_LEFT,
+            Move.LEFT,
+            Move.DIAGONAL_UP_LEFT
+        ]
+
+    # @staticmethod
+    # def isDiagonalMove() -> bool:
+    #     """
+    #     Is this diagonal move?
+    #     """
+
+    @staticmethod
+    def getAllMoves() -> list[Move]:
+        return [move for move in Move]
+
 
 
 class Move(Enum):

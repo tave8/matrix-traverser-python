@@ -1,4 +1,6 @@
-from src.components import Coordinate, Matrix, MatrixTree
+from typing import List
+
+from src.components import Coordinate, Matrix, MatrixTree, Move
 from src.core.MatrixTraverser import MatrixTraverser
 
 matrix = [
@@ -9,20 +11,28 @@ matrix = [
 ]
 
 
-def canMoveTo(mt: MatrixTraverser,
-              currNode: MatrixTree,
-              desiredCoord: Coordinate) -> bool:
+# def canMoveTo(mt: MatrixTraverser,
+#               currNode: MatrixTree,
+#               desiredCoord: Coordinate,
+#               desiredMove: Move) -> bool:
+#
+#     if desiredMove in [Move.DOWN, Move.DIAGONAL_DOWN_RIGHT]:
+#         return True
+#     return False
 
-
-    print(currNode)
-    return True
+def getNextMoves(mt: MatrixTraverser,
+                 currNode: MatrixTree) -> List[Move]:
+    return [
+        Move.DOWN,
+        Move.DIAGONAL_DOWN_RIGHT
+    ]
 
 
 startCoord = Coordinate(Matrix.getFirstRow(), Matrix.getFirstCol())
 
 matrixTraverser = MatrixTraverser(matrix, {
-    "canMoveTo": canMoveTo,
-    # "sds": canMoveTo
+    # "canMoveTo": canMoveTo,
+    "getNextMoves": getNextMoves
 })
 
 matrixTraverser.traverseMatrixBFS(startCoord)
