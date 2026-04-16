@@ -5,6 +5,7 @@ from src.core.MatrixTraverser import MatrixTraverser
 from src.core.PatternTraverser import PatternTraverser
 from src.implementations.line_pattern import makeLinePattern
 from src.implementations.t_shape_pattern import makeTShapePattern
+from src.implementations.zigzag_pattern import makeZigzagPattern
 
 
 def test_count_nodes_in_line():
@@ -77,3 +78,45 @@ def test_count_nodes_in_t_shape():
     assert Matrix.getAtCoordinate(matrix, ancestors[2].coord) == 3
     assert Matrix.getAtCoordinate(matrix, ancestors[3].coord) == 7
     assert Matrix.getAtCoordinate(matrix, ancestors[4].coord) == 11
+
+
+
+
+def test_count_nodes_in_zigzag():
+
+    matrix = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+    ]
+
+
+    startCoord = Coordinate(Matrix.getFirstRow(), Matrix.getFirstCol())
+
+    zigzagPattern = makeZigzagPattern(matrix)
+
+    zigzagPattern.run(startCoord)
+
+    targetValue = 9
+    (nodeFound, ancestors) = MatrixTree.findOneByValueFrom(zigzagPattern.matrixTree,
+                                                           targetValue,
+                                                           matrix)
+
+    (totalNodesCount, _nodesStats) = MatrixTree.countNodesFrom(zigzagPattern.matrixTree)
+
+    assert len(ancestors) == 8
+
+    assert totalNodesCount == 9
+
+    # for ancestor in ancestors:
+    # print(Matrix.getAtCoordinate(matrix, ancestor.coord))
+
+    assert Matrix.getAtCoordinate(matrix, ancestors[0].coord) == 1
+    assert Matrix.getAtCoordinate(matrix, ancestors[1].coord) == 4
+    assert Matrix.getAtCoordinate(matrix, ancestors[2].coord) == 2
+    assert Matrix.getAtCoordinate(matrix, ancestors[3].coord) == 3
+    assert Matrix.getAtCoordinate(matrix, ancestors[4].coord) == 5
+    assert Matrix.getAtCoordinate(matrix, ancestors[5].coord) == 7
+    assert Matrix.getAtCoordinate(matrix, ancestors[6].coord) == 8
+    assert Matrix.getAtCoordinate(matrix, ancestors[7].coord) == 6
+
