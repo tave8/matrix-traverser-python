@@ -28,7 +28,8 @@ def _getNextMovesWrapper():
 
     # CLOSURE FUNCTION
     # callback specific for this pattern problem
-    def _getNextMoves(st: PatternTraverser, currNode: MatrixTree) -> List[Move]:
+    def _getNextMoves(patternTraverser: PatternTraverser,
+                      currNode: MatrixTree) -> List[Move]:
 
 
         movesMap = {

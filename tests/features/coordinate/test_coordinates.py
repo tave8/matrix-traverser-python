@@ -1,4 +1,4 @@
-from core.MatrixTraverser import Coordinate, Matrix
+from src.core.MatrixTraverser import Coordinate, Matrix
 
 matrix = [
     [1,    2,   3,   4,   5],

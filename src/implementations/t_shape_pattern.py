@@ -43,12 +43,13 @@ def _getNextMovesWrapper():
 
     # CLOSURE FUNCTION
     # callback specific for this pattern problem
-    def _getNextMoves(pt: PatternTraverser, currNode: MatrixTree) -> List[Move]:
+    def _getNextMoves(patternTraverser: PatternTraverser,
+                      currNode: MatrixTree) -> List[Move]:
 
         # if this is the cell right
         # at the intersection in the T shape
         # this cell must move first right, and then down
-        if currNode.coord.isFirstRow() and currNode.coord.isMiddleCol(pt.matrix):
+        if currNode.coord.isFirstRow() and currNode.coord.isMiddleCol(patternTraverser.matrix):
             return [
                 Move.RIGHT,
                 Move.DOWN
@@ -56,7 +57,7 @@ def _getNextMovesWrapper():
 
         # if this is the cell in a column in the middle,
         # it can only move down
-        if currNode.coord.isMiddleCol(pt.matrix):
+        if currNode.coord.isMiddleCol(patternTraverser.matrix):
             return [
                 Move.DOWN
             ]

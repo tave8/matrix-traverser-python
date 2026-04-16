@@ -27,7 +27,7 @@ def test_simple_pass():
 
     ancestorsFromFoundUpToK = MatrixTree.findKAncestorsOf(nodeFound, 3)
 
-    print(len(ancestorsFromFound))
+    # print(len(ancestorsFromFound))
 
     assert len(ancestorsFromValue) == len(ancestorsFromFound)
     assert len(ancestorsFromValue) == len(ancestorsFromFoundUpToK)
@@ -37,4 +37,4 @@ def test_simple_pass():
         assert ancestorsFromValue[i] == ancestorsFromFoundUpToK[i]
 
         ancestorValue = Matrix.getAtCoordinate(matrix, ancestorsFromValue[i].coord)
-        print(ancestorValue)
+        # print(ancestorValue)

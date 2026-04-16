@@ -33,21 +33,21 @@ def test_matrix_tree_correct_path_exists():
 
     # the first ancestor must always be root and have value S
     assert ancestors[0].isRoot 
-    assert Matrix.getAtCoordinate(matrix, ancestors[0].currCoord) == "S" 
+    assert Matrix.getAtCoordinate(matrix, ancestors[0].coord) == "S"
 
     # last node must not have the value we are searching for 
-    assert Matrix.getAtCoordinate(matrix, ancestors[-1].currCoord) != "E"
-
-    # every value, apart from the root which has value S, to the last ancestor, 
+    assert Matrix.getAtCoordinate(matrix, ancestors[-1].coord) != "E"
+    #
+    # every value, apart from the root which has value S, to the last ancestor,
     # must have +1 from previous value
     prevAncestor = ancestors[1]
     for currAncestor in ancestors[2:]:
-        prevValue = Matrix.getAtCoordinate(matrix, prevAncestor.currCoord)
-        currValue = Matrix.getAtCoordinate(matrix, currAncestor.currCoord)
+        prevValue = Matrix.getAtCoordinate(matrix, prevAncestor.coord)
+        currValue = Matrix.getAtCoordinate(matrix, currAncestor.coord)
         # they must be integer types
         assert isinstance(prevValue, int)
         assert isinstance(currValue, int)
         assert currValue == prevValue + 1
-        # curr ancestor will be prev ancestor 
+        # curr ancestor will be prev ancestor
         # in the next loop round
         prevAncestor = currAncestor

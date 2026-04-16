@@ -8,7 +8,8 @@ from src.core.PatternTraverser import PatternTraverser
 from src.components import Coordinate, Move, MatrixTree
 
 
-def makeLinePattern(matrix: List[List], onlyDirection: Move) -> PatternTraverser:
+def makeLinePattern(matrix: List[List],
+                    onlyDirection: Move) -> PatternTraverser:
 
     patternTraverser = PatternTraverser(
         matrix,
@@ -23,7 +24,8 @@ def _getNextMovesWrapper(onlyDirection: Move):
 
     # CLOSURE FUNCTION
     # callback specific for this pattern problem
-    def _getNextMoves(st: PatternTraverser, currNode: MatrixTree) -> List[Move]:
+    def _getNextMoves(patternTraverser: PatternTraverser,
+                      currNode: MatrixTree) -> List[Move]:
 
 
         movesMap = {

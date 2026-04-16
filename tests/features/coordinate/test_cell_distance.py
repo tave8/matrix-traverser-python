@@ -1,4 +1,4 @@
-from core.MatrixTraverser import Coordinate
+from src.core.MatrixTraverser import Coordinate
 
 
 # ---- isDistant ----

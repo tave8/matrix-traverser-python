@@ -47,7 +47,7 @@ class MatrixTraverser:
         StateManager._setStartCoordinate(self, startCoord)
         beforeStartCoord = Coordinate.generateIsBeforeStartCoord()
 
-        self.__traverse(
+        self.__traverse_DFS(
             currCoord=startCoord,
             prevCoord=beforeStartCoord,
             prevMove=Move._BEFORE_START,
@@ -55,13 +55,14 @@ class MatrixTraverser:
         ) 
     
 
-    def __traverse(self, 
+    def __traverse_DFS(self,
                   currCoord: Coordinate, 
                   prevCoord: Coordinate, 
                   prevMove: Move,
                   parentNode: MatrixTree | None) -> None:
         """
         The core algorithm: Traverses the matrix.
+        Uses DFS (Depth-first Search).
         """
 
 
@@ -203,7 +204,7 @@ class MatrixTraverser:
 
             if CallbackManager.canMoveTo(self, currNode, desiredMoveCoord):
 
-                self.__traverse(desiredMoveCoord, currCoord, desiredMove, currNode)
+                self.__traverse_DFS(desiredMoveCoord, currCoord, desiredMove, currNode)
 
 
         # This is the moment where ALL the recursions and operations
@@ -260,6 +261,7 @@ class MatrixTraverser:
 
                 if CallbackManager.canMoveTo(self, currNode, desiredMoveCooord):
 
+                    # multiple nodes at the same level might try to add the same child simultaneously
                     # a node at the same level might have already added
                     # its child, that's why we need to verify if the child
                     # is already in the BFS queue matrix
@@ -289,49 +291,7 @@ class MatrixTraverser:
         of the last traversal done.
         """
         return self.stateManager.state["movesHistory"]
-    
 
-    #  def __jumpTo() -> None:
-    #     """
-    #     Jumps to a cell with at the .
-    #     """           
-
-    # def findOne(self, findOneCallback, startFromCoordinate: Coordinate) -> Coordinate:
-    #     """
-    #     Find the first cell that makes the given callback evaluate to true. 
-    #     """
-
-    #     if not isfunction(findOneCallback):
-    #         raise Exception("findOneCallback must be a function")
-        
-    #     def canEndCallback(findOneMt: MatrixTraverser, 
-    #                         prevCoordinate: Coordinate, 
-    #                         currCoordinate: Coordinate,
-    #                         prevMove: Move) -> bool:
-            
-    #         if findOneCallback(findOneMt, prevCoordinate, currCoordinate, prevMove):
-    #             return True 
-    #         return False 
-    
-
-    #     def onEndCallback(findOneMt: MatrixTraverser):
-    #         # print("ended findOne")
-    #         pass
-        
-
-    #     callbackMapOfFindOne = {
-    #         "canEnd": canEndCallback,
-    #         "onEnd": onEndCallback
-    #     }
-
-    #     matrixTraverserOfFindOne = MatrixTraverser(self.matrix, 
-    #                                                 startFromCoordinate,
-    #                                                 MatrixTraverserCallbackManager(callbackMapOfFindOne),
-    #                                                 MatrixTraverserStateManager({}))
-        
-    #     matrixTraverserOfFindOne.traverseMatrix()
-
-    #     matrixTraverserOfFindOne.callbackManager.onEnd()
 
 
 
@@ -345,6 +305,7 @@ class CallbackManager:
 
     def __init__(self, callbackMap: dict):
         self.callbackMap = callbackMap
+
 
     @staticmethod
     def canMoveTo(mt: MatrixTraverser,
@@ -637,51 +598,6 @@ class CallbackManager:
     #     return True
     
 
-    # @staticmethod
-    # def canEnd(mt: MatrixTraverser, 
-    #             prevCoord: Coordinate, 
-    #             currCoord: Coordinate,
-    #             prevMove: Move) -> bool:
-    #     """
-    #     Can I end the algorithm right now?
-        
-    #     By default the algorithm will terminate only 
-    #     when all cells will be visited. We can prevent that 
-    #     and decide the end of the algorithm.
-    #     """
-
-    #     # run the user-defined callback, if exists
-    #     if FunctionHelper.mapHasFunction("canEnd", mt.callbackManager.callbackMap):
-    #         canEndCallback = mt.callbackManager.callbackMap["canEnd"]
-            
-    #         userSaysCanEnd: bool | None = canEndCallback(mt, prevCoord, currCoord, prevMove)
-            
-    #         # if the user did not return, it means 
-    #         # it's happy with not ending the algorithm
-    #         if userSaysCanEnd is None:
-    #             return False
-            
-    #         # check if the returned value is correct
-    #         if not isinstance(userSaysCanEnd, bool):
-    #             raise Exception("userSaysCanEnd must be of type bool")
-
-    #         if userSaysCanEnd:
-    #             mt.stateManager.state["wasEnded"] = True
-            
-    #         return userSaysCanEnd
-
-    #     # by default, we don't end the algorithm
-    #     return False
-    
-
-    # def onEnd(self) -> None:
-    #     """
-    #     What should happen right before the algorithm terminates?
-    #     """
-
-    #     # run the user-defined callback, if exists
-    #     if MatrixTraverserCallbackManager._dictHasFunction("onEnd", self.callbackMap):
-    #         self.callbackMap["onEnd"](self.matrixTraverser)
 
 
 
