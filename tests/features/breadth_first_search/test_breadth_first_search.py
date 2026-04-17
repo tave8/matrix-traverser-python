@@ -52,6 +52,11 @@ def test_lower_diagonal():
     # the cell with value 16 has 3 ancestors: 1 -> 6 -> 11
     assert len(ancestors) == 3
 
+    # count the nodes below the root node
+    assert 9 == MatrixTree.countNodesBelow(ancestors[0])
+    assert 2 == MatrixTree.countNodesBelow(ancestors[1])
+    assert 1 == MatrixTree.countNodesBelow(ancestors[2])
+
     ancestorValues = [1, 6, 11]
     ancestorChildrenValues = {
         1: [5, 6],
@@ -80,42 +85,85 @@ def test_lower_diagonal():
         i += 1
 
 
-    # MatrixTree.findAllAncestorsOf(root)
 
+def test_inverse_e():
+    """
+    Test the Breadth-First Search algorithm.
+    By only moving to UP and LEFT
+    (in this exact order) we are traversing
+    a sort of inverse-E area.
 
-    # targetValue = 12
-    # (nodeFound, ancestors) = MatrixTree.findOneByValueFrom(matrixTraverser.matrixTree, targetValue, matrix)
-    #
-    # print()
-    # # for each ancestor, see its children
-    # print("******** ANCESTORS FOR VALUE: ", targetValue)
-    # print("NODE FOUND: ", nodeFound)
-    #
-    # print()
-    # for ancestor in ancestors:
-    #     ancestorValue = Matrix.getAtCoordinate(matrix, ancestor.coord)
-    #     print("ancestor: ", ancestorValue)
-    #     for child in ancestor.children:
-    #         childValue = Matrix.getAtCoordinate(matrix, child.coord)
-    #         print("  > child: ", childValue)
-    #
+    Area traversed:
 
+    ---------
+            |
+    ---------
+            |
+    ---------
+            |
+    ---------
 
+    """
 
+    matrix = [
+        [1,    2,   3,    4],
+        [5,    6,   7,    8],
+        [9,   10,   11,  12],
+        [13,  14,   15,   16]
+    ]
 
-#
-# targetValue = 13
-# (nodeFound, ancestors) = MatrixTree.findOneByValueFrom(matrixTraverser.matrixTree, targetValue, matrix)
-#
-# print()
-# # for each ancestor, see its children
-# print("******** ANCESTORS FOR VALUE: ", targetValue)
-# print("NODE FOUND: ", nodeFound)
-#
-# print()
-# for ancestor in ancestors:
-#     ancestorValue = Matrix.getAtCoordinate(matrix, ancestor.coord)
-#     print("ancestor: ", ancestorValue)
-#     for child in ancestor.children:
-#         childValue = Matrix.getAtCoordinate(matrix, child.coord)
-#         print("  > child: ", childValue)
+    # CALLBACK FOR ENGINE
+    def getNextMoves(mt: MatrixTraverser,
+                     currNode: MatrixTree) -> List[Move]:
+        return [
+            Move.UP,
+            Move.LEFT
+        ]
+
+    # start from value 15
+    startCoord = Coordinate(3, 2)
+
+    matrixTraverser = MatrixTraverser(matrix, {
+        "getNextMoves": getNextMoves
+    })
+
+    matrixTraverser.traverseMatrixBFS(startCoord)
+
+    targetValue = 5
+    (nodeFound, ancestors) = MatrixTree.findOneByValueFrom(matrixTraverser.matrixTree,
+                                                           targetValue,
+                                                           matrix)
+
+    assert len(ancestors) == 4
+
+    # # count the nodes below the root node
+    assert 11 == MatrixTree.countNodesBelow(ancestors[0])
+    assert 8 == MatrixTree.countNodesBelow(ancestors[1])
+    assert 5 == MatrixTree.countNodesBelow(ancestors[2])
+
+    assert 12 == MatrixTree.countNodesAt(ancestors[0])
+    assert 9 == MatrixTree.countNodesAt(ancestors[1])
+    assert 6 == MatrixTree.countNodesAt(ancestors[2])
+
+    # ancestor values of value 5
+    ancestorValues = [15, 11, 7, 6]
+
+    ancestorChildrenValues = {
+        15: [11, 14],
+        11: [7, 10],
+        7:  [3, 6],
+        6:  [5]
+    }
+
+    assert len(ancestors[0].children) == len(ancestorChildrenValues[15])
+    assert len(ancestors[1].children) == len(ancestorChildrenValues[11])
+    assert len(ancestors[2].children) == len(ancestorChildrenValues[7])
+    assert len(ancestors[3].children) == len(ancestorChildrenValues[6])
+
+    assert Matrix.getAtCoordinate(matrix, ancestors[0].children[0].coord) == ancestorChildrenValues[15][0]
+    assert Matrix.getAtCoordinate(matrix, ancestors[0].children[1].coord) == ancestorChildrenValues[15][1]
+    assert Matrix.getAtCoordinate(matrix, ancestors[1].children[0].coord) == ancestorChildrenValues[11][0]
+    assert Matrix.getAtCoordinate(matrix, ancestors[1].children[1].coord) == ancestorChildrenValues[11][1]
+    assert Matrix.getAtCoordinate(matrix, ancestors[2].children[0].coord) == ancestorChildrenValues[7][0]
+    assert Matrix.getAtCoordinate(matrix, ancestors[2].children[1].coord) == ancestorChildrenValues[7][1]
+    assert Matrix.getAtCoordinate(matrix, ancestors[3].children[0].coord) == ancestorChildrenValues[6][0]
