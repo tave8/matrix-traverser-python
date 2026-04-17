@@ -4,9 +4,9 @@ from src.components import Coordinate, Matrix, MatrixTree, Move
 from src.core.MatrixTraverser import MatrixTraverser
 
 matrix = [
-    [1, 2, 3, 4],
-    [5, 6, 7, 8],
-    [9, 10, 11, 12],
+    [1,   2,  3,  4],
+    [5,   6,  7,  8],
+    [9,  10, 11, 12],
     [13, 14, 15, 16]
 ]
 
@@ -22,6 +22,9 @@ matrix = [
 
 def getNextMoves(mt: MatrixTraverser,
                  currNode: MatrixTree) -> List[Move]:
+
+    print(f"level: {currNode.level}, value: {currNode.getCellValue(mt.matrix)}")
+
     return [
         Move.DOWN,
         Move.DIAGONAL_DOWN_RIGHT

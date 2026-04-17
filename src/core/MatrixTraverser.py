@@ -335,6 +335,8 @@ class MatrixTraverser:
                         currNode.children.append(childNode)
                         Matrix.markAsAddedToBFSQueue(queueMatrix, desiredMoveCooord)
 
+                        CallbackManager.afterAddToBFSQueue(self, currNode)
+
                         # print(currNode.level)
 
 
@@ -563,6 +565,26 @@ class CallbackManager:
                 raise DuringUserCallbackError(afterAllFutureMovesCallback) from e
 
 
+
+    @staticmethod
+    def afterAddToBFSQueue(mt: MatrixTraverser,
+                           currNode: MatrixTree) -> None:
+        """
+        Callback fired when a node is added
+        to the BFS queue (Breadth-first Search).
+        """
+
+        # run the user-defined callback, if exists
+        if FunctionHelper.mapHasFunction("afterAddToBFSQueue", mt.callbackManager.callbackMap):
+
+            afterAddToBFSQueueCallback: Callable[[MatrixTraverser, MatrixTree], bool] = mt.callbackManager.callbackMap["afterAddToBFSQueue"]
+
+            try:
+
+                afterAddToBFSQueueCallback(mt, currNode)
+
+            except Exception as e:
+                raise DuringUserCallbackError(afterAddToBFSQueueCallback) from e
 
 
 

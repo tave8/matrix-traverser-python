@@ -67,6 +67,14 @@ class MatrixTree:
         # overwritten, when the user runs the traversal algorithm
         self.isDummy = isDummy
 
+
+    def getCellValue(self, matrix: List[List]) -> Any:
+        """
+        Get the value of the cell at the coordinate
+        of this node.
+        """
+        return Matrix.getAtCoordinate(matrix, self.coord)
+
     
     @staticmethod
     def findKAncestorsOf(startNode: MatrixTree, k: int) -> list[MatrixTree]:

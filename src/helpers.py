@@ -27,22 +27,24 @@ class Ensure:
 
         for callbackName, callback in callbackMap.items():
             if callbackName not in allowedCallbackNames:
-                raise Exception(f"in callback map, the key '{callbackName}' "
+                raise Exception(f"in the callback map you provided, the key '{callbackName}' "
                                 +f"is not allowed or has not been mapped "
                                 +"to allowed callback names. allowed callback names: "
                                 +Ensure.getAllowedCallbackNamesAsStr())
 
             if not isfunction(callback):
-                raise Exception(f"in callback map, for the key '{callbackName}' "
+                raise Exception(f"in the provided callback map, for the key '{callbackName}' "
                                 +f"the value should be a function."
                                 +f"got {type(callback)} instead.")
+
 
     @staticmethod
     def getAllowedCallbackNames() -> List[str]:
         return [
             "canMoveTo",
             "getNextMoves",
-            "afterAllFutureMoves"
+            "afterAllFutureMoves",
+            "afterAddToBFSQueue"
         ]
 
 
