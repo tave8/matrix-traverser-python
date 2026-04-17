@@ -73,9 +73,9 @@ class MatrixTree:
         Get the value of the cell at the coordinate
         of this node.
         """
-        return Matrix.getAtCoordinate(matrix, self.coord)
+        return self.coord.getCellValue(matrix)
 
-    
+
     @staticmethod
     def findKAncestorsOf(startNode: MatrixTree, k: int) -> list[MatrixTree]:
         """
@@ -152,6 +152,44 @@ class MatrixTree:
         Finds all ancestors of the given node.
         """
         return MatrixTree.findKAncestorsOf(startNode, -1)
+
+
+    def getAncestors(self, k: int = -1) -> List[MatrixTree]:
+        """
+        Finds up to k ancestors of this instance node.
+        If left unspecified, you will get all ancestors (k = -1)
+        """
+        return MatrixTree.findKAncestorsOf(self, k)
+
+
+    def getAncestorCellValuesAndCoords(self, matrix:List[List], k: int = -1) -> List[Dict[str, Any]]:
+        """
+        Finds up to k ancestors of this instance node,
+        and returns their values and coordinates.
+        """
+        ancestors = self.getAncestors(k)
+
+        def process(ancestor: MatrixTree) -> Dict[str, Any]:
+            return {
+                "value": ancestor.getCellValue(matrix),
+                "coord": ancestor.coord
+            }
+
+        return [process(ancestor) for ancestor in ancestors]
+
+
+    def getAncestorCellValues(self, matrix:List[List], k: int = -1) -> List[Any]:
+        """
+        Finds up to k ancestors of this instance node,
+        and returns their values.
+        """
+        ancestors = self.getAncestors(k)
+
+        def process(ancestor: MatrixTree) -> str:
+            value = ancestor.getCellValue(matrix)
+            return value
+
+        return [process(ancestor) for ancestor in ancestors]
 
 
     @staticmethod
@@ -646,6 +684,13 @@ class Coordinate:
         self.col = col
         self.isStart = isStart
         self.isBeforeStart = isBeforeStart
+
+
+    def getCellValue(self, matrix: List[list[int]]) -> Any:
+        """
+        Get the cell value at this coordinate, in the provided matrix.
+        """
+        return Matrix.getAtCoordinate(matrix, self)
 
 
     @staticmethod
