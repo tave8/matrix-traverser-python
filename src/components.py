@@ -261,6 +261,12 @@ class MatrixTree:
         return (nodeFound, ancestors)
 
 
+    def countNodes(self):
+        """
+        Count nodes INCLUDING the current instance node.
+        """
+        return MatrixTree.countNodesAt(self)
+
 
     @staticmethod
     def countNodesAt(startNode: MatrixTree) -> int:
@@ -334,6 +340,16 @@ class MatrixTree:
 
 class Matrix:
 
+    @staticmethod
+    def markManyAsUnvisited(visitedMatrix:List[List[int]],
+                            coords: List[Coordinate]) -> None:
+        """
+        Mark cells as unvisited.
+        """
+        for coord in coords:
+            Matrix.markAsUnvisited(visitedMatrix, coord)
+
+
     # IS VISITED ***********************
 
     @staticmethod
@@ -360,6 +376,21 @@ class Matrix:
                             +f"cell for the first time, got {val} instead")
         
         visitedMatrix[coord.getRow()][coord.getCol()] = 1
+
+
+    @staticmethod
+    def markAsUnvisited(visitedMatrix: list[list[int]],
+                      coord: Coordinate) -> None:
+        """
+        Mark the cell at the given coordinates as unvisited.
+        """
+        val = visitedMatrix[coord.getRow()][coord.getCol()]
+
+        if val != 1:
+            raise Exception(f"cell value had to be 1 when unvisiting "
+                            + f"cell, got {val} instead")
+
+        visitedMatrix[coord.getRow()][coord.getCol()] = 0
 
 
     # ADDED TO BFS QUEUE *******************
@@ -944,4 +975,9 @@ class Move(Enum):
 class TraversalStrategy(Enum):
     DEPTH_FIRST = "depth-first"
     BREADTH_FIRST = "breadth-first"
+
+
+class MazeTerminationPolicy(Enum):
+    ON_END_FOUND_TERMINATE = "on_end_found_terminate"
+    ON_END_FOUND_CONTINUE = "on_end_found_continue"
 

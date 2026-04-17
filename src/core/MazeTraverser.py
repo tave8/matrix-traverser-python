@@ -5,8 +5,10 @@ Maze Traverser, built on top of the Matrix Traverser Engine.
 
 from inspect import isfunction
 from collections.abc import Callable
+
+from helpers import FunctionHelper
 from src.core.MatrixTraverser import MatrixTraverser, StateManager
-from src.components import Coordinate, Matrix, Move, MatrixTree
+from src.components import Coordinate, Matrix, Move, MatrixTree, MazeTerminationPolicy
 from src.exceptions.ExpectedUserCallbackError import ExpectedUserCallbackError
 
 
@@ -23,7 +25,9 @@ class MazeTraverser(MatrixTraverser):
                  matrix: list[list], 
                  canMoveToCallback: Callable[[MazeTraverser, MatrixTree, Coordinate, Move], bool],
                  canMoveToOnStartCallback: Callable[[MazeTraverser, MatrixTree, Coordinate, Move], bool],
+                 onEndFoundCallback: Callable[[MazeTraverser, MatrixTree], None] | None = None,
                  userState=None,
+                 mazeTerminationPolicy: MazeTerminationPolicy = MazeTerminationPolicy.ON_END_FOUND_TERMINATE,
                  startName = "S",
                  endName = "E") -> None:
         """
@@ -74,6 +78,10 @@ class MazeTraverser(MatrixTraverser):
         # of how they want their maze logic to play out
         self.canMoveToCallback_User = canMoveToCallback
         self.canMoveToOnStartCallback_User = canMoveToOnStartCallback
+        # callback specific to maze traverser
+        self.onEndFoundCallback_User = onEndFoundCallback
+
+        self.mazeTerminationPolicy = mazeTerminationPolicy
 
         self.startName = startName
         self.endName = endName
@@ -160,9 +168,16 @@ class MazeTraverser(MatrixTraverser):
             # if the curr coordinate is the end itself,
             # end the algorithm
             if Matrix.getAtCoordinate(mazeTraverser.matrix, currNode.coord) == mazeTraverser.endName:
-                # end the algorithm at 
-                StateManager.setWasEnded(mazeTraverser, True)
-                return False
+                # end the algorithm. "afterAllFutureMoves" callbacks
+                # will still get triggered, because were waiting in the call stack
+                # for future calls to return, which they just did
+                if mazeTraverser.mazeTerminationPolicy == MazeTerminationPolicy.ON_END_FOUND_TERMINATE:
+                    StateManager.setWasEnded(mazeTraverser, True)
+                    return False
+                elif mazeTraverser.mazeTerminationPolicy == MazeTerminationPolicy.ON_END_FOUND_CONTINUE:
+                    MazeTraverser._onEndFoundCallback(mazeTraverser, currNode)
+                else:
+                    raise Exception("problem in the library: maze termination policy was not specified.")
 
             # user-defined canMoveToCallback. this is where the user
             # has full control over traversal logic and where the actual 
@@ -176,7 +191,20 @@ class MazeTraverser(MatrixTraverser):
         
         return canMoveTo_ForEngine
 
-    
+
+    @staticmethod
+    def _onEndFoundCallback(mazeTraverser: MazeTraverser,
+                            currNode: MatrixTree) -> None:
+        """
+        Wraps the user-defined callback.
+        """
+
+        if isfunction(mazeTraverser.onEndFoundCallback_User):
+            mazeTraverser.onEndFoundCallback_User(mazeTraverser, currNode)
+
+
+
+
     @staticmethod
     def _getMazeCallbackMap(mazeTraverser: MazeTraverser) -> dict[str, Callable]:
         """

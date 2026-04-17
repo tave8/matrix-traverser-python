@@ -284,6 +284,8 @@ class MatrixTraverser:
 
         queueMatrix = Matrix.generateAddedToBFSQueueMatrixFrom(self.matrix)
 
+        # statsByLevel = {}
+
         self.matrixTree = MatrixTree(
             parent=None,
             coord=startCoord,
@@ -323,6 +325,8 @@ class MatrixTraverser:
                     # is already in the BFS queue matrix
                     if not Matrix.isAddedToBFSQueue(queueMatrix, desiredMoveCooord):
 
+
+
                         childNode = MatrixTree(
                             parent=currNode,
                             coord=desiredMoveCooord,
@@ -336,6 +340,15 @@ class MatrixTraverser:
                         Matrix.markAsAddedToBFSQueue(queueMatrix, desiredMoveCooord)
 
                         CallbackManager.afterAddToBFSQueue(self, currNode)
+
+                        # if currNode.level not in statsByLevel:
+                        #     statsByLevel[currNode.level] = {
+                        #         "added"
+                        #     }
+                        #
+                        # statsByLevel[currNode.level][""]
+                        #
+                        # if statsByLevel[currNode.level][""]
 
                         # print(currNode.level)
 

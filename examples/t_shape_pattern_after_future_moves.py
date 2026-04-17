@@ -3,9 +3,13 @@ from src.components import Coordinate, Matrix, Move, MatrixTree
 from src.implementations.t_shape_pattern import makeTShapePattern
 
 
-def afterAllFutureMovesCallback(pt: PatternTraverser, currNode: MatrixTree) -> None:
-    cellValue = Matrix.getAtCoordinate(pt.matrix, currNode.coord)
-    print(cellValue)
+def afterAllFutureMoves(pt: PatternTraverser, currNode: MatrixTree) -> None:
+    cellValue = currNode.getCellValue(pt.matrix)
+    if currNode.countNodes() == 3:
+        print("this subtree has 3 nodes: ", cellValue)
+    # print()
+    if currNode.countNodes() == 7:
+        print("this subtree has 7 nodes: ", cellValue)
 
 
 tShapePattern = makeTShapePattern([
@@ -14,7 +18,7 @@ tShapePattern = makeTShapePattern([
     [11, 12, 13, 14, 15],
     [16, 17, 18, 19, 20],
     [21, 22, 23, 24, 25],
-], afterAllFutureMovesCallback)
+], afterAllFutureMoves)
 
 tShapePattern.run(
     Coordinate(
