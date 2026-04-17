@@ -141,8 +141,10 @@ class MazeTraverser(MatrixTraverser):
             engine will expect.
             """
 
+            currentCellIsStart = currNode.coord.isStart
+
             # at the very start, the user defines where to move
-            if currNode.coord.isStart:
+            if currentCellIsStart:
 
                 return mazeTraverser.canMoveToOnStartCallback_User(mazeTraverser,
                                                                    currNode,
@@ -154,41 +156,55 @@ class MazeTraverser(MatrixTraverser):
             # S  3
             # 1  2
 
+            desiredCellIsStart = desiredCoord.getCellValue(mazeTraverser.matrix) == mazeTraverser.startName
+
             # the cells around S might try to go to S, but they must not
             # because of how the engine works and the nature of its recursive calls,
             # even though the start is already visited,
             # some start paths might still be asking if i can move to start
-            if Matrix.getAtCoordinate(mazeTraverser.matrix, desiredCoord) == mazeTraverser.startName:
+            if desiredCellIsStart:
                 return False
+
+            desiredCellIsEnd = desiredCoord.getCellValue(mazeTraverser.matrix) == mazeTraverser.endName
             
             # if the next move is the end, you can move
-            if Matrix.getAtCoordinate(mazeTraverser.matrix, desiredCoord) == mazeTraverser.endName:
+            if desiredCellIsEnd:
                 return True
-            
+
+            currentCellIsEnd = currNode.getCellValue(mazeTraverser.matrix) == mazeTraverser.endName
+
             # if the curr coordinate is the end itself,
-            # end the algorithm
-            if Matrix.getAtCoordinate(mazeTraverser.matrix, currNode.coord) == mazeTraverser.endName:
+            # apply the maze termination policy
+            if currentCellIsEnd:
+                # print("found END", desiredCoord, desiredMove)
                 # end the algorithm. "afterAllFutureMoves" callbacks
                 # will still get triggered, because were waiting in the call stack
                 # for future calls to return, which they just did
                 if mazeTraverser.mazeTerminationPolicy == MazeTerminationPolicy.ON_END_FOUND_TERMINATE:
+                    MazeTraverser._onEndFoundCallback(mazeTraverser, currNode)
                     StateManager.setWasEnded(mazeTraverser, True)
-                    return False
+
                 elif mazeTraverser.mazeTerminationPolicy == MazeTerminationPolicy.ON_END_FOUND_CONTINUE:
                     MazeTraverser._onEndFoundCallback(mazeTraverser, currNode)
+
                 else:
                     raise Exception("problem in the library: maze termination policy was not specified.")
 
+                # if end is found and this is the end,
+                # end cell cannot move
+                return False
             # user-defined canMoveToCallback. this is where the user
             # has full control over traversal logic and where the actual 
             # magic happens. the previous steps
             # in this callback where just boilerplate code to handle
             # start, end and edge cases
-            return mazeTraverser.canMoveToCallback_User(mazeTraverser,
+            userWantsMove = mazeTraverser.canMoveToCallback_User(mazeTraverser,
                                                         currNode,
                                                         desiredCoord,
                                                         desiredMove)
-        
+            # print(userWantsMove, currNode)
+            return userWantsMove
+
         return canMoveTo_ForEngine
 
 
