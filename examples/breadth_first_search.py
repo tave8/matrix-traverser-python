@@ -95,3 +95,5 @@ for ancestor in ancestors:
     for child in ancestor.children:
         childValue = Matrix.getAtCoordinate(matrix, child.coord)
         print("  > child: ", childValue)
+
+

@@ -2,7 +2,7 @@ from collections.abc import Callable
 from typing import List, Tuple
 
 from src.helpers import FunctionHelper, Ensure
-from src.components import Coordinate, Move, Moves, Matrix, MatrixTree
+from src.components import Coordinate, Move, Moves, Matrix, MatrixTree, TraversalStrategy
 from src.exceptions.DuringUserCallbackError import DuringUserCallbackError
 
 
@@ -33,6 +33,9 @@ class MatrixTraverser:
         # this will be set as soon as the user runs traverseMatrix
         # NOTE: this is a dummy tree: you 
         self.matrixTree: MatrixTree = MatrixTree.makeDummyNode()
+        # whether this instance was already run.
+        # makes sure that this instance is run only once
+        self._wasRun = False
 
 
     def _setCallbackManager(self, callbackMap: dict):
@@ -48,21 +51,51 @@ class MatrixTraverser:
         self.callbackManager = CallbackManager(callbackMap)
 
 
+    def traverse(self,
+                 startCoord: Coordinate,
+                 traversalStrategy: TraversalStrategy) -> None:
+
+        if not self._wasRun:
+            self._wasRun = True
+        else:
+            raise Exception("you cannot run the same instance more than once. "
+                            +"you must create a new one")
+
+        # if this instance was already run,
+        # you cannot run it again
+        StateManager.setStartCoordinate(self, startCoord)
+
+        if traversalStrategy == TraversalStrategy.DEPTH_FIRST:
+
+            beforeStartCoord = Coordinate.generateIsBeforeStartCoord()
+
+            self.__traverse_DFS(
+                currCoord=startCoord,
+                prevCoord=beforeStartCoord,
+                prevMove=Move._BEFORE_START,
+                parentNode=None
+            )
+
+        elif traversalStrategy == TraversalStrategy.BREADTH_FIRST:
+
+            self.__traverse_BFS(startCoord)
+
+
+
     def traverseMatrix(self, startCoord: Coordinate) -> None:
         """
         Main user-facing method to run the matrix traversal algorithm.
         Uses Depth-first Search.
         """
+        self.traverseMatrixDFS(startCoord)
 
-        StateManager._setStartCoordinate(self, startCoord)
-        beforeStartCoord = Coordinate.generateIsBeforeStartCoord()
 
-        self.__traverse_DFS(
-            currCoord=startCoord,
-            prevCoord=beforeStartCoord,
-            prevMove=Move._BEFORE_START,
-            parentNode=None
-        )
+    def traverseMatrixDFS(self, startCoord: Coordinate) -> None:
+        """
+        Main user-facing method to run the matrix traversal algorithm.
+        Uses Depth-first Search.
+        """
+        self.traverse(startCoord, TraversalStrategy.DEPTH_FIRST)
 
 
     def traverseMatrixBFS(self, startCoord: Coordinate) -> None:
@@ -70,12 +103,9 @@ class MatrixTraverser:
         Main user-facing method to run the matrix traversal algorithm.
         Uses Breadth-first Search.
         """
+        self.traverse(startCoord, TraversalStrategy.BREADTH_FIRST)
 
-        StateManager._setStartCoordinate(self, startCoord)
 
-        self.__traverse_BFS(startCoord)
-
-    
 
     def __traverse_DFS(self,
                   currCoord: Coordinate, 
@@ -304,6 +334,8 @@ class MatrixTraverser:
                         # of any of its child node
                         currNode.children.append(childNode)
                         Matrix.markAsAddedToBFSQueue(queueMatrix, desiredMoveCooord)
+
+                        # print(currNode.level)
 
 
         # return (nodes, root)
@@ -658,7 +690,7 @@ class StateManager:
 
 
     @staticmethod
-    def _setStartCoordinate(mt: MatrixTraverser, coord: Coordinate): 
+    def setStartCoordinate(mt: MatrixTraverser, coord: Coordinate):
         # make sure this coordinate is marked as
         # isStart, so that the user doesn't have to
         coord.isStart = True       

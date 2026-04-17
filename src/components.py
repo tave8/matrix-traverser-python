@@ -60,7 +60,7 @@ class MatrixTree:
         if isDummy:
             self.level = -1
         else:
-            self.level = 1 if isRoot else parent.level
+            self.level = 1 if isRoot else parent.level + 1
 
         # is this a dummy tree? a dummy tree is used exclusively
         # for initialization reasons and shall be replaced, literally
@@ -931,3 +931,9 @@ class Move(Enum):
     DIAGONAL_DOWN_LEFT = "diagonal-down-left"
     LEFT = "left"
     DIAGONAL_UP_LEFT = "diagonal-up-left"
+
+
+class TraversalStrategy(Enum):
+    DEPTH_FIRST = "depth-first"
+    BREADTH_FIRST = "breadth-first"
+
