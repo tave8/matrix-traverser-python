@@ -189,6 +189,9 @@ class MatrixTraverser:
         # the current node is the root, otherwise we are
         # at whatever other current node"
         currNode = self.matrixTree if parentNode is None else MatrixTree(
+            # parent=parentNode,
+            # coord=currCoord,
+            # prevMove=prevMove
             parent=parentNode,
             coord=currCoord,
             prevMove=prevMove

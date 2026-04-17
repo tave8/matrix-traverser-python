@@ -15,7 +15,6 @@ class MatrixTree:
     def __init__(self, 
                  parent: MatrixTree | None,
                  coord: Coordinate,
-                 # prevCoord: Coordinate,
                  prevMove: Move,
                  isRoot=False,
                  isDummy=False) -> None:
@@ -23,13 +22,46 @@ class MatrixTree:
         Matrix Tree.
         """
 
+
+        if not isDummy:
+            if not isinstance(parent, MatrixTree) and not isRoot:
+                raise Exception("a non-root node cannot have an invalid or null parent node. "
+                                +"is this the root node or a non-root node?")
+            # if not isDummy:
+            # if you say it's root, it must not have a parent
+            if isinstance(parent, MatrixTree) and isRoot:
+                raise Exception(f"if you declare this node to be the root, "
+                                +"then it must not have a parent")
+
+
         self.parent = parent
         self.isRoot = isRoot
 
+        if not isDummy:
+            # this is the root
+            if parent is None:
+                self.rootExists = True
+            else:
+                self.rootExists = parent.rootExists
+
+            # if there is a parent AND this node declares to be the root
+            # AND the root already exists, then a tree cannot have another root
+            if parent is not None and isRoot and parent.rootExists:
+                raise Exception("a tree with more than one root was detected. possible reason: "
+                                +"the current node is declaring to be a root "
+                                +"and there was already a root from its parent up")
+        else:
+            self.rootExists = False
+
         self.children: list[MatrixTree] = [] 
         self.coord = coord
-        # self.prevCoord = prevCoord
         self.prevMove: Move = prevMove
+
+        if isDummy:
+            self.level = -1
+        else:
+            self.level = 1 if isRoot else parent.level
+
         # is this a dummy tree? a dummy tree is used exclusively
         # for initialization reasons and shall be replaced, literally
         # overwritten, when the user runs the traversal algorithm

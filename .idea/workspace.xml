@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="test count nodes: test count below &amp; at">
+    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="test BFS: inverse E shape">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/features/breadth_first_search/test_breadth_first_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/features/breadth_first_search/test_breadth_first_search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/components.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MatrixTraverser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MatrixTraverser.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +146,7 @@
       <recent name="C:\Users\giuse\Desktop\projects\matrix-traverser-python\tests\examples\incremental_path\prep" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for tests.features.breadth_first_search.test_breadth_first_search.test_inverse_e">
+  <component name="RunManager" selected="Python tests.Run ALL tests">
     <configuration name="Python tests for tests.features.breadth_first_search.test_breadth_first_search.test_inverse_e" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="matrix-traverser-python" />
       <option name="ENV_FILES" value="" />
@@ -306,7 +307,7 @@
       <workItem from="1776334303093" duration="857000" />
       <workItem from="1776355871104" duration="3189000" />
       <workItem from="1776432041034" duration="1530000" />
-      <workItem from="1776441582580" duration="3962000" />
+      <workItem from="1776441582580" duration="8064000" />
     </task>
     <task id="LOCAL-00001" summary="reorganize folders">
       <option name="closed" value="true" />
@@ -588,7 +589,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776443748490</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="test BFS: inverse E shape">
+      <option name="closed" value="true" />
+      <created>1776445740860</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1776445740860</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -606,7 +615,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fibonacci maze: start" />
     <MESSAGE value="fibonacci maze done: first test passed" />
     <MESSAGE value="fibonacci maze done: second test passed" />
     <MESSAGE value="rename: SimplePatternTraverser.py -&gt; PatternTraverser.py" />
@@ -631,7 +639,8 @@
     <MESSAGE value="test count nodes: test with zigzag" />
     <MESSAGE value="test count nodes: test with christmas tree BFS" />
     <MESSAGE value="test count nodes: test count below &amp; at" />
-    <option name="LAST_COMMIT_MESSAGE" value="test count nodes: test count below &amp; at" />
+    <MESSAGE value="test BFS: inverse E shape" />
+    <option name="LAST_COMMIT_MESSAGE" value="test BFS: inverse E shape" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -651,8 +660,8 @@
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line__1_.coverage" NAME="line (1) Coverage Results" MODIFIED="1776178339945" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$spiral.coverage" NAME="spiral Coverage Results" MODIFIED="1776205626103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$MatrixTraverser.coverage" NAME="MatrixTraverser Coverage Results" MODIFIED="1776360318636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$Run_ALL_tests.coverage" NAME="Run ALL tests Coverage Results" MODIFIED="1776443790754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776445537899" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776445718425" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$Run_ALL_tests.coverage" NAME="Run ALL tests Coverage Results" MODIFIED="1776449712793" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$t_shape_pattern_after_future_moves.coverage" NAME="t_shape_pattern_after_future_moves Coverage Results" MODIFIED="1776278400286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$snake_pattern.coverage" NAME="snake_pattern Coverage Results" MODIFIED="1776283811784" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$t_shape_pattern.coverage" NAME="t_shape_pattern Coverage Results" MODIFIED="1776283929079" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
