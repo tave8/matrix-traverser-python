@@ -107,6 +107,14 @@ class MazeTraverser(MatrixTraverser):
         self.traverseMatrix(startCoord)
 
 
+    def isEndCell(self, coord: Coordinate) -> bool:
+        """
+        Is the given coordinate the end cell?
+        """
+        return coord.getCellValue(self.matrix) == self.endName
+
+
+
     @staticmethod
     def _canMoveTo(mazeTraverser: MazeTraverser) -> Callable[[MatrixTraverser, MatrixTree, Coordinate, Move], bool]:
         """
