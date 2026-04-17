@@ -6,7 +6,73 @@ from src.core.PatternTraverser import PatternTraverser
 from src.implementations.line_pattern import makeLinePattern
 from src.implementations.t_shape_pattern import makeTShapePattern
 from src.implementations.zigzag_pattern import makeZigzagPattern
+from src.implementations.incremental_path_maze import makeIncrementalPathMaze
 from src.core.MatrixTraverser import MatrixTraverser
+
+
+
+
+def test_count_nodes_in_incremental_path_maze():
+
+    matrix = [
+        ["S",    1,    2,     3],
+        [8,      6,    5,     4],
+        [9,      7,   10,     9],
+        [10,    11,   12,    "E"]
+    ]
+
+
+    startCoord = Coordinate(Matrix.getFirstRow(), Matrix.getFirstCol())
+
+    incrementalPathMaze = makeIncrementalPathMaze(matrix)
+
+    incrementalPathMaze.run(startCoord)
+
+    targetValue = "E"
+    (nodeFound, ancestors) = MatrixTree.findOneByValueFrom(incrementalPathMaze.matrixTree,
+                                                           targetValue,
+                                                           matrix)
+
+
+    # how many ancestors does the end have?
+    assert 13 == len(ancestors)
+
+    assert 14 == MatrixTree.countNodesAt(incrementalPathMaze.matrixTree)
+
+    assert 1 == MatrixTree.countNodesAt(nodeFound)
+    assert 2 == MatrixTree.countNodesAt(ancestors[-1])
+    assert 3 == MatrixTree.countNodesAt(ancestors[-2])
+    assert 4 == MatrixTree.countNodesAt(ancestors[-3])
+    assert 5 == MatrixTree.countNodesAt(ancestors[-4])
+    assert 6 == MatrixTree.countNodesAt(ancestors[-5])
+    assert 7 == MatrixTree.countNodesAt(ancestors[-6])
+    assert 8 == MatrixTree.countNodesAt(ancestors[-7])
+    assert 9 == MatrixTree.countNodesAt(ancestors[-8])
+    assert 10 == MatrixTree.countNodesAt(ancestors[-9])
+    assert 11 == MatrixTree.countNodesAt(ancestors[-10])
+    assert 12 == MatrixTree.countNodesAt(ancestors[-11])
+    assert 13 == MatrixTree.countNodesAt(ancestors[-12])
+    assert 14 == MatrixTree.countNodesAt(ancestors[-13])
+
+    assert 0 == MatrixTree.countNodesBelow(nodeFound)
+    assert 1 == MatrixTree.countNodesBelow(ancestors[-1])
+    assert 2 == MatrixTree.countNodesBelow(ancestors[-2])
+    assert 3 == MatrixTree.countNodesBelow(ancestors[-3])
+    assert 4 == MatrixTree.countNodesBelow(ancestors[-4])
+    assert 5 == MatrixTree.countNodesBelow(ancestors[-5])
+    assert 6 == MatrixTree.countNodesBelow(ancestors[-6])
+    assert 7 == MatrixTree.countNodesBelow(ancestors[-7])
+    assert 8 == MatrixTree.countNodesBelow(ancestors[-8])
+    assert 9 == MatrixTree.countNodesBelow(ancestors[-9])
+    assert 10 == MatrixTree.countNodesBelow(ancestors[-10])
+    assert 11 == MatrixTree.countNodesBelow(ancestors[-11])
+    assert 12 == MatrixTree.countNodesBelow(ancestors[-12])
+    assert 13 == MatrixTree.countNodesBelow(ancestors[-13])
+
+
+
+
+
 
 
 def test_count_nodes_in_line():
@@ -179,6 +245,12 @@ def test_count_nodes_christmas_tree_BFS():
     assert 6 == MatrixTree.countNodesAt(ancestors[2])
     assert 4 == MatrixTree.countNodesAt(ancestors[3])
     assert 3 == MatrixTree.countNodesAt(ancestors[4])
+
+    assert 8 == MatrixTree.countNodesBelow(ancestors[0])
+    assert 6 == MatrixTree.countNodesBelow(ancestors[1])
+    assert 5 == MatrixTree.countNodesBelow(ancestors[2])
+    assert 3 == MatrixTree.countNodesBelow(ancestors[3])
+    assert 2 == MatrixTree.countNodesBelow(ancestors[4])
 
     # test ancestor values
     assert Matrix.getAtCoordinate(matrix, ancestors[0].coord) == 2

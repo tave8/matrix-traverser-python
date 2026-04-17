@@ -233,8 +233,6 @@ class MatrixTree:
         # nodeStats = []
 
         def howMany(currNode: MatrixTree) -> int:
-            if currNode is None:
-                return 0
             # the current node counts as 1 node
             count = 1
             for child in currNode.children:
@@ -255,6 +253,15 @@ class MatrixTree:
         # (post-order traversal?)
         return totalCount
 
+
+    @staticmethod
+    def countNodesBelow(startNode: MatrixTree) -> int:
+        """
+        Count how many nodes are below
+        the given node. Therefore it excludes
+        the given node.
+        """
+        return MatrixTree.countNodesAt(startNode)-1
 
 
 
