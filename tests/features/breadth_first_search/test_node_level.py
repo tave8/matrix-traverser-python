@@ -55,5 +55,60 @@ def test_node_level_lower_diagonal():
 
 
 
+def test_node_level_all_cols_except_first():
+    matrix = [
+        [1,  2,   3,  4],
+        [5,  6,   7,  8],
+        [9,  10, 11, 12],
+        [13, 14, 15, 16],
+        [17, 18, 19, 20],
+    ]
+
+    valuesByLevel = {
+        2: 3,
+        3: 3,
+        4: 3,
+        6: 2,
+        7: 2,
+        8: 4,
+        10: 1,
+        11: 3,
+        12: 5,
+        14: 2,
+        15: 4,
+        16: 6,
+        18: 3,
+        19: 5,
+        20: 6
+    }
+
+    def getNextMoves(mt: MatrixTraverser,
+                     currNode: MatrixTree) -> List[Move]:
+
+        return [
+            Move.UP,
+            Move.DOWN,
+            Move.DIAGONAL_UP_RIGHT
+        ]
+
+
+    def afterAddToBFSQueue(mt: MatrixTraverser,
+                          currNode: MatrixTree) -> None:
+
+        cellValue = currNode.getCellValue(mt.matrix)
+
+        assert valuesByLevel[cellValue] == currNode.level
+
+
+    startCoord = Coordinate(2, 1)
+
+    matrixTraverser = MatrixTraverser(matrix, {
+        "getNextMoves": getNextMoves,
+        "afterAddToBFSQueue": afterAddToBFSQueue
+    })
+
+    matrixTraverser.traverseMatrixBFS(startCoord)
+
+
 
 
