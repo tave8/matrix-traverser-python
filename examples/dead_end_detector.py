@@ -1,6 +1,7 @@
 from os.path import curdir
 from typing import List
 
+
 from src.core.MazeTraverser import MazeTraverser
 from src.core.MatrixTraverser import MatrixTraverser, StateManager
 from src.components import Coordinate, Move, Matrix, MatrixTree, MazeTerminationPolicy
@@ -84,13 +85,19 @@ def canMoveTo(mt: MatrixTraverser,
 #         Move.DOWN,
 #         Move.UP
 #     ]
-
+#
 matrix = [
-    ["S",   1,     3],
-    [ 1,    2,     3],
-    [ 2,    4,     4],
-    [ 3,   11,    "E"],
+    ["S",   1,     4],
+    [ 3,    2,     3],
+    [ 2,    5,     4],
+    [ 2,    6,     4],
+    [ 7,    7,     10],
+    [ 9,    8,     8],
+    [ 9,    10,     4],
+    [ 10,   9,    "E"],
 ]
+
+startCoord = Coordinate(0,0)
 
 
 def afterAllFutureMoves(mt: MatrixTraverser, currNode: MatrixTree) -> None:
@@ -115,34 +122,55 @@ def afterOneFutureMove(mt: MatrixTraverser, currNode: MatrixTree) -> None:
 #
 #     return True
 
-
-traverser = MatrixTraverser(matrix, {
+callbackMap = {
     "afterAllFutureMoves": afterAllFutureMoves,
     "canMoveTo": canMoveTo,
     "afterOneFutureMove": afterOneFutureMove
     # "onMultipleVisitMustStop": onMultipleVisitMustStop
     # "getNextMoves": getNextMoves,
-})
+}
+
+
+traverser = MatrixTraverser(matrix, callbackMap)
 
 # traverser.stateManager.state["endFound"] = False
 
-traverser.traverseMatrixDFS(Coordinate(0,0))
+traverser.traverseMatrixDFS(startCoord)
 
 # traverser.matrixTree.printUsingBFS(matrix)
 
 
-def getPathFromStartToEnd(node: MatrixTree):
+def getCoordsFromStartToEnd(node: MatrixTree) -> List[Coordinate]:
     ret = node.getAncestorCellCoords()
     ret.append(node.coord)
     return ret
 
 
-
 # if the end was found
 if "endNode" in traverser.stateManager.userState:
+    print("*******END WAS FOUND**********")
+    print()
     endNode: MatrixTree = traverser.stateManager.userState["endNode"]
-    pathFromStartToEnd = getPathFromStartToEnd(endNode)
-    print(pathFromStartToEnd)
+    coordsFromStartToEnd = getCoordsFromStartToEnd(endNode)
+
+    pathMatrix = Matrix.generateBinaryMatrixFromCoordsFrom(coordsFromStartToEnd, matrix)
+
+    print("> MATRIX OF 1 PATH")
+    for row in range(Matrix.getHowManyRows(matrix)):
+        print(pathMatrix[row])
+
+
+    # CALLBACK OF SECOND TRAVERSER
+
+    traverser2 = MatrixTraverser(matrix, {
+
+    })
+
+    traverser2.traverseMatrixDFS(startCoord.clone())
+
+
+
+
 
 
 

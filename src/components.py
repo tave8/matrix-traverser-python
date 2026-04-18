@@ -3,6 +3,7 @@ The building blocks.
 """
 
 from enum import Enum
+from turtledemo.sorting_animate import start_isort
 from typing import Any, Tuple, List, Dict
 
 
@@ -710,15 +711,78 @@ class Matrix:
         Returns a matrix of 0's, with the same number of rows 
         and columns as the given matrix. 
         """
+        return Matrix.generate0Matrix(
+            Matrix.getHowManyRows(matrix),
+            Matrix.getHowManyCols(matrix)
+        )
+
+
+    @staticmethod
+    def generate0Matrix(rows: int, cols: int) -> list[list[int]]:
+        """
+        Returns a matrix of 0's, with the same number of rows
+        and columns as the given matrix.
+        """
         ret = []
-        for i in range(len(matrix)):
+        for i in range(rows):
             row = []
-            for j in range(len(matrix[0])):
+            for j in range(cols):
                 row.append(0)
             ret.append(row)
         return ret
 
 
+    @staticmethod
+    def generateBinaryMatrixFromCoords(coords: List[Coordinate],
+                                       rows: int,
+                                       cols: int) -> List[List[int]]:
+        """
+        Generate a matrix of 0 and 1 from a list of coordinates.
+        The 1's correspond to the coordinates in input:
+        Example:
+
+        INPUT
+            - list of coordinates = [ [0, 0], [1,1], [2, 1], [2, 3] ]
+            - rows = 3
+            - cols = 4
+
+        OUTPUT
+            1  0  0  0
+            0  1  0  0
+            0  1  0  1
+
+        """
+        ret = Matrix.generate0Matrix(rows, cols)
+
+        for coord in coords:
+            try:
+                if ret[coord.getRow()][coord.getCol()] == 1:
+                    raise Exception(f"while iterating over the given coordinates, the coordinate {coord}"
+                                    +f"seems to be the same as another coordinate in the same input of coordinates."
+                                    +"are you sure your coordinates are unique?")
+
+                ret[coord.getRow()][coord.getCol()] = 1
+
+            except Exception as e:
+                raise Exception("while creating a binary matrix (zeros and ones), either a row or col "
+                                +"is out of boundary with the matrix. check whether "
+                                +"the matrix is too small or the coord is out of bounds."
+                                +f"this error occurred at the coordinate {coord}."
+                                +"the input rows and columns provided are: "
+                                +f"{rows} rows and {cols} cols.") from e
+        return ret
+
+
+    @staticmethod
+    def generateBinaryMatrixFromCoordsFrom(coords: List[Coordinate],
+                                           matrix: List[List[Any]]) -> List[List[int]]:
+        """
+        Generate a binary matrix of 0 and 1 from a list of coordinates.
+        The 1's correspond to the coordinates in input.
+        """
+        rows = Matrix.getHowManyRows(matrix)
+        cols = Matrix.getHowManyCols(matrix)
+        return Matrix.generateBinaryMatrixFromCoords(coords, rows, cols)
 
 
 class Coordinate:
