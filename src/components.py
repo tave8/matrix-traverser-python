@@ -37,6 +37,11 @@ class MatrixTree:
         self.parent = parent
         self.isRoot = isRoot
 
+        # internal state
+        self.state = {}
+        # user state
+        self.myState = {}
+
         if not isDummy:
             # this is the root
             if parent is None:
@@ -190,6 +195,21 @@ class MatrixTree:
             return value
 
         return [process(ancestor) for ancestor in ancestors]
+
+
+    def getAncestorCellCoords(self, k: int = -1) -> List[Coordinate]:
+        """
+        Finds up to k ancestors of this instance node,
+        and returns their coord.
+        """
+        ancestors = self.getAncestors(k)
+
+        def process(ancestor: MatrixTree) -> Coordinate:
+            value = ancestor.coord
+            return value
+
+        return [process(ancestor) for ancestor in ancestors]
+
 
 
     @staticmethod
@@ -347,6 +367,32 @@ class MatrixTree:
         """
         return MatrixTree.countNodesAt(startNode)-1
 
+
+    @staticmethod
+    def printTreeUsingBFS(startNode: MatrixTree, matrix: List[List]):
+
+        def processParentOf(node: MatrixTree) -> str:
+            return f"{node.parent.getCellValue(matrix) if node.parent else 'none'}, level {node.parent.level if node.parent else 'none'}, coord: {node.parent.coord if node.parent else 'none'}"
+
+        def processCurr(node: MatrixTree) -> str:
+            return f"{node.getCellValue(matrix)}, level: {node.level}, coord: {node.coord}"
+
+        def processBoth(node: MatrixTree) -> str:
+            return f"PARENT: {processParentOf(node)}  |  CURRENT: {processCurr(node)}"
+
+        queue = [startNode]
+        while len(queue) > 0:
+            currNode = queue.pop(0)
+            print(processBoth(currNode))
+            print()
+            for child in currNode.children:
+                queue.append(child)
+
+
+
+
+    def printUsingBFS(self, matrix: List[List]):
+        MatrixTree.printTreeUsingBFS(self, matrix)
 
 
 

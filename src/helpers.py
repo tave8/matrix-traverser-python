@@ -45,7 +45,8 @@ class Ensure:
             "getNextMoves",
             "afterAllFutureMoves",
             "afterAddToBFSQueue",
-            "onMultipleVisitMustStop"
+            "onMultipleVisitMustStop",
+            "afterOneFutureMove"
         ]
 
 

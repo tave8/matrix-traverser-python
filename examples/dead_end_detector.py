@@ -39,10 +39,19 @@ def canMoveTo(mt: MatrixTraverser,
     # if the curr coordinate is the end itself,
     # apply the maze termination policy
     if currentCellIsEnd:
-        # print(currNode.coord)
-        # print(currNode.parent.coord)
-        # print(currNode.getAncestorCellValues(mt.matrix))
-        # print("reached end")
+        if not "foundEnd" in currNode.myState:
+            # currNode.myState["foundEnd"] = True
+            mt.stateManager.userState["endNode"] = currNode
+            # print(currNode.coord)
+            # print(currNode.parent.coord)
+            # print(currNode.getAncestorCellValues(mt.matrix))
+            # print("reached end from: ", currNode.parent.coord)
+
+        # currNode.myState[""]
+
+        # currNode.parent.myState[""]
+
+
 
         # MazeTraverser._onEndFoundCallback(mazeTraverser, currNode)
         # StateManager.setWasEnded(mt, True)
@@ -77,50 +86,41 @@ def canMoveTo(mt: MatrixTraverser,
 #     ]
 
 matrix = [
-    ["S",   1,  2],
-    [ 1,    3,  3],
-    [ 2,    2,  4],
-    [ 3,   15, "E"],
-    [ 4,   17,  19],
-    [ 5,   6,   8],
-    [ 6,   6,   7],
-    [ 8,   7,   8],
+    ["S",   1,     3],
+    [ 1,    2,     3],
+    [ 2,    4,     4],
+    [ 3,   11,    "E"],
 ]
 
 
 def afterAllFutureMoves(mt: MatrixTraverser, currNode: MatrixTree) -> None:
-    # if this node is a "leaf node" and the end
-    # was still not found, then there's no end
+    # if currNode.countNodes() == 1:
+    #     print("completed ALL moves at node that has no exit: ", currNode.coord)
+    pass
 
-    if currNode.getCellValue(mt.matrix) == "E":
-        print("reached end. PATH: ", currNode.getAncestorCellValues(mt.matrix))
-        # mt.stateManager.state["foundEnd"] = True
-    else:
-        if currNode.countNodes() == 1:
-            print("leaf node value: ",
-                  currNode.getCellValue(mt.matrix), f" in coord {currNode.coord}. ancestors: ",
-                  currNode.getAncestorCellValues(mt.matrix),
-                  "children: ", currNode.children
-                )
-            # print(currNode.getAncestors())
-            pass
+def afterOneFutureMove(mt: MatrixTraverser, currNode: MatrixTree) -> None:
+    # a leaf node is the first to finish its future moves,
+    # if the currNode does not have a
+    # if currNode.countNodes() == 1:
+    #     print("completed one move at node that has no exit: ", currNode.coord)
+    pass
 
-
-def onMultipleVisitMustStop(mt: MatrixTraverser,
-                            parentNode: MatrixTree,
-                            currCoord: Coordinate) -> bool:
-    # you must continue only if the next value is incrementing
-    # currValueIsBigger = currCoord.getCellValue(mt.matrix) == 1+parentNode.coord.getCellValue(mt.matrix)
-    # # currValueIsEnd = currCoord.getCellValue(mt.matrix) == "E"
-    # return not currValueIsBigger
-
-    return True
+# def onMultipleVisitMustStop(mt: MatrixTraverser,
+#                             parentNode: MatrixTree,
+#                             currCoord: Coordinate) -> bool:
+#     # you must continue only if the next value is incrementing
+#     # currValueIsBigger = currCoord.getCellValue(mt.matrix) == 1+parentNode.coord.getCellValue(mt.matrix)
+#     # # currValueIsEnd = currCoord.getCellValue(mt.matrix) == "E"
+#     # return not currValueIsBigger
+#
+#     return True
 
 
 traverser = MatrixTraverser(matrix, {
     "afterAllFutureMoves": afterAllFutureMoves,
     "canMoveTo": canMoveTo,
-    "onMultipleVisitMustStop": onMultipleVisitMustStop
+    "afterOneFutureMove": afterOneFutureMove
+    # "onMultipleVisitMustStop": onMultipleVisitMustStop
     # "getNextMoves": getNextMoves,
 })
 
@@ -128,7 +128,23 @@ traverser = MatrixTraverser(matrix, {
 
 traverser.traverseMatrixDFS(Coordinate(0,0))
 
-# print(traverser.getMovesHistory())
+# traverser.matrixTree.printUsingBFS(matrix)
+
+
+def getPathFromStartToEnd(node: MatrixTree):
+    ret = node.getAncestorCellCoords()
+    ret.append(node.coord)
+    return ret
+
+
+
+# if the end was found
+if "endNode" in traverser.stateManager.userState:
+    endNode: MatrixTree = traverser.stateManager.userState["endNode"]
+    pathFromStartToEnd = getPathFromStartToEnd(endNode)
+    print(pathFromStartToEnd)
+
+
 
 
 

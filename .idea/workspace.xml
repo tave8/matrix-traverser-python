@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="Maze Traverser: start dead end detector">
+    <list default="true" id="435fbd05-33cc-4324-a5c8-bb501e45f837" name="Changes" comment="experiment with DFS (not complete)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/dead_end_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/dead_end_detector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/components.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/MatrixTraverser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MatrixTraverser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers.py" afterDir="false" />
     </list>
@@ -294,10 +296,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.dead_end_detector" />
+        <item itemvalue="Python.breadth_first_search" />
         <item itemvalue="Python.t_shape_pattern_after_future_moves" />
         <item itemvalue="Python tests.Python tests for tests.features.breadth_first_search.test_node_level.test_node_level_all_cols_except_first" />
         <item itemvalue="Python tests.Python tests for tests.features.breadth_first_search.test_node_level.test_node_level_lower_diagonal" />
-        <item itemvalue="Python.breadth_first_search" />
       </list>
     </recent_temporary>
   </component>
@@ -333,7 +335,8 @@
       <workItem from="1776355871104" duration="3189000" />
       <workItem from="1776432041034" duration="1530000" />
       <workItem from="1776441582580" duration="22964000" />
-      <workItem from="1776507492734" duration="513000" />
+      <workItem from="1776507492734" duration="557000" />
+      <workItem from="1776517564747" duration="9155000" />
     </task>
     <task id="LOCAL-00001" summary="reorganize folders">
       <option name="closed" value="true" />
@@ -663,7 +666,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776461468180</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="experiment with DFS (not complete)">
+      <option name="closed" value="true" />
+      <created>1776508035168</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1776508035168</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -681,7 +692,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implementation: zigzag done" />
     <MESSAGE value="implementation: snake done; standardize pattern traversal names" />
     <MESSAGE value="implementation: t shape pattern done" />
     <MESSAGE value="engine: start afterAllFutureMoves callback logic" />
@@ -706,7 +716,8 @@
     <MESSAGE value="matrix traverser: centralize run in one method. make sure run only once" />
     <MESSAGE value="breadth first search: test node level" />
     <MESSAGE value="Maze Traverser has maze termination policy" />
-    <option name="LAST_COMMIT_MESSAGE" value="Maze Traverser has maze termination policy" />
+    <MESSAGE value="experiment with DFS (not complete)" />
+    <option name="LAST_COMMIT_MESSAGE" value="experiment with DFS (not complete)" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -718,7 +729,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path_maze.coverage" NAME="incremental_path_maze Coverage Results" MODIFIED="1776282936060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/implementations" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$incremental_path_maze__1_.coverage" NAME="incremental_path_maze (1) Coverage Results" MODIFIED="1776282949106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$breadth_first_search.coverage" NAME="breadth_first_search Coverage Results" MODIFIED="1776452288119" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$breadth_first_search.coverage" NAME="breadth_first_search Coverage Results" MODIFIED="1776517854055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$fibonacci_maze__1_.coverage" NAME="fibonacci_maze (1) Coverage Results" MODIFIED="1776282863756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line_pattern.coverage" NAME="line_pattern Coverage Results" MODIFIED="1776283733484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$zigzag.coverage" NAME="zigzag Coverage Results" MODIFIED="1776205805224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
@@ -727,10 +738,10 @@
     <SUITE FILE_PATH="coverage/matrix_traverser_python$spiral.coverage" NAME="spiral Coverage Results" MODIFIED="1776205626103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$MatrixTraverser.coverage" NAME="MatrixTraverser Coverage Results" MODIFIED="1776360318636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$.coverage" NAME=" Coverage Results" MODIFIED="1776454604122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$Run_ALL_tests.coverage" NAME="Run ALL tests Coverage Results" MODIFIED="1776474830255" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$Run_ALL_tests.coverage" NAME="Run ALL tests Coverage Results" MODIFIED="1776520708262" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$t_shape_pattern_after_future_moves.coverage" NAME="t_shape_pattern_after_future_moves Coverage Results" MODIFIED="1776458785764" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$snake_pattern.coverage" NAME="snake_pattern Coverage Results" MODIFIED="1776283811784" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/matrix_traverser_python$dead_end_detector.coverage" NAME="dead_end_detector Coverage Results" MODIFIED="1776475130356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/matrix_traverser_python$dead_end_detector.coverage" NAME="dead_end_detector Coverage Results" MODIFIED="1776527635521" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$t_shape_pattern.coverage" NAME="t_shape_pattern Coverage Results" MODIFIED="1776283929079" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$line.coverage" NAME="line Coverage Results" MODIFIED="1776185135324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/matrix_traverser_python$find_k_ancestors.coverage" NAME="find_k_ancestors Coverage Results" MODIFIED="1776193268099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/features/matrix_tree/find_k_ancestors" />

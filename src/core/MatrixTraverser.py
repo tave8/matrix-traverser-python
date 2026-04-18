@@ -253,13 +253,21 @@ class MatrixTraverser:
         # move in the order that was specified
         for desiredMove in desiredMoves:
 
-            # get the coordinate of the next move
+            if self.stateManager.state["wasEnded"]:
+                break
+
+                # get the coordinate of the next move
             # note: at this line, currNode.coord == currCoord
             desiredCoord = Coordinate.ofMove(currNode.coord, desiredMove)
 
             if CallbackManager.canMoveTo(self, currNode, desiredCoord, desiredMove):
 
+                if self.stateManager.state["wasEnded"]:
+                    break
+
                 self.__traverse_DFS(desiredCoord, currCoord, desiredMove, currNode)
+
+                CallbackManager.afterOneFutureMove(self, currNode)
 
 
         # This is the moment where ALL the recursions and operations
@@ -576,6 +584,29 @@ class CallbackManager:
 
             except Exception as e:
                 raise DuringUserCallbackError(afterAllFutureMovesCallback) from e
+
+
+
+    @staticmethod
+    def afterOneFutureMove(mt: MatrixTraverser,
+                          currNode: MatrixTree) -> None:
+        """
+        This callback gets fired when all future moves of
+        exactly ONE move of a cell/node are completed.
+
+        """
+
+        # run the user-defined callback, if exists
+        if FunctionHelper.mapHasFunction("afterOneFutureMove", mt.callbackManager.callbackMap):
+
+            afterOneFutureMoveCallback: Callable[[MatrixTraverser, MatrixTree], bool] = mt.callbackManager.callbackMap["afterOneFutureMove"]
+
+            try:
+
+                afterOneFutureMoveCallback(mt, currNode)
+
+            except Exception as e:
+                raise DuringUserCallbackError(afterOneFutureMoveCallback) from e
 
 
 

@@ -36,6 +36,65 @@ From the most straightforward problems, to the more complex.
 
 ![Next = prev + 1](/assets/diagrams/next_equals_prev_plus_1.png)
 
+
+# How the engine works
+
+```
+
+traverse(currCoord, prevCoord, prevMove, parentNode):
+  
+  if user wants end:
+    END
+   
+  if currCoord is outside matrix:
+    END
+   
+  if currCoord was visited:
+     onMultipleVisitCallback()
+   
+  if currCoord was not visited:
+      mark currCoord as visited
+  
+  currNode = build node of currCoord and parentNode
+  
+  desiredMoves = getNextMoves(currNode)
+  
+  for desiredMove in desiredMoves:
+  
+     if user wants end:
+        END
+     
+     desiredCoord = ofMove(currCoord, desiredMove)
+     
+     if canMoveTo(currCoord, desiredCoord):
+        
+        traverse(desiredCoord, currCoord, desiredMove, currNode)
+        
+        afterOneFutureMove(currNode)
+  
+  
+  afterAllFutureMoves(currNode)
+  
+  
+
+```
+
+# Dead end detector
+
+```
+
+1. Traverse the matrix using DFS
+2. If the end is found, mark every node in the ancestor path of the end as "path leads to end"
+3. Every node that is NOT in the path to end that wants to visit ANY node of the path to end
+   is NOT a dead end
+4. Therefore, if a node asks to go visit a visited node, and that visited node is in the path, 
+   then this current node is NOT a dead end
+5.  
+
+```
+
+
+
 # Configuration & Setup
 
 To tell Python to include the import path as the root directory, I've done the following:
