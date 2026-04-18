@@ -151,7 +151,7 @@ class MatrixTraverser:
         # if this cell has been visited
         if wasVisited:
 
-            # if CallbackManager.onMultipleVisitMustStop(self, prevCoord, currCoord, prevMove):
+            if CallbackManager.onMultipleVisitMustStop(self, parentNode, currCoord):
                 # if the user does not want to consider
                 # cells that have been already visited, we must
                 # pop the cell we just added 
@@ -196,10 +196,10 @@ class MatrixTraverser:
 
 
         # ********************************************
-        # ****** START: MATRIX TREE OPERATIONS ******** 
+        # ****** START: MATRIX TREE OPERATIONS ********
 
         # *** STEP 1: initialize root if not exists
-        # if there's no parent node, it means 
+        # if there's no parent node, it means
         # we are at the current node wanting to be root
         if parentNode is None:
             # set the matrix tree
@@ -211,7 +211,7 @@ class MatrixTraverser:
                 prevMove=Move._BEFORE_START,
                 isRoot=True
             )
-        
+
         # *** STEP 2: create current node or pick the root as current node
         # if we are at the current node being the root,
         # then at STEP 1 we have created the root itself.
@@ -228,17 +228,17 @@ class MatrixTraverser:
         )
 
         # *** STEP 3: append the child to the parent
-        # if the parent node does not exist, 
+        # if the parent node does not exist,
         # it means we are currently at the root,
-        # and at the root, we simply set the matrix tree to be 
+        # and at the root, we simply set the matrix tree to be
         # the root node itself.
         # if we are not at the root, and so a parent node exists,
-        # then we append it to the list of children, and this is 
+        # then we append it to the list of children, and this is
         # actually the standard operation
         if parentNode is not None:
             parentNode.children.append(currNode)
-        
-        # ****** END: MATRIX TREE OPERATIONS ******** 
+
+        # ****** END: MATRIX TREE OPERATIONS ********
         # ********************************************
 
 
@@ -255,11 +255,11 @@ class MatrixTraverser:
 
             # get the coordinate of the next move
             # note: at this line, currNode.coord == currCoord
-            desiredMoveCoord = Coordinate.ofMove(currNode.coord, desiredMove)
+            desiredCoord = Coordinate.ofMove(currNode.coord, desiredMove)
 
-            if CallbackManager.canMoveTo(self, currNode, desiredMoveCoord, desiredMove):
+            if CallbackManager.canMoveTo(self, currNode, desiredCoord, desiredMove):
 
-                self.__traverse_DFS(desiredMoveCoord, currCoord, desiredMove, currNode)
+                self.__traverse_DFS(desiredCoord, currCoord, desiredMove, currNode)
 
 
         # This is the moment where ALL the recursions and operations
@@ -638,58 +638,54 @@ class CallbackManager:
     #     # by default, we always visit a cell
     #     return True 
     
-    # @staticmethod
-    # def onMultipleVisitMustStop(mt: MatrixTraverser, 
-    #                             prevCoordinate: Coordinate, 
-    #                             currCoordinate: Coordinate, 
-    #                             prevMove: Move) -> bool:
-    #     """
-    #     Defines the logic of whether a cell that is visited multiple times
-    #     must be skipped. Wrong configuration of this callback
-    #     can result in non termination of the algorithm, which is 
-    #     why the primary semantics points to skip instead of continuing.
+    @staticmethod
+    def onMultipleVisitMustStop(mt: MatrixTraverser,
+                                currNode: MatrixTree,
+                                currCoord: Coordinate) -> bool:
+        """
+        Defines the logic of whether a cell that is visited multiple times
+        must be skipped. Wrong configuration of this callback
+        can result in non termination of the algorithm, which is
+        why the primary semantics points to skip instead of continuing.
         
-    #     If we don't skip (so if we continue) it probably means 
-    #     we're more interested in exploring the matrix rather than
-    #     using some cell value. This behavior is desirable 
-    #     in the following cases, for example: 
+        If we don't skip (so if we continue) it probably means
+        we're more interested in exploring the matrix rather than
+        using some cell value. This behavior is desirable
+        in the following cases, for example:
         
-    #     - we don't know where a certain target cell is, and therefore
-    #     we don't really care about whether a cell was visited or not
+        - we don't know where a certain target cell is, and therefore
+        we don't really care about whether a cell was visited or not
         
-    #     - we must ignore that this cell was visited because we might
-    #     need to go back to certain places of the matrix, and therefore 
-    #     we have to inevitably pass through some visited cells, and we 
-    #     don't care that they were visited
-    #     """
+        - we must ignore that this cell was visited because we might
+        need to go back to certain places of the matrix, and therefore
+        we have to inevitably pass through some visited cells, and we
+        don't care that they were visited
+        """
 
-    #     # run the user-defined callback, if exists
-    #     if FunctionHelper.mapHasFunction("onMultipleVisitMustStop", mt.callbackManager.callbackMap):
-    #         mustStop: bool | None = mt.callbackManager.callbackMap["onMultipleVisitMustStop"](mt, 
-    #                                                                                     prevCoordinate, 
-    #                                                                                     currCoordinate,
-    #                                                                                     prevMove)
-    #         # if the user did not return, it means 
-    #         # it's happy with this cell moving being skipped, 
-    #         # if it's been visited 
-    #         if mustStop is None:
-    #             return True
+        # run the user-defined callback, if exists
+        if FunctionHelper.mapHasFunction("onMultipleVisitMustStop", mt.callbackManager.callbackMap):
+            mustStop: bool | None = mt.callbackManager.callbackMap["onMultipleVisitMustStop"](mt, currNode, currCoord)
+            # if the user did not return, it means
+            # it's happy with this cell moving being skipped,
+            # if it's been visited
+            if mustStop is None:
+                return True
             
-    #         # check if the returned value is correct
-    #         if not isinstance(mustStop, bool):
-    #             raise Exception("stop must be of type bool")
+            # check if the returned value is correct
+            if not isinstance(mustStop, bool):
+                raise Exception("stop must be of type bool")
             
-    #         return mustStop
+            return mustStop
         
-    #     # default behavior is, we always skip visited cells
-    #     # in other words, in this case the algorithm cannot 
-    #     # "jump" or ignore visited cells, which means that 
-    #     # the algorithm might get stuck in a sort of "fence"
-    #     # where it will not visit visited cells, and therefore
-    #     # it will not explore other cells "on the other side" 
-    #     # of the visited cells. this behavior is normal, if 
-    #     # if the "explorer" behaviour is not desired or needed. 
-    #     return True
+        # default behavior is, we always skip visited cells
+        # in other words, in this case the algorithm cannot
+        # "jump" or ignore visited cells, which means that
+        # the algorithm might get stuck in a sort of "fence"
+        # where it will not visit visited cells, and therefore
+        # it will not explore other cells "on the other side"
+        # of the visited cells. this behavior is normal, if
+        # if the "explorer" behaviour is not desired or needed.
+        return True
     
 
 
